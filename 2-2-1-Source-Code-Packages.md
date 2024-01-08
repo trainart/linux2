@@ -4,7 +4,6 @@
 
 ### Package Management
 
-
 ![img_1.png](images2/img_1.png)
 <br><br>
 ![img_2.png](images2/img_2.png)
@@ -85,6 +84,13 @@ Source code install consists of the following steps:
 
 #### Source Code Install Example `htop`
 
+First install `htop` from repository
+```bash
+yum -y install htop
+```
+
+Now from source code
+
 ```bash
 yum -y install gcc make autoconf automake
 ```
@@ -114,12 +120,27 @@ cd htop-3.2.2
 htop --version
 ```
 
-* Ո՞րն է տարբերությունը
+* what is the difference ?
 
+* can we have more that one version of same program ?
 
-* Կարո՞ղ ենք ունենալ նույն ծրագրի երկու տարբերակ
-
+Install source code compiled `htop` in the system
 ```bash
 make install
 ```
 
+Now check again
+
+```bash
+htop --version
+```
+* what is the difference ? why ?
+
+Find out more
+```bash
+which htop
+```
+
+```bash
+whereis htop
+```
