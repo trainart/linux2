@@ -11,7 +11,7 @@ There are also other similiar tools:
 1. if the system is not running at the scheduled time, job is postponed until the system is running 
 2. anacron job can run once per day at most.
 
-![img_1.png](../images/img_1.png)
+![img_1.png](images/img_1.png)
 
 ```bash
 $ crontab -l 
@@ -178,7 +178,7 @@ cat /var/log/testing.log
 ### Centralized Logging Server Configuration
 **RSyslog** can be configured to log data from remote servers. This can help the Linux admin to have a multiple server logs into one single place. The Linux admin not required to login in to each servers for checking the logs, he can just login into the centralized server and start do the logs monitoring.
 
-![img.png](../images/img.png)
+![img.png](images/img.png)
 
 > To remind: Linux labels (auth, cron, ftp, lpr, authpriv, news, mail, syslog, etc ,..) the log messages to indicate the type of software that generated the messages with severity (Alert, critical, Warning, Notice, info, etc ,..). You can find more information on Message Labels (http://en.wikipedia.org/wiki/Syslog#Facility_levels) and Severity Levels (http://en.wikipedia.org/wiki/Syslog#Severity_levels)
 
