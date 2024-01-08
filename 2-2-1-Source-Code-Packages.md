@@ -23,24 +23,34 @@
 
 
 ##### tar 
-`tar cvf f.tar /etc`    - Create a tar archive
 
-`tar xvf f.tar`		    - Extract tar archive
+`tar cf f.tar /etc`    - Create a tar archive
 
-`tar tvf f.tar | less`	- Test/View tar archive
+> TASK: Move errors from the screen to `/tmp/err` file
+
+> Run `head -1 /tmp/err` <br>
+> Let's understand what it means
+> It makes archive path relative and helps to avoid mistakes to overwrite original files.
+ 
+`tar cvf f.tar /etc`    - Create a tar archive **with verbose output**
+
+`tar xf f.tar`		    - Extract tar archive
+
+`tar tf f.tar | less`	- List tar archive
 
 
 
 ##### gzip
+
 `gzip f.tar`
 
 `gunzip f.tar.gz`
 
-`tar zcvf   f.tar.gz /etc`
+`tar zcvf f.tar.gz /etc`
 
-`tar zxvf filename.tar.gz`
+`tar xf filename.tar.gz`
 
-`tar ztvf filename.tar.gz`
+`tar tf filename.tar.gz`
 
 
 ##### Bzip2
@@ -48,19 +58,19 @@
 
 `bunzip2 f.tar.bz2`
 
-`tar jcvf   f.tar.bz2 /etc`
+`tar jcf f.tar.bz2 /etc`
 
-`tar jxvf filename.tar.bz2`
+`tar xf filename.tar.bz2`
 
-`tar jtvf filename.tar.bz2`
+`tar tf filename.tar.bz2`
 
 
 ##### xz / lzma
-`tar Jcvf  f.tar.xz /etc`
+`tar Jcf  f.tar.xz /etc`
 
-`tar Jxvf filename.tar.xz`
+`tar xf filename.tar.xz`
 
-`tar Jtvf filename.tar.xz`
+`tar tf filename.tar.xz`
 
 
 
@@ -79,22 +89,24 @@ Source code install consists of the following steps:
 * `cd <dir>`
 * `./configure`
 * `make`
-* `make install`
+* `sudo make install`
+
+More installation details are to be inside the package in either `README` or `INSTALL` file
+
 
 
 #### Source Code Install Example `htop`
 
 First install `htop` from repository
 ```bash
-yum -y install htop
+sudo yum -y install htop
 ```
 
 Now from source code
 
 ```bash
-yum -y install gcc make autoconf automake
+sudo yum -y install gcc make autoconf automake
 ```
-
 
 ```bash
 wget https://github.com/htop-dev/htop/archive/refs/tags/3.2.2.tar.gz
@@ -112,6 +124,21 @@ cd htop-3.2.2
 ./autogen.sh && ./configure && make
 ```
 
+You may get an error. Read the docs to resolve the issue
+(HINT: You should find how to install missing package for your distribution).
+
+```bash
+less README
+```
+
+After installing missing package try again.
+
+```bash
+./autogen.sh && ./configure && make
+```
+
+Now check
+
 ```bash
 ./htop --version
 ```
@@ -122,7 +149,7 @@ htop --version
 
 * what is the difference ?
 
-* can we have more that one version of same program ?
+* can we have more than one version of same program ?
 
 Install source code compiled `htop` in the system
 ```bash
@@ -144,3 +171,14 @@ which htop
 ```bash
 whereis htop
 ```
+
+#### PRACTICE
+
+1. Install latest version of `mc` from source (http://ftp.midnight-commander.org/)
+
+
+2. Install latest version of `nano` from source (https://www.nano-editor.org/download.php)
+   
+
+You can read install details in README/INSTALL inside the packages.
+
