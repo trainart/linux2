@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="559ae806-5d50-4837-bd6d-c518195fcbbe" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/2-1-Cron-Syslog.md" beforeDir="false" afterPath="$PROJECT_DIR$/2-1-Cron-Syslog.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2-2-2-Sudo.md" beforeDir="false" afterPath="$PROJECT_DIR$/2-2-2-Sudo.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2-2-2-User-Group.md" beforeDir="false" afterPath="$PROJECT_DIR$/2-2-2-User-Group.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2-2-4-Drives-LVM.md" beforeDir="false" afterPath="$PROJECT_DIR$/2-2-4-Drives-LVM.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2-4-Advanced BASH Shell Scripting.md" beforeDir="false" afterPath="$PROJECT_DIR$/2-4-Advanced BASH Shell Scripting.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2-2-1-Package-Management.md" beforeDir="false" afterPath="$PROJECT_DIR$/2-2-1-Package-Management.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
