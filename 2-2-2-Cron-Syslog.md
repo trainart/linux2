@@ -28,12 +28,15 @@ mkdir /tmp/task1
 2. Create files of different sizes in directory /tmp/task1
    (_to create example files of desired sizes we use different ways just for fun_)
 ```bash
-fallocate -l 10K /tmp/task1/f1
-fallocate -l 10K /tmp/task1/f2
-fallocate -l 101M /tmp/task1/f3
-fallocate -l 122M /tmp/task1/f4
-truncate -s 15K /tmp/task1/a2
-head -c 10K /dev/zero > /tmp/task1/a1
+head -c 10K /dev/zero > /tmp/task1/a1 ;\
+head -c 15K /dev/zero > /tmp/task1/a2 ;\
+truncate -s 10K /tmp/task1/b1 ;\
+truncate -s 15K /tmp/task1/b2 ;\
+fallocate -l 10K /tmp/task1/f1 ;\
+fallocate -l 10K /tmp/task1/f2 ;\
+fallocate -l 101M /tmp/task1/f3 ;\
+fallocate -l 122M /tmp/task1/f4 ;\
+
 ```
 3. Now write command to find files
    1. larger than 10k size 
