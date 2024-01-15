@@ -85,7 +85,7 @@ The most used and well-known way to filter syslog messages is to use the facilit
 **Rsyslog** can be configured to log different events to different places. Events can be selected based on 
 the service that encountered the event (‘facility’) and/or severity (‘priority’). Messages can go to files, to the system console, or to a centralised rsyslog server running on another machine.
 
-Basic rsyslog configuration in `/etc/rsyslog.conf` looks like:
+Basic rsyslog configuration in `/etc/rsyslog.conf` is in form like:
 
 ```
 facility.priority           destination
@@ -103,14 +103,21 @@ It canbe one of (from lowest to highest):
 The **destination** indicates where messages selected by the facility and level will be sent: 
 normally the name of a **log file** (under **/var/log**), /dev/console to send messages to the **system console or DNS name of the another server**, where to send the log (that server must have also syslogd process running).
 
+Example of `/etc/rsyslog.conf` is below:
+
 ```bash
-# Log anything of level info or higher.
-# Don't log private authentication messages, mail and cron
-*.info;mail.none;authpriv.none;cron.none      /var/log/messages
-# Log all the private authentication messages here
-authpriv.*                                    /var/log/secure
-# Log all the mail messages here
-mail.*                                        -/var/log/maillog
+# Log all kernel messages to the console.
+# Logging much else clutters up the screen.
+#kern.*                                                 /dev/console
+# Log anything (except mail) of level info or higher.
+# Don't log private authentication messages!
+*.info;mail.none;authpriv.none;cron.none                /var/log/messages
+# The authpriv file has restricted access.
+authpriv.*                                              /var/log/secure
+# Log all the mail messages in one place.
+mail.*                                                  -/var/log/maillog
+# Log cron stuff
+cron.*                                                  /var/log/cron
 ```
 
 >>  _Prepending dash in `destination` means to not synchronize the log file to disk
@@ -119,32 +126,24 @@ mail.*                                        -/var/log/maillog
 >>  to change this by specifying "$ActionFileEnableSync on/off".
 >>  More info: https://www.rsyslog.com/doc/v8-stable/compatibility/v3compatibility.html#output-file-syncing_
 
+Although main config file for **rsyslog** is `/etc/rsyslog.conf`, 
+it also includes `*.conf` files from `/etc/rsyslog.d/` directory.
+```bash
+grep include /etc/rsyslog.conf
+```
+
+On some systems (like Ubuntu) the basic default functionality is moved from `/etc/rsyslog.conf` to the file:
+`/etc/rsyslog.d/50-default.conf`
+
 Realtime logs examining can be done like: 
 ```bash
 tail -f /var/log/secure
 ```
 
-Although main config file for **rsyslog** is `/etc/rsyslog.conf`, it also includes `*.conf` files from `/etc/rsyslog.d/` directory.
+Realtime logs examining can be done like: 
 ```bash
-# Include all config files in /etc/rsyslog.d/
-$IncludeConfig /etc/rsyslog.d/*.conf
+tail -f /var/log/secure
 ```
-On some systems the basic default functionality is moved from `/etc/rsyslog.conf` to the file:
-`/etc/rsyslog.d/50-default.conf`
-
-
-### Logrotate Log Rotation
-If not controlled log files may grow without bound until you run out of disk space.  
-The solution is to use log rotation: a scheme whereby existing log files are periodically
-renamed and ultimately deleted. But rsyslog continues to write messages 
-into the file with the ‘correct’ (same) name. 
-
-Most Linux systems come with a program called logrotate, which should be run daily by cron (`/etc/cron.daily/logrotate`).
-logrotate can be configured with `/etc/logrotate.conf` to perform rotation on any or all log files. 
-
-Although main config file for logrotate is `/etc/logrotate.conf`, it also includes all files from /etc/logrotate.d/ directory.
-This way logrotate rotates files not only for `rsyslogd`, but for many other services.
-You can configure each logfile how often it should be rotated and how many old logs are kept.
 
 ### Logger  Utility
 logger command is a shell command interface to the syslog system log module. 
@@ -159,6 +158,7 @@ tail -1 /var/log/secure
 ```
 
 **Rsyslog** gives possibility to create custom logs unrelated to _facility_ settings.
+
 For example, create separate config file:
 
 ```bash
@@ -178,6 +178,22 @@ logger  -p mail.info "TESTING MAIL"
 logger  -p auth.info "TESTING AUTH"
 cat /var/log/testing.log
 ```
+
+
+### Logrotate Log Rotation
+If not controlled log files may grow without bound until you run out of disk space.  
+The solution is to use log rotation: a scheme whereby existing log files are periodically
+renamed and ultimately deleted. But rsyslog continues to write messages 
+into the file with the ‘correct’ (same) name. 
+
+Most Linux systems come with a program called logrotate, which should be run daily by cron (`/etc/cron.daily/logrotate`).
+logrotate can be configured with `/etc/logrotate.conf` to perform rotation on any or all log files. 
+
+Although main config file for logrotate is `/etc/logrotate.conf`, it also includes all files from /etc/logrotate.d/ directory.
+This way logrotate rotates files not only for `rsyslogd`, but for many other services.
+You can configure each logfile how often it should be rotated and how many old logs are kept.
+
+
 ### Centralized Logging Server Configuration
 **RSyslog** can be configured to log data from remote servers. This can help the Linux admin to have a multiple server logs into one single place. The Linux admin not required to login in to each servers for checking the logs, he can just login into the centralized server and start do the logs monitoring.
 
