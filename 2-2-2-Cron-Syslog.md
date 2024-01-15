@@ -1,23 +1,50 @@
 # Linux Administration and Networking Basics (level 2) Linux-ի կառավարում և ցանցային հիմունքներ (փուլ 2)
 
 ## Managing Periodic processes (cron)
+
+
 You can configure Linux to automatically run some scheduled processes (also named tasks or jobs).
-**Cron** is a service that enables you to schedule periodically running a task/job. A cron job is only executed if the system is running on the scheduled time.
+**Cron** is a service that enables you to schedule periodically running a task/job. 
+A cron job is only executed if: 
+* Linux system is up and running on the scheduled time.
+* `crond` process is running
 
-There are also other similiar tools: 
-- at is used to schedule a one-time job, to run once at a specific time.
-- anacron differs from cron mainly in that:
 
-1. if the system is not running at the scheduled time, job is postponed until the system is running 
-2. anacron job can run once per day at most.
+/etc/crontab - cron  փաթեթի գլխավոր կարգավորման ֆայլ 
+Լրացուցիչ կարգավորման դիրեկտորիաներ/ֆայլեր:
+/var/spool/cron/
+/etc/cron.hourly/
+/etc/cron.daily/
+/etc/cron.weekly/
+/etc/cron.monthly/
+
+
+![img.png](img.png)
+
 
 ![img_1.png](images/img_1.png)
 
+
+By default cron opens in `vi`. To open in other editor specify it with special variable:
+(to make that config permanent this line should be added to `~/.bashrc`)
+
 ```bash
-$ crontab -l 
-$ crontab -e 
+export VISUAL="nano"
 ```
-~~crontab -r~~
+
+Basic cron commds are:
+
+```bash
+crontab -l
+```
+
+```bash
+crontab -e 
+```
+
+> Following command should never be used since it completely removes user's cron configuration WITHOUT ASKING ANYTHING !
+> ~~crontab -r~~
+>
 
 ### PRACTICE
 
@@ -44,8 +71,18 @@ fallocate -l 122M /tmp/task1/f4 ;\
    
    and remove them
 
-
 4. Create cronjob to run once per 2 minutes to do that job
+
+
+
+### Other tools
+
+There are also other similiar tools: 
+- `at` is used to schedule a one-time job, to run once at a specific time.
+- `anacron` differs from cron mainly in that:
+ 1. if the system is not running at the scheduled time, job is postponed until the system is running 
+ 2. anacron job can run once per day at most.
+
 
 ## Managing System Logs (rsyslog)
 
@@ -196,11 +233,13 @@ logger  -p auth.info "TESTING facility AUTH - should appear in /var/log/testing.
 ```
 
 Check:
+```bash
 tail -5 /var/log/testing.log
 ```
 
 
 ### Logrotate Log Rotation
+
 If not controlled log files may grow without bound until you run out of disk space.  
 The solution is to use log rotation: a scheme whereby existing log files are periodically
 renamed and ultimately deleted. But rsyslog continues to write messages 
@@ -210,6 +249,7 @@ Most Linux systems come with a program called **logrotate**, which should be run
 logrotate can be configured with `/etc/logrotate.conf` to perform rotation on any or all log files. 
 
 Let's examine `/etc/logrotate.conf`
+
 ```bash
 less /etc/logrotate.conf
 ```
@@ -217,6 +257,7 @@ less /etc/logrotate.conf
 Although main config file for **logrotate** is `/etc/logrotate.conf`, it also includes all files from /etc/logrotate.d/ directory.
 
 it also includes all files from `/etc/logrotate.d/` directory.
+
 ```bash
 grep include /etc/logrotate.conf
 ```
@@ -231,14 +272,16 @@ Check what you have now:
 ls /etc/logrotate.d
 ```
 
-Let's examine `etc/logrotate.d/syslog`
+Let's examine `/etc/logrotate.d/syslog`
+
 ```bash
-less etc/logrotate.d/syslog
+less /etc/logrotate.d/syslog
 ```
 
 
 
 ### Centralized Logging Server Configuration
+
 **RSyslog** can be configured to log data from remote servers. This can help the Linux admin to have a multiple server logs into one single place. The Linux admin not required to login in to each servers for checking the logs, he can just login into the centralized server and start do the logs monitoring.
 
 ![img.png](images/img.png)
@@ -297,6 +340,7 @@ Open `/etc/rsyslog.conf` in editor on needed line, like below:
 `nano +19 /etc/rsyslog.conf`
 
 Restart the rsyslog service:
+
 ```bash
 systemctl restart rsyslog
 ```
@@ -340,18 +384,19 @@ semanage -a -t syslogd_port_t -p udp 514
 You can verify the port opening by issuing the following command from the client.
 
 ```bash
-telnet 172.16.1.58 514
+telnet 192.168.1.1 514
 ```
 
 
-Client setup:
+CLIENT setup:
+(CLIENT and SERVER should be in the same subnet)
 
-Add new config `/etc/rsyslog.d/nettest.conf`: 
+Add new config `/etc/rsyslog.d/client-send.conf`: 
 
 > INSTEAD OF `192.168.1.1` put IP address of Trainer.
 
 ```bash
-cat > /etc/rsyslog.d/nettest.conf << "ENDTEXT"
+cat > /etc/rsyslog.d/client-send.conf << "ENDTEXT"
 :msg, contains, "REMOTE" @@192.168.1.1:514
 ENDTEXT
 
@@ -383,6 +428,7 @@ Send different messages all containing keyword "REMOTE":
 echo -n "Enter your name:" ;\
 read STNAME ;\
 logger  -p local2.info "TESTING REMOTE facility LOCAL2 from $STNAME " ;\
+echo "Log message from $STNAME sent"
 
 ```
 
