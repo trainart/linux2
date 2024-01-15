@@ -9,17 +9,21 @@ A cron job is only executed if:
 * Linux system is up and running on the scheduled time.
 * `crond` process is running
 
+Users can have their personal schedule in cron system.
+But `root` has more than one variant to schedule periodic job.
 
-/etc/crontab - cron  փաթեթի գլխավոր կարգավորման ֆայլ 
-Լրացուցիչ կարգավորման դիրեկտորիաներ/ֆայլեր:
-/var/spool/cron/
-/etc/cron.hourly/
-/etc/cron.daily/
-/etc/cron.weekly/
-/etc/cron.monthly/
+1. /etc/crontab
+
+![img_1.png](images/crontab-etc.png)
+
+2. fixed directories:
+   * /etc/cron.hourly/
+   * /etc/cron.daily/
+   * /etc/cron.weekly/
+   * /etc/cron.monthly/
 
 
-![img.png](img.png)
+3. Like all others `/var/spool/cron/root` -  with `crontab -e` (as we will see below)
 
 
 ![img_1.png](images/img_1.png)
