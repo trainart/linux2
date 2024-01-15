@@ -135,15 +135,20 @@ grep include /etc/rsyslog.conf
 On some systems (like Ubuntu) the basic default functionality is moved from `/etc/rsyslog.conf` to the file:
 `/etc/rsyslog.d/50-default.conf`
 
-Realtime logs examining can be done like: 
+Realtime logs examining can be done with `tail -f` like below.
+
+In one terminal run:
 ```bash
 tail -f /var/log/secure
 ```
 
-Realtime logs examining can be done like: 
+In another run
 ```bash
-tail -f /var/log/secure
+sudo su -
 ```
+
+Check new log messages in first terminal.
+
 
 ### Logger  Utility
 logger command is a shell command interface to the syslog system log module. 
