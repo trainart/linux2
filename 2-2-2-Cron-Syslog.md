@@ -154,34 +154,49 @@ Check new log messages in first terminal.
 logger command is a shell command interface to the syslog system log module. 
 It makes or writes one line entries in the system log file from the command line.
 
+Example 1
 ```bash
-logger  -p daemon.info "TESTING DAEMON"
-tail -1 /var/log/messages
-
-logger  -p authpriv.info "TESTING AUTHPRIV"
-tail -1 /var/log/secure
+logger  -p authpriv.info "TESTING AUTHPRIV 1"
+logger  -p authpriv.info "TESTING AUTHPRIV 2"
+logger  -p authpriv.info "TESTING AUTHPRIV 3"
+tail -5 /var/log/secure
 ```
+
+Example 2
+```bash
+logger  -p cron.info "TESTING CRON LOGGING 1"
+logger  -p cron.info "TESTING CRON LOGGING 2"
+logger  -p cron.info "TESTING CRON LOGGING 3"
+tail -5 /var/log/cron
+```
+
 
 **Rsyslog** gives possibility to create custom logs unrelated to _facility_ settings.
 
 For example, create separate config file:
 
 ```bash
-cat > /etc/rsyslog.d/testing.conf 
+cat > /etc/rsyslog.d/testing.conf << "ENDTEXT"
 :msg, contains, "TESTING" /var/log/testing.log
+ENDTEXT
+
 ```
 
 Restart rsyslog:
 ```bash
 systemctl restart rsyslog
 ```
-Check:
+
+Send different messages all containing keyword "TESTING": 
 ```bash
-logger  -p local3.info "TESTING LOCAL3"
-logger  -p local5.info "TESTING LOCAL5"
-logger  -p mail.info "TESTING MAIL"
-logger  -p auth.info "TESTING AUTH"
-cat /var/log/testing.log
+logger  -p local3.info "TESTING facility LOCAL3 - should appear in /var/log/testing.log too"
+logger  -p local5.info "TESTING facility LOCAL5 - should appear in /var/log/testing.log too"
+logger  -p mail.info "TESTING facility MAIL - should appear in /var/log/testing.log too"
+logger  -p auth.info "TESTING facility AUTH - should appear in /var/log/testing.log too"
+```
+
+Check:
+tail -5 /var/log/testing.log
 ```
 
 
@@ -191,12 +206,36 @@ The solution is to use log rotation: a scheme whereby existing log files are per
 renamed and ultimately deleted. But rsyslog continues to write messages 
 into the file with the ‘correct’ (same) name. 
 
-Most Linux systems come with a program called logrotate, which should be run daily by cron (`/etc/cron.daily/logrotate`).
+Most Linux systems come with a program called **logrotate**, which should be run daily by cron (`/etc/cron.daily/logrotate`).
 logrotate can be configured with `/etc/logrotate.conf` to perform rotation on any or all log files. 
 
-Although main config file for logrotate is `/etc/logrotate.conf`, it also includes all files from /etc/logrotate.d/ directory.
+Let's examine `/etc/logrotate.conf`
+```bash
+less /etc/logrotate.conf
+```
+
+Although main config file for **logrotate** is `/etc/logrotate.conf`, it also includes all files from /etc/logrotate.d/ directory.
+
+it also includes all files from `/etc/logrotate.d/` directory.
+```bash
+grep include /etc/logrotate.conf
+```
+
 This way logrotate rotates files not only for `rsyslogd`, but for many other services.
 You can configure each logfile how often it should be rotated and how many old logs are kept.
+
+> When you install any service package (like Apache, Nginx, ...) it's logrotate config will be added here.
+
+Check what you have now:
+```bash
+ls /etc/logrotate.d
+```
+
+Let's examine `etc/logrotate.d/syslog`
+```bash
+less etc/logrotate.d/syslog
+```
+
 
 
 ### Centralized Logging Server Configuration
@@ -206,34 +245,69 @@ You can configure each logfile how often it should be rotated and how many old l
 
 > To remind: Linux labels (auth, cron, ftp, lpr, authpriv, news, mail, syslog, etc ,..) the log messages to indicate the type of software that generated the messages with severity (Alert, critical, Warning, Notice, info, etc ,..). You can find more information on Message Labels (http://en.wikipedia.org/wiki/Syslog#Facility_levels) and Severity Levels (http://en.wikipedia.org/wiki/Syslog#Severity_levels)
 
-**Server setup:**
-In `/etc/rsyslog.conf` uncomment the following lines:
+We will now configure two sides SERVER and CLIENT.
 
+First Trainer will create his linux as SERVER and Students will send messages there  from their Linuxes CLIENTs.
+Then vice-versa.
+
+**SERVER setup:**
+
+Create separate config to gather remote test logs.
+```bash
+cat > /etc/rsyslog.d/remotelogs.conf << "ENDTEXT"
+:msg, contains, "REMOTE" /var/log/remotelogs.log
+ENDTEXT
+
+```
+
+
+In `/etc/rsyslog.conf` uncomment lines after:
+`# Provides UDP syslog reception`
+and
+`# Provides TCP syslog reception`
+
+It may be in different config format depending on the version of Rsyslog.
+
+> $ModLoad imudp
+> $UDPServerRun 514
+
+or
+
+> module(load="imudp") # needs to be done just once
+> input(type="imudp" port="514")
+ 
+
+Find and uncomment needed lines
+
+* `-n` option shows line number 
+* `-A` option tells `grep` to show not only matching line, but also next ones
 
 ```bash
-# Provides UDP syslog reception
-$ModLoad imudp
-$UDPServerRun 514
- 
-# Provides TCP syslog reception
-$ModLoad imtcp
-$InputTCPServerRun 514
+grep -nA 4 'Provides UDP syslog reception' /etc/rsyslog.conf
 ```
-and restart the rsyslog service:
+
+and
+
+```bash
+grep -nA 4 'Provides TCP syslog reception' /etc/rsyslog.conf
+```
+
+Open `/etc/rsyslog.conf` in editor on needed line, like below:
+
+`nano +19 /etc/rsyslog.conf`
+
+Restart the rsyslog service:
 ```bash
 systemctl restart rsyslog
 ```
-or 
-```bash
-service rsyslog restart
-```
+
 Verify the syslog server listening:
 ```bash
- netstat -antup | grep 514
+netstat -antup | grep 514
 ```
 or
 ```bash
- ss -antup | grep 514
+ss -antup | grep 514
 ```
 
 ### Firewall Port opening (optional):
@@ -250,10 +324,11 @@ firewall-cmd --permanent --zone=public --add-port=514/tcp
 firewall-cmd --permanent --zone=public --add-port=514/udp
 firewall-cmd --reload
 ```
-or disable the firewall:
+
+or stop and disable the firewall:
+
 ```bash
-systemctl stop firewalld
-systemctl disable firewalld
+systemctl disable --now firewalld
 ```
 
 #### Allow SELinux 
@@ -261,7 +336,9 @@ If you have SELinux enabled on your system, use following command to enable rsys
 ```bash
 semanage -a -t syslogd_port_t -p udp 514
 ```
+
 You can verify the port opening by issuing the following command from the client.
+
 ```bash
 telnet 172.16.1.58 514
 ```
@@ -269,13 +346,19 @@ telnet 172.16.1.58 514
 
 Client setup:
 
-
 Add new config `/etc/rsyslog.d/nettest.conf`: 
+
+> INSTEAD OF `192.168.1.1` put IP address of Trainer.
+
 ```bash
-cat > /etc/rsyslog.d/nettest.conf
-*.* @@192.168.2.79:514
+cat > /etc/rsyslog.d/nettest.conf << "ENDTEXT"
+:msg, contains, "REMOTE" @@192.168.1.1:514
+ENDTEXT
+
 ```
+
 and restart the rsyslog service:
+
 ```bash
 systemctl restart rsyslog
 ```
@@ -288,13 +371,19 @@ Monitor the activity from the log server, open the message log.
 
 On server:
 ```bash
-tail -f /var/log/messages
+tail -f /var/log/remotelogs.log
+
 ```
 
 On client:
+
+Send different messages all containing keyword "REMOTE": 
+
 ```bash
-logger  -p daemon.info "TESTING REMOTE LOGGING"
+echo -n "Enter your name:" ;\
+read STNAME ;\
+logger  -p local2.info "TESTING REMOTE facility LOCAL2 from $STNAME " ;\
+
 ```
-By this way you can monitor the other logs such as secure, mail, cron logs etc.
 
 
