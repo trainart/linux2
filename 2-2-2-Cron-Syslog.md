@@ -16,6 +16,9 @@ But `root` has more than one variant to schedule periodic job.
 
 ![img_1.png](images/crontab-etc.png)
 
+> NOTE! `username` field is specific for thei file only !
+
+
 2. fixed directories:
    * /etc/cron.hourly/
    * /etc/cron.daily/
@@ -281,6 +284,15 @@ Let's examine `/etc/logrotate.d/syslog`
 ```bash
 less /etc/logrotate.d/syslog
 ```
+
+How is `logrotate` run ? By means of `cron`.
+Let's see:
+
+```bash
+ls /etc/cron.daily
+```
+
+Examine that script.
 
 
 
