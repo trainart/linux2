@@ -245,16 +245,23 @@ Reboot
 systemctl reboot
 ```
 
-Check log file again
+Login and check log file again.
+You should see **one more line** from last startup.
 
 ```bash
 cat /var/log/startuptest.log
 ```
 
 
+
 &nbsp;
 &nbsp;
-#### Recover root password:
+
+## Recovering root password
+
+Below is important way to recover root password.
+While booting the server you should interrupt normal boot and do the following steps.
+
 1. Press `Esc` to prevent GRUB automatic system load. Ensure first line is selected
 at the GRUB prompt and press `e`
 2. Scroll down and locate kernel arguments line (starting with `linux` or similiar and
