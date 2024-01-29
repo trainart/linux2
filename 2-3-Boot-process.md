@@ -51,7 +51,12 @@ backwards compatible with _SystemV_ runlevels, and ran _SystemV_ init scripts.
 Current most popular initialization system for Linux is  **Systemd**. 
 It is more flexible and modular. 
 
-**Systemd** uses **targets** instead of **runlevels**. 
+First initialization process (Process No.1) (**init** / **Upstart** / **SystemD**): 
+- manages the system startup process
+- manages the services running (enable/disable, start/stop)
+- shuts the system down
+
+**Systemd** uses **targets** instead of **runlevels** to define the state of the system. 
 
 Goal of **runlevels**/**targets** is to process system initialization 
 and bring the Linux system to specific state.
@@ -63,11 +68,43 @@ By default, there are two main targets:
 **graphical.target** - analogous to **runlevel 5**
 
 
+You can check the default target, which determines what services are started during boot:
+```bash
+systemctl get-default
+```
 
-First initialization process (**init** / **Upstart** / **SystemD**): 
-- manages the system startup process
-- manages the services running (enable/disable, start/stop)
-- shuts the system down
+You can also list the dependencies of a target
+(to see which units run and certain target):
+
+```bash
+systemctl list-dependencies multi-user.target
+```
+You may see different colors:
+* **Green** - unit is active/running.
+* **White**/**gray** - unit is inactive/not running.
+* **Red** - unit failed to run.
+
+
+Table below presents **SystemV runlevel** and **Systemd target** equivalents.
+
+| SystemV Runlevel | Systemd equivalent | Description
+| --- | --- | --- |
+| 0 (HALT)|poweroff.target |Shuts down the system |
+| 1 (SINGLE-USER MODE) | rescue.target | Mode for administrative and system rescue tasks. Only the root user can log in. |
+| 2 (MULTI-USER MODE) | | All users can log in, but network interfaces aren’t configured and networks services are not exported. Display manager is not started. |
+| 3 (MULTI-USER MODE WITH NETWORKING) | **multi-user.target** | Starts the system normally. Display manager is not started. |
+| 5 (START THE SYSTEM NORMALLY WITH APPROPRIATE DISPLAY MANAGER (WITHGUI)) | **graphical.target** | Same as runlevel 3, but with a display manager.|
+| 6 (REBOOT) | reboot.target | Reboots the system.|
+
+Old way to understand where you are is:
+
+```bash
+runlevel
+```
+
+It shows current and previous runlevel.
+
+
 
 
 **Note:** Previous Linux versions, which were distributed with **SystemV init** or **Upstart**,
@@ -106,19 +143,6 @@ _HINT:_ You need to run command that shows all processes in **tree-like** manner
 
 &nbsp;
 &nbsp;
-
-Table below presents **SystemV runlevel** and **Systemd target** equivalents.
-
-| SystemV Runlevel | Systemd equivalent | Description
-| --- | --- | --- |
-| 0 (HALT)|poweroff.target |Shuts down the system |
-| 1 (SINGLE-USER MODE) | rescue.target | Mode for administrative and system rescue tasks. Only the root user can log in. |
-| 2 (MULTI-USER MODE) | | All users can log in, but network interfaces aren’t configured and networks services are not exported. Display manager is not started. |
-| 3 (MULTI-USER MODE WITH NETWORKING) | **multi-user.target** | Starts the system normally. Display manager is not started. |
-| 5 (START THE SYSTEM NORMALLY WITH APPROPRIATE DISPLAY MANAGER (WITHGUI)) | **graphical.target** | Same as runlevel 3, but with a display manager.|
-| 6 (REBOOT) | reboot.target | Reboots the system.|
-
-### PRACTICE
 
 #### Service Management:
 
@@ -165,6 +189,69 @@ or
 ```bash
 init 0
 ```
+
+### PRACTICE
+
+Create you own startup test service
+
+```bash
+cat  > /etc/systemd/system/startuptest.service  << "LASTLINE"
+[Unit]
+Description=Startup Test Service
+
+[Service]
+ExecStart=/opt/startuptest.sh
+
+[Install]
+WantedBy=multi-user.target
+LASTLINE
+
+```
+
+```bash
+cat  > /opt/startuptest.sh  << "FINISH"
+#!/bin/bash
+echo "$(date) - Linux server $(hostname) started !" >> /var/log/startuptest.log
+FINISH
+
+chmod +x /opt/startuptest.sh
+
+```
+
+Now enable it
+
+```bash
+systemctl enable startuptest.service
+```
+
+Test run
+```bash
+systemctl start startuptest.service
+```
+
+Check log file
+```bash
+cat /var/log/startuptest.log
+```
+
+Check in the list
+```bash
+systemctl list-dependencies multi-user.target | grep startuptest
+```
+
+Reboot
+
+```bash
+systemctl reboot
+```
+
+Check log file again
+
+```bash
+cat /var/log/startuptest.log
+```
+
+
 &nbsp;
 &nbsp;
 #### Recover root password:
