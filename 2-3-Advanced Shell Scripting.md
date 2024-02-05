@@ -19,7 +19,8 @@ During running, shell scripts have access to special data from the environment:
 * **$#** - count/number of arguments/positional parameters
 
 Command substitution:
-* **$()** or **` `**
+* **$()** or **\`   \`**
+
 
 
 > NOTICE: Below we use do 2 things to create some script:
