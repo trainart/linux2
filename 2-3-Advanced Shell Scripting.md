@@ -390,7 +390,8 @@ Add here the check if positional parameter is number and exit if it is not given
 (you may `source` parts of previous scripts).
 
 
-#### Arithmetic Expansion. Double-Parentheses Construct. 
+
+## Arithmetic Expansion. Double-Parentheses Construct. 
 
 Arithmetic operations in Bash can be done in several ways. 
 
