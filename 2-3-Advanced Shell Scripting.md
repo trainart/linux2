@@ -560,7 +560,6 @@ or **\\|** <br>
 to be deleted/removed from output, 
 other lines will be present in output. 
 
-
 ##### Task: 
 Modify the above command, to remove also lines starting with **$** 
 
