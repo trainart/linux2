@@ -302,15 +302,25 @@ Edits of **grub.cfg** will be lost any time **grub2-mkconfig** is used to regene
 The `/etc/default/grub` file is used by the grub2-mkconfig tool.  
 Any manual changes to **/etc/default/grub** require rebuilding the grub.cfg file.
 Menu Entries in **grub.cfg**
-Among various code snippets and directives, the grub.cfg configuration file contains one or more menuentry blocks, each representing a single GRUB 2 boot menu entry. These blocks always start with the menuentry keyword followed by a title, list of options, and an opening curly bracket, and end with a closing curly bracket. Anything between the opening and closing bracket should be indented. 
 
-Each menuentry block that represents an installed Linux kernel contains linux on 64-bit IBM POWER Series, linux16 on x86_64 BIOS-based systems, and linuxefi on UEFI-based systems. Then the initrd directives followed by the path to the kernel and the initramfs image respectively. If a separate /boot partition was created, the paths to the kernel and the initramfs image are relative to /boot. In the example above, the initrd /initramfs-3.8.0-0.40.el7.x86_64.imgline means that the initramfs image is actually located at /boot/initramfs-3.8.0-0.40.el7.x86_64.img when the root file system is mounted, and likewise for the kernel path.
+Among various code snippets and directives, the `grub.cfg` configuration file contains one or more `menuentry` blocks,
+each representing a single GRUB 2 boot menu entry. 
+These blocks always start with the `menuentry` keyword followed by a title, 
+list of options, and an opening curly bracket, and end with a closing curly bracket. 
+Anything between the opening and closing bracket should be indented. 
+
+Each `menuentry` block that represents an installed Linux kernel contains linux on 64-bit IBM POWER Series, linux16 on x86_64 BIOS-based systems, and linuxefi on UEFI-based systems. Then the initrd directives followed by the path to the kernel and the initramfs image respectively. If a separate /boot partition was created, the paths to the kernel and the initramfs image are relative to /boot. In the example above, the initrd /initramfs-3.8.0-0.40.el7.x86_64.imgline means that the initramfs image is actually located at /boot/initramfs-3.8.0-0.40.el7.x86_64.img when the root file system is mounted, and likewise for the kernel path.
+
 
 The GRUB 2 package contain commands for installing a bootloader and for creating a bootloader configuration file. 
-grub2-install will install the bootloader - usually in the MBR, in free unpartioned space, and as files in /boot. The bootloader is installed with something like: 
-grub2-install /dev/sda
+
+grub2-install will install the bootloader - usually in the **MBR**, in free **unpartioned** space, and as files in /boot. 
+The bootloader is installed with something like: 
+`grub2-install /dev/sda`
+
 grub2-mkconfig will create a new configuration based on the currently running system, what is found in /boot, what is set in /etc/default/grub, and the customizable scripts in /etc/grub.d/ . A new configuration file is created with: 
-grub2-mkconfig -o /boot/grub2/grub.cfg
+
+`grub2-mkconfig -o /boot/grub2/grub.cfg`
 The configuration format has evolved over time, and a new configuration file might be slightly incompatible with the old bootloader.  It is thus often/always a good idea to run grub2-install before grub2-mkconfig for some reason is run. The RedHat installer, anaconda, will run these grub2 commands and there is usually no reason to run them manually. 
 It is generally safe to directly edit /boot/grub2/grub.cfg in RedHat. Other distributions, in particular Debian/Ubuntu provide an update-grub command for activating your changes. Some customizations can be placed in /etc/grub.d/40_custom. 
 
