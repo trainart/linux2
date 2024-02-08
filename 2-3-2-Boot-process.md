@@ -174,21 +174,30 @@ systemctl is-enabled sshd
 
 5. Reboot & shutdown the system
 You can reboot with you can either run
+
 ```bash
-systemctl reboot
+reboot
 ```
 or
 ```bash
 init 6
 ```
 You can shutdown with either
+
 ```bash
-systemctl poweroff
+poweroff
 ```
 or
 ```bash
 init 0
 ```
+
+
+> INTERESTING NOTE: 
+> 
+> Look at output of `ls -l /usr/sbin/reboot`
+> 
+> Look at output of `ls -l /usr/sbin/poweroff`
 
 ### PRACTICE
 
