@@ -301,6 +301,11 @@ This utility only supports configurations where there is a single root user.
 
 To remove GRUB password-protect from boot menu, simply delete the file `/boot/grub2/user.cfg`
 
+>
+> More info at:
+> https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/assembly_protecting-grub-with-a-password_managing-monitoring-and-updating-the-kernel
+> 
+
 #### Manage the Boot Process (GRUB2)
 GRUB 2 reads its configuration from the /boot/grub2/grub.cfg file on traditional BIOS-based machines and from the /boot/efi/EFI/redhat/grub.cfg file on UEFI machines. 
 
