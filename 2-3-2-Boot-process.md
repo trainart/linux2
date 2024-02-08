@@ -290,6 +290,8 @@ This creates a file `/boot/grub2/user.cfg` if not already present,
 which contains the hashed GRUB bootloader password. 
 This utility only supports configurations where there is a single root user.
 
+To remove GRUB password-protect from boot menu, simply delete the file `/boot/grub2/user.cfg`
+
 #### Manage the Boot Process (GRUB2)
 GRUB 2 reads its configuration from the /boot/grub2/grub.cfg file on traditional BIOS-based machines and from the /boot/efi/EFI/redhat/grub.cfg file on UEFI machines. 
 
