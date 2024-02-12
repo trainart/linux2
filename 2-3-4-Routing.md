@@ -168,14 +168,12 @@ Ubuntu/Debian:
 
 
 Keywords:
-* **h** – toggles the help screen
-* **s** – toggles source host display
-* **d** – toggles destination host display 
-* **s** – toggles port numbers 
 * **n** – toggles DNS hostnames resolution 
 * **N** – toggles port names resolution
-* **t** – toggles the text interface 
-* **p** – pauses the display
+* **p** – toggles port numbers display
+* **P** – pauses the screen
+* **t** – toggles display modes
+* **h** – toggles the help screen (more options here)
 
 Simply run:
 
@@ -196,6 +194,24 @@ ping 127.4.5.6 > /dev/null &
 ping 127.7.8.9 > /dev/null &
 iftop -i lo
 ```
+
+Now let's filter some traffic
+type `f` and then `dst host 127.7.8.9`
+You will need to wait for few seconds and then filter will work.
+
+On another terminal run
+```bash
+telnet 127.7.8.9 22
+```
+Now you can see that session too.
+
+
+
+The same can be done with command line option 
+```bash
+iftop -i lo -f dst host 127.7.8.9
+```
+
 
 Disable resolving hostnames (-n) and port numbers (-N):
 
