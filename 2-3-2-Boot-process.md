@@ -280,10 +280,17 @@ To make changes you need to remount root partition, since it is now mounted
 in _read-only_ mode. In order to mount root partition with read/write flag 
 we need to remount it as follows: `mount -o remount,rw /`
 4. Now **any** changes can be done, like root password change with `passwd`
-5. **IMPORTANT !** This additional step needs to be taken on SELinux-enabled 
-systems to relabel SELinux context. If not done **you will not be able to login** 
-The following command will ensure that the SELinux context for entire system is relabeled after reboot:
-`touch /.autorelabel`
+5. **IMPORTANT !** This additional step needs to be taken on SELinux-enabled systems to relabel SELinux context. 
+   * Check  `cat /etc/selinux/config  | grep ^SELINUX=`  (if you don't get any lines as result it means this option is commented).
+      if this option is set to `permissive`or `disabled`, you can omit this step.
+      But if it is set to `enforcing`, then this step is very important. If not done **you will not be able to login**. 
+      What you need to do is run the command:
+
+   ```bash
+   touch /.autorelabel
+   ```
+    It will ensure that the SELinux context for entire system is relabeled after reboot. So you can boot normally.
+
 6. Final important step is to `sync` the changes on disk. After that we can simply
 power off the system (_no need to reboot, since there is no process which can do rebooting_)
   

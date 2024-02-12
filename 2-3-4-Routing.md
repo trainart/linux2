@@ -161,20 +161,47 @@ On VM2 run:
 Install `iftop`
 
 CentOS/RHEL: 
-`yum install iftop`
+`yum -y install iftop`
 
 Ubuntu/Debian: 
 `apt install iftop`
 
 
+Keywords:
+* **h** – toggles the help screen
+* **s** – toggles source host display
+* **d** – toggles destination host display 
+* **s** – toggles port numbers 
+* **n** – toggles DNS hostnames resolution 
+* **N** – toggles port names resolution
+* **t** – toggles the text interface 
+* **p** – pauses the display
+
+Simply run:
+
+```bash
+iftop
+```
 
 Show traffic for particular interface:
+(you can specify interface with `-i`, but if not specified it tries to find the one that looks like an external interface)
 
-`iftop -i enp0s8`
+```bash
+iftop -i lo
+```
+
+```bash
+ping 127.1.2.3 >/dev/null & 
+ping 127.4.5.6 > /dev/null &  
+ping 127.7.8.9 > /dev/null &
+iftop -i lo
+```
 
 Disable resolving hostnames (-n) and port numbers (-N):
 
-`iftop -nN -i enp0s8`
+```bash
+iftop -nN -i enp0s8
+```
 
 Use text interface:
 
