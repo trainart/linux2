@@ -22,7 +22,7 @@ and your terminals are still there, the way you left them.
 
 Good way to runs tmux is:
 ```bash
-tmux a || tmux new
+tmux a || tmux
 ```
 This way you try to connect to existing session if not create new one.
 
