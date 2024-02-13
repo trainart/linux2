@@ -39,6 +39,18 @@ Ctrl+b n  - next window
 Ctrl+b &  - close current windows (instead you can just type `exit` if in bash) 
 ```
 
+#### Scrolling in tmux
+
+One important problem with using `tmux` is related to scrolling up. 
+
+In order to do that you need to enter special **copy mode** with `Ctrl+b PgUp` 
+(in fact it will enter that mode and scroll one page up, if you want to only enter that mode press `Ctrl+b [` instead).
+
+After that you can use `PgUp`/`PgDn` or `Up arrow`/`Down arrow` keys for scrolling.
+
+To exit **copy mode** press `q`
+
+
 
 > For more info see `man tmux`
 > or sites like: 
