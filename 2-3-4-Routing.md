@@ -127,8 +127,9 @@ sysctl -p /etc/sysctl.conf
 
 ### Network Traffic Analysis and Monitoring Tools
 
+#### tcpdump
+
 **tcpdump** - basic tool to troubleshoot network.<br>
-**iftop** - interactive interface monitor tool.
 <br>
 <br>
 
@@ -182,6 +183,8 @@ On VM2 run:
 * `ping -c2 10.1.10.2` <br>
 
 #### iftop
+
+**iftop** - interactive interface monitor tool.
 
 Install `iftop`
 
