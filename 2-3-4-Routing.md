@@ -68,6 +68,7 @@ Manual commands to do this will be the following:
   * `ip r a 10.1.10.0/24 via 10.1.11.1`
 
 But instead we can do it with `nmtui` to keep this settings permanent.
+
 (Run `nmtui` go to `Edit a connection`->`<interface-name>`->`IPv4 Configuration`->`Show`->Routing`->`Edit`)
 
 As a result following file will be created:
