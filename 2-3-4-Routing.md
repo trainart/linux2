@@ -35,6 +35,7 @@ Check if it works
 
 On VM2 run following to block **icmp redirects** since all interfaces are in one LAN, 
 and VM2 will tell neighbours to connect directly otherwise.
+(More on `iptables` in Level3)
 
 * VM2
   * `iptables -A OUTPUT -p icmp -m icmp --icmp-type redirect -j DROP`
