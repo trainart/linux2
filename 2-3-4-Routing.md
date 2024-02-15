@@ -67,7 +67,8 @@ Manual commands to do this will be the following:
 * On VM3 
   * `ip r a 10.1.10.0/24 via 10.1.11.1`
 
-But instead we can do it with `nmtui` to keep this settings permanent.
+To make them run after reboot, we can add these commands to `rc.local`, but it is not good solution.
+Instead we can configure static routes with `nmtui` to keep this settings permanent.
 
 (Run `nmtui` go to `Edit a connection`->`<interface-name>`->`IPv4 Configuration`->`Show`->Routing`->`Edit`)
 
@@ -122,12 +123,6 @@ sysctl -p /usr/lib/sysctl.d/50-default.conf
 echo  'net.ipv4.ip_forward = 1'  >> /etc/sysctl.conf
 sysctl -p /etc/sysctl.conf
 ```
-
-#### TASK
-
-Make static routes on VM1 and VM3 **permanent**, so they persist after reboot. 
-Use `nmtui` for that.
-
 
 
 ### Network Traffic Analysis and Monitoring Tools
