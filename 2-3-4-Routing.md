@@ -39,12 +39,40 @@ and VM2 will tell neighbours to connect directly otherwise.
 * VM2
   * `iptables -A OUTPUT -p icmp -m icmp --icmp-type redirect -j DROP`
 
-Now we need to define routes on VM1 and VM3 to see each other
+To make this command permanent (i.e. run after reboot) we can add it to `/etc/rc.local` file and make it executable
 
-* VM1 
+```bash
+echo "iptables -A OUTPUT -p icmp -m icmp --icmp-type redirect -j DROP" >> /etc/rc.local
+chmod +x /etc/rc.local
+
+```
+> NOTE ! `/etc/rc.local` file is still in place as compatible solution for previous `init`-managed systems.
+> If we would like to have more modern solution, we can create separate service to run custom commands as showed in previous SystemD lesson part.
+
+
+Now if you try to ping VM3 from VM1 it will not work
+
+* VM1
+  * `ping 10.1.11.2`
+
+Why ? 
+
+
+Because you need to define additional routes on leaf nodes VM1 and VM3 to see each other.
+Manual commands to do this will be the following:
+
+* On VM1
   * `ip r a 10.1.11.0/24 via 10.1.10.1`
-* VM3 
+* On VM3 
   * `ip r a 10.1.10.0/24 via 10.1.11.1`
+
+But instead we can do it with `nmtui` to keep this settings permanent.
+(Run `nmtui` go to `Edit a connection`->`<interface-name>`->`IPv4 Configuration`->`Show`->Routing`->`Edit`)
+
+As a result following file will be created:
+`/etc/sysconfig/network-scripts/route-<device-name>`
+
+
 
 Check if it works
 
