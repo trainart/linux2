@@ -3,19 +3,18 @@
 ## SSH
 
 **SSH** stands for ‘Secure SHell’. 
-Today it's Client/Server-based de-facto standard for network remote access.
-SSH Clients are included in almost all Linux versions out of the box 
+Today it's Client/Server-based de-facto standard for **network remote terminal access**.
+SSH Clients are included in almost all Linux versions out of the box (mostly as part of **OpenSSH** package)
 (recent versions of Windows also include SSH Client).
 
 > Read more on "How does the SSH protocol work" here: _https://www.ssh.com/academy/ssh/protocol#how-does-the-ssh-protocol-work_
 > 
-> It's important to understand that assymetric keys are **not used for traffic encryption/decrytion**. 
-> Key-based access is used to generate symmetric one-time keys used for current session.
+> It's important to understand that _assymetric_ keys are **not used for traffic encryption/decrytion**. 
+> Key-based access is used to generate _symmetric_ one-time keys used for current session.
 
 SSH allows:
-* remote terminal access `ssh`
-* remote file transfer `sftp`/`scp`
-* automated single command execution
+* Remote **terminal access** `ssh` (either as _session_ or as _single command execution_)
+* Remote **file transfer** `sftp`/`scp`
 
 
 Examples:<br>
@@ -29,22 +28,25 @@ Examples:<br>
 
 ### SSH Windows Clients
 
-Some free SSH/SCP/SFTP clients for Windows are (plus many commercial ones, like: SecureCRT,...):
-* PuTTY (https://www.putty.org/) <br><br>
-* Xshell/XFTP (https://www.netsarang.com/ru/free-for-home-school/) - Now is free for non-commercial use. <br><br>
-* MobaXterm (https://mobaxterm.mobatek.net/) - Enhanced terminal for Windows with X11 server, tabbed SSH client, network tools and much more<br><br>
-* Windows 10 (_from ver.1803_), OpenSSH Client has been implemented as a Windows 
-feature _(if not can be added via “Optional features” (start typing in search “optional”…)_
+Some free SSH/SFTP/SCP clients for Windows are:
+* **Xshell**/XFTP (https://www.netsarang.com/ru/free-for-home-school/) - Great solution. Now is free for non-commercial use. <br><br>
+* **PuTTY** (https://www.putty.org/) <br><br>
+* **MobaXterm** (https://mobaxterm.mobatek.net/) - Enhanced terminal for Windows with X11 server, tabbed SSH client, network tools and much more<br><br>
+* **OpenSSH Client** has been implemented as a Windows feature (in Windows 10/11 _from ver.1803_). If not found can be added via `Optional features` (start typing in search `optional`…)<br><br>
+* **WinSCP** (https://winscp.net/eng/downloads.php) <br><br>
+(plus other commercial ones, like: SecureCRT,...)
 
-### Using ssh without password (authenticating via public/private keypairs instead of password)
 
-> Remember again that assymetric keys are **not used for traffic encryption/decrytion**. 
-> Key-based access is used to generate symmetric one-time key used for current session
+### Using **ssh** without password (authenticating via public/private keypairs instead of password)
+
+
 > * SSH Client puts it's public key in server's directory in `~/.ssh/authorized_keys`. When that client tries to connect, server generates a random message and asks to encrypt it with its private key.
 > * SSH Server gets encrypted message from SSH Client and tries to decrypt it with Client's public key. 
 > * If OK then it trusts that Client. SSH Server generates symmetric key and securely sends it to the Client.
-> * This key can even be regenerated during a session upon mutual agreement.
->
+> * This key can also be regenerated during a session upon mutual agreement.
+
+> Remember again that assymetric keys are **not used for traffic encryption/decrytion**. 
+> Key-based access is used to generate symmetric one-time key used for current session
 
 
 Use `ssh-keygen` on your local system to generate public and private keys 
