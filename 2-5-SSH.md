@@ -53,7 +53,7 @@ Some free SSH/SFTP/SCP clients for Windows are:
 Use `ssh-keygen` on your local system to generate public and private keys 
 in SSH config directory: `~/.ssh`
 
-* `ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_myserver`
+* `ssh-keygen -b 4096`
 
 Generally you can go forward with _Enter_'s. You may add security by specifying the passphrase, 
 but it has to be entered every time the key is used for authentication.
@@ -61,29 +61,25 @@ but it has to be entered every time the key is used for authentication.
 
 > _Here we create keys of 4096 bits strength, which is stronger than the default 2048 bits._<br>
 > _As a result we will get two new keys:_ 
-> * `~/.ssh/id_myserver`
-> * `~/.ssh/id_myserver.pub`<br><br>
->_KEEP IN SECRET `~/.ssh/id_myserver`_<br> 
+> * `~/.ssh/id_rsa`
+> * `~/.ssh/id_rsa.pub`<br><br>
+>_KEEP IN SECRET `~/.ssh/id_rsa`_<br> 
 >_it is your **private key**_<br>
->_`~/.ssh/id_myserver.pub` is your **public key**_ <br>
+>_`~/.ssh/id_rsa.pub` is your **public key**_ <br>
 >_It could be copied to the location you want access without password._
 
 
-Now securely copy your public key the `~/.ssh/id_myserver.pub` file to the
+Now securely copy your public key the `~/.ssh/id_rsa.pub` file to the
 `~/.ssh` directory on the remote system. 
 
 You can copy it in various ways like:
 
 1.Using `ssh-copy-id`:<br>
-* `ssh-copy-id -i ~/.ssh/id_myserver.pub user@host`
-
-> _Non standard SSH port case can be handled this way: <br>
-> ssh-copy-id -i ~/.ssh/id_myserver.pub '-p 2002 user@host' <br>
-> (NOTE! The quotes are important)._
+* `ssh-copy-id user@host`
 
 The above can be also done manually, like for the older SSH version cases, where `ssh-copy-id` is not present:
 
-2.`cat ~/.ssh/id_myserver.pub | ssh user@host 'cat >> ~/.ssh/authorized_keys'`
+2.`cat ~/.ssh/id_rsa.pub | ssh user@host 'cat >> ~/.ssh/authorized_keys'`
 
 Since you do it manually, ensure that .ssh exists and has proper permissions:
 
@@ -94,17 +90,14 @@ Since you do it manually, ensure that .ssh exists and has proper permissions:
 Also ensure that authorized_keys file has proper permissions: <br>
 `ssh user@host chmod 600 ~/.ssh/authorized_keys`
 
-Now you should be able to connect to the remote system via ssh without 
-being prompted for a password.
-This means you can either get a remote shell with ssh, 
-or just run a single command remotely. 
-Also you can use sftp and scp commands as well - all that without password.
+Now you should be able to connect to the remote system via ssh without being prompted for a password.
+This means you can run `ssh` to either get a remote shell or just run a single command remotely. 
+Also you can use `scp` commands as well - all that without password.
 
 ```bash
-ssh -i ~/.ssh/id_myserver 10.1.10.1
-ssh -i ~/.ssh/id_myserver student@10.1.10.1 /bin/date
-scp -i ~/.ssh/id_myserver student@10.1.10.1:/bin/ls  ./
-sftp -i ~/.ssh/id_myserver 10.1.10.1
+ssh  10.1.10.1
+ssh  student@10.1.10.1 /bin/date
+scp  student@10.1.10.1:/bin/ls  ./
 ```
 
 #### PRACTICE
@@ -112,61 +105,14 @@ sftp -i ~/.ssh/id_myserver 10.1.10.1
 1. Create keypair on one system and copy to another. 
 Then try connecting without password.
 
+2. Try connecting from Windows to Linux using Windows client.
 
-2. Try connecting from Windows to Linux using available 
-Windows clients.
-
-
-3. Enter Windows `PowerShell`. 
+Enter Windows `PowerShell`. 
 Generate keypair and transfer to Linux to connect without password.
 * `mkdir c:\Users\[username]\.ssh`
 * `ssh-keygen -t rsa -b 4096 -f c:\Users\[username]/.ssh/id_myserver`
 * `cd .ssh`
 * `cat id_myserver.pub | ssh user@host 'cat >> ~/.ssh/authorized_keys'`
-
-### TCP wrappers
-TCP Wrapper is a host-based ACL system, used to filter network access to specific network services. 
-It is old enough and not widely used anymore, but in most Linux versions 
-TCP wrapper support is integrated into SSH, so it works for SSH and it's important to know how. 
-
-> IMPORTANT! Different Linux distributions implement TCP Wrappers differently!
-> More info:   
-> `man 5 hosts_access` & `man 5 hosts_options`
->
-> > TCP Wrappers were **deprecated** and **removed** from **CentOS/RHEL 8** (https://access.redhat.com/solutions/3906701)
-
-Everything related to TCP wrapper is configured in two text files: 
-* `/etc/hosts.allow`
-* `/etc/hosts.deny`
-
-Each time connection is open to SSH server (sshd) it 'pauses' the connection 
-and looks to these files to determine if a connection should be granted or refused.
-
-The order is:
-It scans through the `hosts.allow` and `hosts.deny` files and stops when it finds an entry that matches the IP address of the connecting machine. These checks are made when connection attempts occur: 
-* If the client IP-address matches `hosts.allow` file, the connection is **allowed** and nothing more is checked.
-* Otherwise `hosts.deny` is checked and if client IP-address matches, the connection is **denied**.
-* Finally, if the address is in neither file, the connection is **allowed**.
-
-General syntax of `/etc/hosts.allow`, `/etc/hosts.deny` is:
-```bash
-service : host/network : option [: option] ...
-```
-
-It is not necessary (or even possible) to list every single address that may connect to your computer. The hosts.allow and hosts.deny files enable you to specify entire subnets and groups of addresses. You can even use the keyword ALL to specify all possible addresses. You can also restrict specific entries in these files so they only apply to specific network services 
-
-```bash
-# /etc/hosts.allow: list of hosts that are allowed to access the system.
-#                   See the manual pages hosts_access(5) and hosts_options(5).
-sshd: 127.0.0.1  10.1.10.1 
-```
-
-```bash
-# /etc/hosts.deny: list of hosts that are _not_ allowed to access the system.
-#                  See the manual pages hosts_access(5) and hosts_options(5).
-sshd: ALL
-```
-
 
 ### SSH HardeningTips
 
@@ -178,6 +124,7 @@ Changes below are to be done in the SSH Server configuration file:
 Some say that obscurity is not security but that's not true. 
 Any measure that makes attacking your system harder can be valid. 
 One of the effective measures is **changing the SSH port**. 
+
 > NOTE: If firewall (`firewalld`/`ufw`) is active, then its settings 
 > need to be adjusted for the new SSH port too.
 
@@ -200,7 +147,7 @@ AddressFamily inet  #  inet - means IPv4 only AddressFamily
 ListenAddress 10.1.10.1
 ```
 
-Restrict long login session and trun off root login
+Restrict long login session and turn off root login
 ```bash
 #LoginGraceTime 2m
 LoginGraceTime 1m
@@ -235,8 +182,7 @@ Now SSH is listening new port.
 You can try to connect:<br>
 `ssh -p 5022 user@IP`
 
-Also changing the port will bring the number of SSH brute-force attacks to zero.
-
+Changing the port mostly brings the number of SSH brute-force attacks to zero.
 
 ### Limiting SSH access per user and per IP-address
 

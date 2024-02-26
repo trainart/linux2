@@ -61,21 +61,43 @@ After that you can use `PgUp`/`PgDn` or `Up arrow`/`Down arrow` keys for scrolli
 
 To exit **copy mode** press `q`
 
-
-
-> For more info see `man tmux`
-> or sites like: 
-> https://tmuxcheatsheet.com
-
+#### Changing hotkey
 You can change hotkey from `Ctrl+b` to `Ctrl+a`
 
-Create `~/.tmux.conf`
+Create `~/.tmux.conf` and add following to it:
 
 ```bash
 # Change prefix key to Ctrl+a
 set -g prefix C-a
 ```
 
+#### Mouse support
+
+Mouse support for `tmux` can be enabled by adding following to `~/.tmux.conf`:
+
+```bash
+# Enable history scroll, selecting of window/pane and pane resize with mouse
+set -g mouse on
+```
+
+Now you should be able to you mouse to:
+* select pane by clicking inside it.
+* select window by clicking its name at bottom status line.
+* resize pane by dragging borders.
+* scroll up in window or pane.
+
+
+The above settings can also be enabled in the tmux via **command mode** (key to enter command mode is `:`) 
+For example to change prefix key type `Ctrl+b :` and type: 
+`set -g prefix C-a`
+
+
+
+
+
+> For more info see `man tmux`
+> or sites like: 
+> https://tmuxcheatsheet.com
 
 ### Screen
 `screen`  is another terminal multiplexer
