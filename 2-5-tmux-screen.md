@@ -53,7 +53,8 @@ Ctrl+b x  - close current pane/window (instead you can just type `exit` in that 
 One important problem with using `tmux` is related to scrolling up. 
 
 In order to do that you need to enter special **copy mode** with `Ctrl+b PgUp` 
-(in fact it will enter that mode and scroll one page up, if you want to only enter that mode press `Ctrl+b [` instead).
+(in fact it will enter that mode and scroll one page up.
+If you want to only enter that mode press `Ctrl+b [` instead).
 
 After that you can use `PgUp`/`PgDn` or `Up arrow`/`Down arrow` keys for scrolling.
 
