@@ -67,6 +67,15 @@ To exit **copy mode** press `q`
 > or sites like: 
 > https://tmuxcheatsheet.com
 
+You can change hotkey from `Ctrl+b` to `Ctrl+a`
+
+Create `~/.tmux.conf`
+
+```bash
+# Change prefix key to Ctrl+a
+set -g prefix C-a
+```
+
 
 ### Screen
 `screen`  is another terminal multiplexer
