@@ -39,13 +39,13 @@ Ctrl+b c  - create new window
 Ctrl+b p  - previous window
 Ctrl+b n  - next window
 
-Panels:
+Panes:
 Ctrl+b \"  - create new vertical pane
 Ctrl+b \%  - create new horizontal pane
-Ctrl+b arrow (up/down/left/right)  - switch to window in that direction
-Ctrl+b o  - next window ( better way is above arrows )
+Ctrl+b arrow (up/down/left/right)  - switch to pane in that direction
+Ctrl+b o  - next pane ( or above arrows )
 
-Ctrl+b &  - close current windows (instead you can just type `exit` if in bash) 
+Ctrl+b x  - close current pane/window (instead you can just type `exit` in that terminal) 
 ```
 
 #### Scrolling in tmux
