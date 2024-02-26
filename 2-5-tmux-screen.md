@@ -40,8 +40,8 @@ Ctrl+b p  - previous window
 Ctrl+b n  - next window
 
 Panes:
-Ctrl+b \"  - create new vertical pane
-Ctrl+b \%  - create new horizontal pane
+Ctrl+b "  - create new vertical pane
+Ctrl+b %  - create new horizontal pane
 Ctrl+b arrow (up/down/left/right)  - switch to pane in that direction
 Ctrl+b o  - next pane ( or above arrows )
 
