@@ -83,10 +83,10 @@ Before actually running screen, it's important to understand how to interact wit
 The command character is used to notify screen that you'd like to control screen itself, rather than the application in the current window. The key pressed after the command character designates which screen command you would like to perform. Some of the more useful commands and their key bindings are shown in table below:
 Keys bindings in screen:
 ```bash
-Ctrl+a c		new window
-Ctrl+a n		next window
+Ctrl+a c	new window
+Ctrl+a n	next window
 Ctrl+a p	previous window
-Ctrl+a d		detach screen from terminal.	Run 'screen -RD' to reattach
+Ctrl+a d	detach screen from terminal.	Run 'screen -RD' to reattach
 Ctrl+a A	set window title
 Ctrl+a k	kill current window
 ```
