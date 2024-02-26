@@ -32,6 +32,7 @@ Create an alias `tm` for above command and make it active after re-login.
 
 Keys bindings in `tmux`:
 ```bash
+
 Ctrl+b d  - detach from terminal.	Run `tmux a` to reattach
 
 Windows:
