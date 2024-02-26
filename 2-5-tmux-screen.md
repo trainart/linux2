@@ -33,9 +33,18 @@ Create an alias `tm` for above command and make it active after re-login.
 Keys bindings in `tmux`:
 ```bash
 Ctrl+b d  - detach from terminal.	Run `tmux a` to reattach
+
+Windows:
 Ctrl+b c  - create new window
 Ctrl+b p  - previous window
 Ctrl+b n  - next window
+
+Panels:
+Ctrl+b \"  - create new vertical pane
+Ctrl+b \%  - create new horizontal pane
+Ctrl+b arrow (up/down/left/right)  - switch to window in that direction
+Ctrl+b o  - next window ( better way is above arrows )
+
 Ctrl+b &  - close current windows (instead you can just type `exit` if in bash) 
 ```
 
