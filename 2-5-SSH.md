@@ -105,14 +105,19 @@ scp  student@10.1.10.1:/bin/ls  ./
 1. Create keypair on one system and copy to another. 
 Then try connecting without password.
 
-2. Try connecting from Windows to Linux using Windows client.
+2. Connect from Windows to Linux using Windows client (NOTE! Here we create keys with not-default names).
 
 Enter Windows `PowerShell`. 
 Generate keypair and transfer to Linux to connect without password.
 * `mkdir c:\Users\[username]\.ssh`
 * `ssh-keygen -t rsa -b 4096 -f c:\Users\[username]/.ssh/id_myserver`
 * `cd .ssh`
-* `cat id_myserver.pub | ssh user@host 'cat >> ~/.ssh/authorized_keys'`
+* `cat id_myserver.pub | ssh [user]@[host] 'cat >> ~/.ssh/authorized_keys'`
+
+Try connecting:
+
+`ssh -i c:\Users\[username]/.ssh/id_myserver [user]@[host]`
+
 
 ### SSH HardeningTips
 
