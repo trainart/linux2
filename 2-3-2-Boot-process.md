@@ -217,6 +217,14 @@ LASTLINE
 
 ```
 
+Check its contents
+
+```bash
+systemctl cat startuptest
+```
+
+Create script mentioned in the service.
+
 ```bash
 cat  > /opt/startuptest.sh  << "FINISH"
 #!/bin/bash
@@ -227,15 +235,21 @@ chmod +x /opt/startuptest.sh
 
 ```
 
-Now enable it
+Now enable it to run at startup:
 
 ```bash
-systemctl enable startuptest.service
+systemctl enable startuptest
 ```
 
-Test run
+Check:
+
 ```bash
-systemctl start startuptest.service
+systemctl is-enabled startuptest
+```
+
+Test run without restart
+```bash
+systemctl start startuptest
 ```
 
 Check log file
