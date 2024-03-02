@@ -217,7 +217,7 @@ LASTLINE
 
 ```
 
-Check its contents
+Check its contents (HINT! you can use `cat` keyword to find config of any service)
 
 ```bash
 systemctl cat startuptest
