@@ -84,6 +84,9 @@ You may see different colors:
 * **White**/**gray** - unit is inactive/not running.
 * **Red** - unit failed to run.
 
+`systemctl` is a powerful command-line tool for managing `systemd`-driven Linuxes. 
+It's a system and service manager for Linux. More details are below.
+
 
 Table below presents **SystemV runlevel** and **Systemd target** equivalents.
 
