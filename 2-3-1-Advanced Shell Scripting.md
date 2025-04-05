@@ -56,7 +56,7 @@ sudo yum -y install cowsay
 
 2. Run it
 ```bash
-cowsay Hi Shell Programmin student
+cowsay Hi Shell Programming student
 ```
 
 It can draw different pictures and say the text you provide.
@@ -359,7 +359,7 @@ chmod +x ~/loop3
 
 ```
 
-#### Task
+##### Task:
 
 Add here the check if positional parameter is number and exit if it is not given 
 (you may `source` parts of previous scripts).
@@ -384,7 +384,7 @@ chmod +x ~/loop4
 
 ```
 
-#### Task
+##### Task: 
 
 Add here the check if positional parameter is number and exit if it is not given 
 (you may `source` parts of previous scripts).
@@ -423,7 +423,10 @@ isnumber ()
 if [ $1 -eq $1 2>/dev/null ] 
 then  
 ((m+=1)) 
-else echo "$1 is not a number" 
+else
+echo "*******"
+echo "ERROR: $1 is not a number" 
+echo "*******"
  exit $? 
 fi 
 } 
@@ -443,6 +446,15 @@ EOF1
 chmod +x ~/aver.sh
 
 ```
+
+Run with non digit argument
+```bash
+./aver  5 8 13 77 AAA
+```
+##### Task: 
+Modify the above script not to exit in case of non digit argument.
+_Tip: you need to avoid script exiting on that error. This can be done in several ways either commenting appropriate line or changing it to `return` command:_
+
 
 Count sum of all digits in a number with `while` loop
 
@@ -466,8 +478,7 @@ chmod +x ~/sumd
 
 ```
 
-#### Task
-
+##### Task:
 Add here the check if positional parameter is number and exit if it is not given 
 (you may `source` parts of previous scripts).
 
