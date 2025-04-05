@@ -186,7 +186,7 @@ Now notice that in last 2 lines only first word is printed.
 Why?
 
 **Task: Modify the script to print complete lines.**
-**HINT: you need to use something else than $1** 
+**HINT: you need to use something else than '$1'** 
 
 
 ## Sourcing Scripts
@@ -359,11 +359,9 @@ chmod +x ~/loop3
 
 ```
 
-##### Task:
+**Task: Add here the check if positional parameter is number and exit if it is not given (you may `source` parts of previous scripts).**
 
-Add here the check if positional parameter is number and exit if it is not given 
-(you may `source` parts of previous scripts).
-
+<br><br>
 
 Count factorial of a number (with `while` loop)
 
@@ -384,11 +382,9 @@ chmod +x ~/loop4
 
 ```
 
-##### Task: 
+**Task: Add here the check if positional parameter is number and exit if it is not given (you may `source` parts of previous scripts)**
 
-Add here the check if positional parameter is number and exit if it is not given 
-(you may `source` parts of previous scripts).
-
+<br><br>
 
 
 ## Arithmetic Expansion. Double-Parentheses Construct. 
@@ -451,9 +447,9 @@ Run with non digit argument
 ```bash
 ./aver  5 8 13 77 AAA
 ```
-##### Task: 
-Modify the above script not to exit in case of non digit argument.
-_Tip: you need to avoid script exiting on that error. This can be done in several ways either commenting appropriate line or changing it to `return` command:_
+**Task: Modify the above script not to exit in case of non digit argument. _HINT: you need to avoid script exiting on that error. This can be done in several ways either commenting appropriate line or changing it to `return` command:_**
+
+<br><br>
 
 
 Count sum of all digits in a number with `while` loop
@@ -478,10 +474,9 @@ chmod +x ~/sumd
 
 ```
 
-##### Task:
-Add here the check if positional parameter is number and exit if it is not given 
-(you may `source` parts of previous scripts).
+**Task: Add here the check if positional parameter is number and exit if it is not given (you may `source` parts of previous scripts).**
 
+<br><br>
 
 ## Text Processing Tools
 
@@ -510,8 +505,7 @@ cat /etc/passwd | grep -E ^'(b|sy)' | awk -F":" '{print "User: "$3"  "$1}'
 cat /etc/passwd | awk -F":" '/nologin$/ {print $1"-"$5}'
 ```
 
-##### Task:
-Modify the above command, to narrow selection by only lines starting with s  
+**Task:Modify the above command, to narrow selection by only lines starting with 's'** 
 
 
 
@@ -572,7 +566,6 @@ or **\\|** <br>
 to be deleted/removed from output, 
 other lines will be present in output. 
 
-##### Task: 
-Modify the above command, to remove also lines starting with **$** 
+** Task: Modify the above command, to remove also lines starting with '$'** 
 
 
