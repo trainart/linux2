@@ -73,6 +73,46 @@ You can check the default target, which determines what services are started dur
 systemctl get-default
 ```
 
+Currently change to text mode
+```bash
+sudo systemctl isolate multi-user.target (same as `init 3`)
+```
+
+Check the default target:
+```bash
+systemctl get-default
+```
+
+Currently change to graphical mode (same as `init 5`)
+```bash
+sudo systemctl isolate graphical.target
+```
+
+Permanently set default to text mode (like runlevel 3):
+```bash
+sudo systemctl set-default multi-user.target
+reboot
+```
+
+> 
+> Alternative to `reboot` still is `init 6`
+> Alternative to `poweroff` still is `init 0`
+> 
+
+> Bonus tip:
+> `echo $XDG_SESSION_TYPE`
+> can give idea about type of session
+> if returned `tty` then it is text mode
+> if returned `x11` or `wayland` or something else it is most probably the graphical mode.
+> 
+
+Permanently set default to graphical mode (like runlevel 5):
+```bash
+sudo systemctl set-default graphical.target
+reboot
+```
+
+
 You can also list the dependencies of a target
 (to see which units run and certain target):
 
