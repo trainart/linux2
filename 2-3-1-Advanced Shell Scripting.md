@@ -569,3 +569,10 @@ other lines will be present in output.
 **Task: Modify the above command, to remove also lines starting with '$'** 
 
 
+Generate a log file with 200 numbered lines.
+(here `s/^/.../` is a `sed` substitution that matches the **start of each line** (**^**) and adds text `Log line number` there)
+
+```bash
+seq 1 200 | sed 's/^/Log line number /' > archive.log
+```
+
