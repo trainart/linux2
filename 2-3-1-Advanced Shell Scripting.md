@@ -508,7 +508,6 @@ cat /etc/passwd | awk -F":" '/nologin$/ {print $1"-"$5}'
 **Task:Modify the above command, to narrow selection by only lines starting with 's'** 
 
 
-
 <br><br>
 
 #### Advanced Text Processing – SED 
