@@ -104,7 +104,7 @@ reboot
 > can give idea about type of session
 > if returned `tty` then it is text mode
 > if returned `x11` or `wayland` or something else it is most probably the graphical mode.
-> 
+
 
 Permanently set default to graphical mode (like runlevel 5):
 ```bash
@@ -125,7 +125,7 @@ You may see different colors:
 * **Red** - unit failed to run.
 
 `systemctl` is a powerful command-line tool for managing `systemd`-driven Linuxes. 
-It's a system and service manager for Linux. More details are below.
+It's a **system** and **service** manager for Linux. More details are below.
 
 
 Table below presents **SystemV runlevel** and **Systemd target** equivalents.
@@ -139,7 +139,7 @@ Table below presents **SystemV runlevel** and **Systemd target** equivalents.
 | 5 (START THE SYSTEM NORMALLY WITH APPROPRIATE DISPLAY MANAGER (WITHGUI)) | **graphical.target** | Same as runlevel 3, but with a display manager.|
 | 6 (REBOOT) | reboot.target | Reboots the system.|
 
-Old way to understand where you are is:
+Old way to understand where you are was:
 
 ```bash
 runlevel
@@ -161,11 +161,11 @@ similar purpose as init scripts.
 
 To view, `start`, `stop`, `restart`, `enable`, or `disable` system services, use the `systemctl` command as described below. 
 
-The `service` and `chkconfig` commands are still available in the system 
+The `service` and `chkconfig` commands are still available in some versions 
 and work as expected, but are only included for compatibility reasons 
 and better to be avoided. 
 
-Note
+**Note**
 When working with system services, it is possible to omit this file `.service` unit
 extension to reduce typing. When the `systemctl` utility encounters a unit name without a file extension, 
 it automatically assumes it is a `.service` unit. 

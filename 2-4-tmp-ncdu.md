@@ -1,4 +1,6 @@
 
+
+
 ## Detect Linux Distribution
 
 There are several ways to understand which distribution are you on.
