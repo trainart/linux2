@@ -226,7 +226,7 @@ cd htop-3.4.1
 ./autogen.sh && ./configure && make
 ```
 
-You may get an error. Read the docs to resolve the issue
+You may get an error. Read the docs to resolve the issue<br>
 (HINT: You should find how to install missing `ncurses` package for your distribution).
 
 ```bash
@@ -285,5 +285,7 @@ HINTS!
 
 * For **S-Lang** error try `cat INSTALL | grep with-screen` to find solution.
   (as variant you may have already `ncurses` installed above)
+
+
 
 2. Install latest version of `nano` from source (https://www.nano-editor.org/download.php)
