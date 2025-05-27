@@ -17,9 +17,7 @@
 Ապա օգտագործում են սեղմման (ծավալը նվազեցնելու) գործիքներից մեկը (`gzip`, `bzip2` կամ `xz/lzma`)
 
 
-##### tar 
-
-**tar (Tape Archive)**
+##### **tar (Tape Archive)**
 
 Օգտագործվում է մի քանի ֆայլեր մեկ արխիվում միավորելու համար՝ առանց սեղմման:
 
@@ -55,9 +53,7 @@ tar tf f.tar | less
 ```
 
 
-##### gzip
-
-**gzip (GNU zip)**
+##### **gzip (GNU zip)**
 
 Օգտագործվում է ֆայլերը սեղմելու համար (սովորաբար `.tar` արխիվների հետ):
 
@@ -88,9 +84,7 @@ tar tf filename.tar.gz
 - **NOTE! You don't need to specify `z`**
 
 
-##### Bzip2
-
-**bzip2**
+##### **Bzip2**
 
 Ավելի արդյունավետ սեղմման ալգորիթմ, քան `gzip`, բայց ավելի դանդաղ:
 
@@ -117,9 +111,7 @@ tar tf filename.tar.bz2
 - **NOTE! You don't need to specify `j`**
 
 
-##### xz / lzma
-
-lzma (Lempel-Ziv-Markov chain Algorithm)
+##### **xz / lzma**
 
 Ամենաարդյունավետ սեղմման մեթոդներից մեկը:
 
