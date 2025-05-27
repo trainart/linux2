@@ -1,26 +1,8 @@
 # Linux Administration and Networking Basics (level 2) Linux-ի կառավարում և ցանցային հիմունքներ (փուլ 2)
 
-## Managing Software packages
+## Managing Software packages (Source Code)
 
-### Package Management
-
-![img_1.png](images2/img_1.png)
-<br><br>
-![img_2.png](images2/img_2.png)
-<br><br>
-![img_3.png](images2/img_3.png)
-<br><br>
-![img_4.png](images2/img_4.png)
-<br><br>
-![img_5.png](images2/img_5.png)
-<br><br>
-![img_6.png](images2/img_6.png)
-<br><br>
-![img_7.png](images2/img_7.png)
-<br><br>
-
-#### Linux File Archives (tar,gzip,bzip2,lzma)
-
+### Linux File Archives (tar,gzip,bzip2,lzma)
 
 ##### tar 
 
@@ -73,7 +55,7 @@
 `tar tf filename.tar.xz` - **NOTE! You don't need to specify `J`**
 
 
-#### Source Code Packages install
+### Source Code Packages install
 
 Source code Linux packages are basically one of the following: 
 `<file>.tgz`
@@ -97,25 +79,35 @@ More installation details are to be inside the package in either `README` or `IN
 
 First install `htop` from repository
 ```bash
-sudo yum -y install htop
+sudo dnf -y install htop
 ```
 
-Now from source code
+Install `wget`
 
 ```bash
-sudo yum -y install gcc make autoconf automake
+sudo dnf -y wget
+```
+
+Install all needed stuff for compilation
+
+```bash
+sudo dnf -y install gcc make autoconf automake
+```
+
+Now let's install `htop` from source code
+
+```bash
+wget --inet4-only https://github.com/htop-dev/htop/archive/refs/tags/3.4.1.tar.gz
+```
+
+> `--inet4-only` forces `wget` to use IPv4 Only (not IPv6)
+
+```bash
+tar xf 3.4.1.tar.gz
 ```
 
 ```bash
-wget https://github.com/htop-dev/htop/archive/refs/tags/3.2.2.tar.gz
-```
-
-```bash
-tar xf 3.2.2.tar.gz
-```
-
-```bash
-cd htop-3.2.2
+cd htop-3.4.1
 ```
 
 ```bash
@@ -174,13 +166,12 @@ whereis htop
 
 You can read install details in README/INSTALL inside the packages.
 
-1. Install latest version of `mc` from source (http://ftp.midnight-commander.org/)
+1. Install latest version of `mc` (`mc-4.8.33.tar.xz` or newer ) from source (http://ftp.midnight-commander.org/)
 
 HINTS!
-* For **GLIB** error install `glib2-devel` package (for RH/Centos/Rocky/...)
+* For **GLIB** error install `glib2-devel` package (for RH/Centos/Rocky/AlmaLinux...)
 
 * For **S-Lang** error try `cat INSTALL | grep with-screen` to find solution.
   (as variant you may have already `ncurses` installed above)
 
 2. Install latest version of `nano` from source (https://www.nano-editor.org/download.php)
-
