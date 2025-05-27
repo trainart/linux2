@@ -21,6 +21,11 @@
 
 Օգտագործվում է մի քանի ֆայլեր մեկ արխիվում միավորելու համար՝ առանց սեղմման:
 
+>  Ուշադրություն դարձրեք.<br>
+> `tar`-ի option-ները առանց գծիկի են<br>
+> 
+
+
 Create a tar archive
 
 ```bash
@@ -64,8 +69,14 @@ gzip f.tar
 
 
 ```bash
-gunzip f.tar.gz
+gzip -d f.tar.gz
 ```
+
+> Another command is `gunzip`<br>
+> Find what it is with `which` and `file` <br>
+> Examine contents
+
+
 
 ```bash
 tar zcvf f.tar.gz /etc
@@ -93,8 +104,11 @@ bzip2 f.tar
 ```
 
 ```bash
-bunzip2 f.tar.bz2
+bzip2 -d f.tar.bz2
 ```
+> Another command is `bunzip2`<br>
+> Find what it is with `which` and `file` <br>
+
 
 ```bash
 tar jcf f.tar.bz2 /etc
@@ -115,11 +129,42 @@ tar tf filename.tar.bz2
 
 Ամենաարդյունավետ սեղմման մեթոդներից մեկը:
 
-`tar Jcf  f.tar.xz /etc`
+Տարբերություն `lzma` և `xz` միջև
 
-`tar xf filename.tar.xz` - **NOTE! You don't need to specify `J`**
+`lzma` — հին գործիք, օգտագործում է **LZMA** ալգորիթմ:
+`xz` — նոր գործիք, օգտագործում է **LZMA2** և առաջարկում լավագույն սեղմման հարաբերակցություն:
 
-`tar tf filename.tar.xz` - **NOTE! You don't need to specify `J`**
+> Ներկա պահին `https://kernel.org/` կայքում օգտագործվում է `xz` սեղմման մեթոդը: 
+
+```bash
+xz f.tar
+```
+
+
+```bash
+xz -d f.tar
+```
+
+> Another command is `unxz`<br>
+> Find what it is with `which` and `file` <br>
+
+
+
+```bash
+tar Jcf  f.tar.xz /etc
+```
+
+```bash
+tar xf filename.tar.xz
+```
+
+- **NOTE! You don't need to specify `J`**
+
+```bash
+tar tf filename.tar.xz
+```
+
+- **NOTE! You don't need to specify `J`**
 
 
 ### Source Code Packages install
