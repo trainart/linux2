@@ -8,58 +8,120 @@
 
 Արխիվացումը ֆայլերի և դիրեկտորիաների 1) մեկ ֆայլի մեջ միավորելու ու 2) ծավալը նվազեցնելու մեթոդ է՝ հեշտ տեղափոխման և պահպանման համար: 
 
-Linux-ում ամենատարածված արխիվացման գործիքներն են `tar`, `gzip`, `bzip2` և `lzma`: 
+Լինուքսում ամենատարածված արխիվացման գործիքներն են `tar`, `gzip`, `bzip2` և `lzma`: 
 
-Ի տարբերություն ZIP-ի, այս գործիքները սովորաբար օգտագործվում են առանձին՝ նախ մեկ ֆայլի մեջ միավորելու (`tar`), 
-ապա սեղմելու/ծավալը նվազեցնելու (`gzip`, `bzip2`, `lzma`) համար:
+Ի տարբերություն ZIP-ի, Լինուքսում այս գործիքները սովորաբար օգտագործվում են **առանձին**
 
+Նախ տվյալները `tar`-ով միավորում մեկ արխիվում:
+Ապա օգտագործում են սեղմման (ծավալը նվազեցնելու) գործիքներից մեկը (`gzip`, `bzip2` կամ `xz/lzma`)
 
 
 ##### tar 
 
-`tar cf f.tar /etc`    - Create a tar archive
+**tar (Tape Archive)**
 
-> TASK: Move errors from the screen to `/tmp/err` file
+Օգտագործվում է մի քանի ֆայլեր մեկ արխիվում միավորելու համար՝ առանց սեղմման:
+
+Create a tar archive
+
+```bash
+tar cf f.tar /etc
+```
+
+> TASK: Move errors to `/tmp/err` file
 
 > ANALYZE: <br>
 > Run `head -1 /tmp/err` <br>
 > Let's understand what it means <br>
 > It makes archive path relative and helps to avoid mistakes to overwrite original files.
+
+Create a tar archive **with verbose output** (`v` option)
  
-`tar cvf f.tar /etc`    - Create a tar archive **with verbose output** (`v` option)
+```bash
+tar cvf f.tar /etc
+```
 
-`tar xf f.tar`		    - Extract tar archive 
+Extract tar archive
 
-`tar tf f.tar | less`	- List tar archive
+```bash
+tar xf f.tar
+```
 
+List tar archive
+
+```bash
+tar tf f.tar | less
+```
 
 
 ##### gzip
 
-`gzip f.tar`
+**gzip (GNU zip)**
 
-`gunzip f.tar.gz`
+Օգտագործվում է ֆայլերը սեղմելու համար (սովորաբար `.tar` արխիվների հետ):
 
-`tar zcvf f.tar.gz /etc`
 
-`tar xf filename.tar.gz` - **NOTE! You don't need to specify `z`**
+```bash
+gzip f.tar
+```
 
-`tar tf filename.tar.gz` - **NOTE! You don't need to specify `z`**
+
+```bash
+gunzip f.tar.gz
+```
+
+```bash
+tar zcvf f.tar.gz /etc
+```
+
+```bash
+tar xf filename.tar.gz
+```
+
+- **NOTE! You don't need to specify `z`**
+
+```bash
+tar tf filename.tar.gz
+```
+
+- **NOTE! You don't need to specify `z`**
 
 
 ##### Bzip2
-`bzip2 f.tar`
 
-`bunzip2 f.tar.bz2`
+**bzip2**
 
-`tar jcf f.tar.bz2 /etc` 
+Ավելի արդյունավետ սեղմման ալգորիթմ, քան `gzip`, բայց ավելի դանդաղ:
 
-`tar xf filename.tar.bz2` - **NOTE! You don't need to specify `j`**
+```bash
+bzip2 f.tar
+```
 
-`tar tf filename.tar.bz2` - **NOTE! You don't need to specify `j`**
+```bash
+bunzip2 f.tar.bz2
+```
+
+```bash
+tar jcf f.tar.bz2 /etc
+```
+
+```bash
+tar xf filename.tar.bz2
+```
+- **NOTE! You don't need to specify `j`**
+
+```bash
+tar tf filename.tar.bz2
+```
+- **NOTE! You don't need to specify `j`**
 
 
 ##### xz / lzma
+
+lzma (Lempel-Ziv-Markov chain Algorithm)
+
+Ամենաարդյունավետ սեղմման մեթոդներից մեկը:
+
 `tar Jcf  f.tar.xz /etc`
 
 `tar xf filename.tar.xz` - **NOTE! You don't need to specify `J`**
