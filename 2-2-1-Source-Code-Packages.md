@@ -4,14 +4,26 @@
 
 ### Linux File Archives (tar,gzip,bzip2,lzma)
 
+Ի՞նչ է Linux File Archive-ը
+
+Արխիվացումը ֆայլերի և դիրեկտորիաների 1) մեկ ֆայլի մեջ միավորելու ու 2) ծավալը նվազեցնելու մեթոդ է՝ հեշտ տեղափոխման և պահպանման համար: 
+
+Linux-ում ամենատարածված արխիվացման գործիքներն են `tar`, `gzip`, `bzip2` և `lzma`: 
+
+Ի տարբերություն ZIP-ի, այս գործիքները սովորաբար օգտագործվում են առանձին՝ նախ մեկ ֆայլի մեջ միավորելու (`tar`), 
+ապա սեղմելու/ծավալը նվազեցնելու (`gzip`, `bzip2`, `lzma`) համար:
+
+
+
 ##### tar 
 
 `tar cf f.tar /etc`    - Create a tar archive
 
 > TASK: Move errors from the screen to `/tmp/err` file
 
+> ANALYZE: <br>
 > Run `head -1 /tmp/err` <br>
-> Let's understand what it means
+> Let's understand what it means <br>
 > It makes archive path relative and helps to avoid mistakes to overwrite original files.
  
 `tar cvf f.tar /etc`    - Create a tar archive **with verbose output** (`v` option)
