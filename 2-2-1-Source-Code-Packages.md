@@ -83,13 +83,13 @@ tar zcvf f.tar.gz /etc
 ```
 
 ```bash
-tar xf filename.tar.gz
+tar xf f.tar.gz
 ```
 
 - **NOTE! You don't need to specify `z`**
 
 ```bash
-tar tf filename.tar.gz
+tar tf f.tar.gz
 ```
 
 - **NOTE! You don't need to specify `z`**
@@ -115,12 +115,12 @@ tar jcf f.tar.bz2 /etc
 ```
 
 ```bash
-tar xf filename.tar.bz2
+tar xf f.tar.bz2
 ```
 - **NOTE! You don't need to specify `j`**
 
 ```bash
-tar tf filename.tar.bz2
+tar tf f.tar.bz2
 ```
 - **NOTE! You don't need to specify `j`**
 
@@ -142,7 +142,7 @@ xz f.tar
 
 
 ```bash
-xz -d f.tar
+xz -d f.tar.xz
 ```
 
 > Another command is `unxz`<br>
@@ -155,13 +155,13 @@ tar Jcf  f.tar.xz /etc
 ```
 
 ```bash
-tar xf filename.tar.xz
+tar xf f.tar.xz
 ```
 
 - **NOTE! You don't need to specify `J`**
 
 ```bash
-tar tf filename.tar.xz
+tar tf f.tar.xz
 ```
 
 - **NOTE! You don't need to specify `J`**
@@ -255,7 +255,7 @@ htop --version
 
 Install source code compiled `htop` in the system
 ```bash
-make install
+sudo make install
 ```
 
 Now check again
