@@ -397,10 +397,17 @@ If you have SELinux enabled on your system, use following command to enable rsys
 semanage -a -t syslogd_port_t -p udp 514
 ```
 
+
+Install `telnet` to check port
+
+```bash
+dnf -y  install telnet
+```
+
 You can verify the port opening by issuing the following command from the client.
 
 ```bash
-telnet 192.168.1.1 514
+telnet 10.4.64.111 514
 ```
 
 
@@ -409,11 +416,11 @@ CLIENT setup:
 
 Add new config `/etc/rsyslog.d/client-send.conf`: 
 
-> INSTEAD OF `192.168.1.1` put IP address of Trainer.
+> INSTEAD OF `10.4.64.111` put IP address of Trainer.
 
 ```bash
 cat > /etc/rsyslog.d/client-send.conf << "ENDTEXT"
-:msg, contains, "REMOTE" @@192.168.1.1:514
+:msg, contains, "REMOTE" @@10.4.64.111:514
 ENDTEXT
 
 ```
