@@ -121,7 +121,7 @@ service rsyslog start
 ```
 The main configuration file for rsyslog is `/etc/rsyslog.conf`. 
 It consists of modules, global directives, rules or comments.
-(read more at: https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/ch-Viewing_and_Managing_Log_Files.html)
+(read more at: https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/7/html/system_administrators_guide/ch-viewing_and_managing_log_files)
 
 **Rsyslog** offers various ways how to filter syslog messages according to various properties. 
 The most used and well-known way to filter syslog messages is to use the facility/priority-based filters which filter syslog messages based on two conditions: facility and priority.
