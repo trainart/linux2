@@ -3,13 +3,15 @@
 ## Managing Periodic processes (cron)
 
 
-You can configure Linux to automatically run some scheduled processes (also named tasks or jobs).
+You can configure Linux to automatically run some `scheduled processes` (also named `tasks` or `cron jobs`).
+
 **Cron** is a service that enables you to schedule periodically running a task/job. 
-A cron job is only executed if: 
+A `cron job` is only executed if: 
 * Linux system is up and running on the scheduled time.
 * `crond` process is running
 
 Users can have their personal schedule in cron system.
+
 But `root` has more than one variant to schedule periodic job.
 
 1. /etc/crontab
@@ -32,7 +34,7 @@ But `root` has more than one variant to schedule periodic job.
 ![img_1.png](images/img_1.png)
 
 
-By default cron opens in `vi`. To open in other editor specify it with special variable:
+By default cron opens in `vi`. To open in other editor specify it with special variable:<br>
 (to make that config permanent this line should be added to `~/.bashrc`)
 
 ```bash
@@ -59,8 +61,9 @@ crontab -e
 ```bash
 mkdir /tmp/task1
 ```
-2. Create files of different sizes in directory /tmp/task1
+2. Create files of different sizes in directory /tmp/task1 <br>
    (_to create example files of desired sizes we use different ways just for fun_)
+
 ```bash
 head -c 10K /dev/zero > /tmp/task1/a1 ;\
 head -c 15K /dev/zero > /tmp/task1/a2 ;\
@@ -72,6 +75,7 @@ fallocate -l 101M /tmp/task1/f3 ;\
 fallocate -l 122M /tmp/task1/f4 ;\
 
 ```
+
 3. Now write command to find files
    1. larger than 10k size 
    2. and starting with "f" 
@@ -85,12 +89,14 @@ fallocate -l 122M /tmp/task1/f4 ;\
 ### Other tools
 
 There are also other similiar tools: 
+
 - `at` is used to schedule a one-time job, to run once at a specific time.
 - `anacron` differs from cron mainly in that:
  1. if the system is not running at the scheduled time, job is postponed until the system is running 
- 2. anacron job can run once per day at most.
+ 2. `anacron` job can run once per day at most.
 
 
+<br><br>
 ## Managing System Logs (rsyslog)
 
 **Log files** contain event messages from the kernel, services, applications. 
@@ -99,23 +105,27 @@ Log files can be very useful when trying to troubleshoot a problem
 with the system or some process such as status of some service 
 or when looking for unauthorized login attempts to the system. 
 
-There are many applications that manage their own logging for themselves
+There are many applications that manage their own logging for themselves<br>
 (such as Apache, Nginx, MySQL, etc).
 
 But Linux operating system itself (kernel) and basic processes use single  
 logging solution called **syslog**. **Syslog** is general name of soltion
-implemented in most Linux versions by means of package called `rsyslog` (reliable syslog).
+implemented in most Linux versions by means of package called `rsyslog` (reliable syslog).<br>
+
 > _There are alternatives to `rsyslog`, like `syslog-ng`, but they are rarely
 installed by default._
 
 We can enable rsyslog daemon to start automatically on every reboot
 and start it now with following commands:
-```
+
+```bash
 systemctl enable rsyslog
 systemctl start rsyslog
 ```
+
 or
-```
+
+```bash
 chkconfig rsyslog on
 service rsyslog start
 ```
