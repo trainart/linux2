@@ -327,7 +327,7 @@ tail -5 /var/log/testing.log
 tail -5 /var/log/myapp.log
 ```
 
-> You will find that messages are only in `myapp.log`
+> You will find that messages `TESTING 1` are only in `myapp.log`
 > that is because of `& stop` config
 > if you remove/comment that line and restart rsyslog messages will appear in other places too.
 > Try it !
