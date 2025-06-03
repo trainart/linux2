@@ -215,9 +215,12 @@ logger -t "My Another Program" -p authpriv.info "TESTING AUTHPRIV 2"
 logger -t "Just Some Other Program" -p authpriv.info "TESTING AUTHPRIV 3"
 ```
 
+Check:
+
 ```bash
 tail -5 /var/log/secure
 ```
+
 
 Example 2
 ```bash
@@ -225,6 +228,8 @@ logger -t "CRON LOGGING TESTER" -p cron.info "TESTING CRON LOGGING 1"
 logger -t "Cron Logging Tester" -p cron.info "TESTING CRON LOGGING 2"
 logger -t "cron logger" -p cron.info "TESTING CRON LOGGING 3"
 ```
+
+Check:
 
 ```bash
 tail -5 /var/log/cron
