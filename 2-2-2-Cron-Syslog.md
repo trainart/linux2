@@ -210,20 +210,21 @@ It makes or writes one line entries in the system log file from the command line
 
 Example 1
 ```bash
-logger  -p authpriv.info "TESTING AUTHPRIV 1"
-logger  -p authpriv.info "TESTING AUTHPRIV 2"
-logger  -p authpriv.info "TESTING AUTHPRIV 3"
+logger -t "My Program" -p authpriv.info "TESTING AUTHPRIV 1"
+logger -t "My Another Program" -p authpriv.info "TESTING AUTHPRIV 2"
+logger -t "Just Some Other Program" -p authpriv.info "TESTING AUTHPRIV 3"
 tail -5 /var/log/secure
 ```
 
 Example 2
 ```bash
-logger  -p cron.info "TESTING CRON LOGGING 1"
-logger  -p cron.info "TESTING CRON LOGGING 2"
-logger  -p cron.info "TESTING CRON LOGGING 3"
+logger -t "CRON LOGGING TESTER" -p cron.info "TESTING CRON LOGGING 1"
+logger -t "Cron Logging Tester" -p cron.info "TESTING CRON LOGGING 2"
+logger -t "cron logger" -p cron.info "TESTING CRON LOGGING 3"
 tail -5 /var/log/cron
 ```
 
+#### Logging based on text in message
 
 **Rsyslog** gives possibility to create custom logs unrelated to _facility_ settings.
 
@@ -243,16 +244,83 @@ systemctl restart rsyslog
 
 Send different messages all containing keyword "TESTING": 
 ```bash
-logger  -p local3.info "TESTING facility LOCAL3 - should appear in /var/log/testing.log too"
-logger  -p local5.info "TESTING facility LOCAL5 - should appear in /var/log/testing.log too"
+logger  -p authpriv.info "TESTING facility AUTHPRIV - should appear in /var/log/testing.log too"
 logger  -p mail.info "TESTING facility MAIL - should appear in /var/log/testing.log too"
-logger  -p auth.info "TESTING facility AUTH - should appear in /var/log/testing.log too"
+logger  -p local7.info "TESTING facility LOCAL7 - should appear in /var/log/testing.log too"
+logger  -p local3.info "TESTING facility LOCAL3 - should appear in /var/log/testing.log ONLY"
 ```
 
-Check:
+Check in different places:
+
+```bash
+tail -5 /var/log/secure
+```
+
+```bash
+tail -5 /var/log/maillog
+```
+
+```bash
+tail -5 /var/log/boot.log
+```
+
 ```bash
 tail -5 /var/log/testing.log
 ```
+
+#### Logging based on program/process name
+
+**Rsyslog** also gives possibility to create custom logs **based on process name**.
+
+For example, create another separate config file:
+
+```bash
+cat > /etc/rsyslog.d/myapp.conf << "ENDofTEXT"
+if $programname == 'myapp' then /var/log/myapp.log
+& stop
+ENDofTEXT
+
+```
+
+Restart rsyslog:
+```bash
+systemctl restart rsyslog
+```
+
+
+Send different messages all containing keyword "TESTING": 
+```bash
+logger -t myapp -p authpriv.info "TESTING facility AUTHPRIV - should appear in /var/log/myapp.log too"
+logger -t myapp -p mail.info "TESTING facility MAIL - should appear in /var/log/myapp.log too"
+logger -t myapp -p local7.info "TESTING facility LOCAL7 - should appear in /var/log/myapp.log too"
+logger -t myapp -p local7.info "TEST facility LOCAL7 - should appear in myapp.log too, but not in testing.log"
+logger -t myapp -p local3.info "Should appear in /var/log/myapp.log ONLY"
+```
+
+Check in different places:
+
+```bash
+tail -5 /var/log/secure
+```
+
+```bash
+tail -5 /var/log/maillog
+```
+
+```bash
+tail -5 /var/log/boot.log
+```
+
+```bash
+tail -5 /var/log/testing.log
+```
+
+```bash
+tail -5 /var/log/myapp.log
+```
+
+
+
 
 
 ### Logrotate Log Rotation
@@ -316,7 +384,7 @@ Examine that script.
 
 We will now configure two sides SERVER and CLIENT.
 
-First Trainer will create his linux as SERVER and Students will send messages there  from their Linuxes CLIENTs.
+First Trainer will create his linux as SERVER and Students will send messages there from their Linuxes CLIENTs.
 Then vice-versa.
 
 **SERVER setup:**
@@ -331,20 +399,17 @@ ENDTEXT
 
 
 In `/etc/rsyslog.conf` uncomment lines after:
-`# Provides UDP syslog reception`
-and
 `# Provides TCP syslog reception`
 
 It may be in different config format depending on the version of Rsyslog.
 
-> $ModLoad imudp
-> $UDPServerRun 514
+> module(load="imtcp") # needs to be done just once
+> input(type="imtcp" port="514")
 
 or
-
-> module(load="imudp") # needs to be done just once
-> input(type="imudp" port="514")
  
+> $ModLoad imыdp
+> $ТDPServerRun 514
 
 Find and uncomment needed lines
 
@@ -352,18 +417,12 @@ Find and uncomment needed lines
 * `-A` option tells `grep` to show not only matching line, but also next ones
 
 ```bash
-grep -nA 4 'Provides UDP syslog reception' /etc/rsyslog.conf
-```
-
-and
-
-```bash
-grep -nA 4 'Provides TCP syslog reception' /etc/rsyslog.conf
+grep -nA 4 'Provides ТDP syslog reception' /etc/rsyslog.conf
 ```
 
 Open `/etc/rsyslog.conf` in editor on needed line, like below:
 
-`nano +19 /etc/rsyslog.conf`
+`nano +37 /etc/rsyslog.conf`
 
 Restart the rsyslog service:
 
@@ -373,11 +432,11 @@ systemctl restart rsyslog
 
 Verify the syslog server listening:
 ```bash
-netstat -antup | grep 514
+netstat -nlpt | grep 514
 ```
 or
 ```bash
-ss -antup | grep 514
+ss -nlpt | grep 514
 ```
 
 ### Firewall Port opening (optional):
@@ -391,7 +450,6 @@ systemctl is-enabled firewalld
 
 ```bash
 firewall-cmd --permanent --zone=public --add-port=514/tcp
-firewall-cmd --permanent --zone=public --add-port=514/udp
 firewall-cmd --reload
 ```
 
@@ -402,11 +460,17 @@ systemctl disable --now firewalld
 ```
 
 #### Allow SELinux 
-If you have SELinux enabled on your system, use following command to enable rsyslog traffic on port 514:
+
+Check if SELinux is enabled
+```bash
+grep ^SELINUX= /etc/selinux/config
+```
+
+If enabled, use following command to allow rsyslog traffic on port 514:
+
 ```bash
 semanage -a -t syslogd_port_t -p udp 514
 ```
-
 
 Install `telnet` to check port
 
@@ -426,7 +490,9 @@ CLIENT setup:
 
 Add new config `/etc/rsyslog.d/client-send.conf`: 
 
-> INSTEAD OF `10.4.64.111` put IP address of Trainer.
+> INSTEAD OF `10.4.64.111` put IP address of Trainer
+
+> double @@ symbol means TCP (single @ — UDP)
 
 ```bash
 cat > /etc/rsyslog.d/client-send.conf << "ENDTEXT"
@@ -440,6 +506,7 @@ and restart the rsyslog service:
 ```bash
 systemctl restart rsyslog
 ```
+
 Now all message logs are additionally sent to the central server.
 
 
@@ -460,7 +527,7 @@ Send different messages all containing keyword "REMOTE":
 ```bash
 echo -n "Enter your name:" ;\
 read STNAME ;\
-logger  -p local2.info "TESTING REMOTE facility LOCAL2 from $STNAME " ;\
+logger -t "My Program" -p local2.info "TESTING REMOTE facility LOCAL2 from $STNAME " ;\
 echo "Log message from $STNAME sent"
 
 ```
