@@ -255,10 +255,10 @@ systemctl restart rsyslog
 
 Send different messages all containing keyword "TESTING": 
 ```bash
-logger  -p authpriv.info "TESTING facility AUTHPRIV - should appear in /var/log/testing.log too"
-logger  -p mail.info "TESTING facility MAIL - should appear in /var/log/testing.log too"
-logger  -p local7.info "TESTING facility LOCAL7 - should appear in /var/log/testing.log too"
-logger  -p local3.info "TESTING facility LOCAL3 - should appear in /var/log/testing.log ONLY"
+logger  -p authpriv.info "TESTING facility AUTHPRIV "
+logger  -p mail.info "TESTING facility MAIL "
+logger  -p local7.info "TESTING facility LOCAL7 "
+logger  -p local3.info "TESTING facility LOCAL3 "
 ```
 
 Check in different places:
@@ -298,14 +298,15 @@ Restart rsyslog:
 systemctl restart rsyslog
 ```
 
-
 Send different messages all containing keyword "TESTING": 
 ```bash
-logger -t myapp -p authpriv.info "TESTING facility AUTHPRIV - should appear in /var/log/myapp.log too"
-logger -t myapp -p mail.info "TESTING facility MAIL - should appear in /var/log/myapp.log too"
-logger -t myapp -p local7.info "TESTING facility LOCAL7 - should appear in /var/log/myapp.log too"
-logger -t myapp -p local7.info "TEST facility LOCAL7 - should appear in myapp.log too, but not in testing.log"
-logger -t myapp -p local3.info "Should appear in /var/log/myapp.log ONLY"
+logger -t myapp -p authpriv.info "TESTING 1 AuthPriv  "
+logger -p authpriv.info "TESTING 2 AuthPriv   "
+```
+
+```bash
+logger -t myapp -p mail.info "TESTING 1 Mail "
+logger -p mail.info "TESTING 2 Mail "
 ```
 
 Check in different places:
@@ -319,10 +320,6 @@ tail -5 /var/log/maillog
 ```
 
 ```bash
-tail -5 /var/log/boot.log
-```
-
-```bash
 tail -5 /var/log/testing.log
 ```
 
@@ -330,7 +327,10 @@ tail -5 /var/log/testing.log
 tail -5 /var/log/myapp.log
 ```
 
-
+> You will find that messages are only in `myapp.log`
+> that is because of `& stop` config
+> if you remove/comment that line and restart rsyslog messages will appear in other places too.
+> Try it !
 
 
 
