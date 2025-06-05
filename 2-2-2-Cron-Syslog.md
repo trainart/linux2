@@ -398,6 +398,8 @@ We will now configure two sides SERVER and CLIENT.
 First Trainer will create his linux as SERVER and Students will send messages there from their Linuxes CLIENTs.
 Then vice-versa.
 
+#### SERVER setup
+
 **SERVER setup:**
 
 Create separate config to gather remote test logs.
@@ -447,7 +449,7 @@ or
 ss -nlpt | grep 514
 ```
 
-### Firewall Port opening (optional):
+##### Firewall Port opening (optional):
 Mostly all the production environment are protected by hardware firewall, ask them to open the TCP & UDP 514.
 If you have IP tables enabled, run the following command on server in order to accept incoming traffic on UDP / TCP port 514.
 
@@ -467,7 +469,7 @@ or stop and disable the firewall:
 systemctl disable --now firewalld
 ```
 
-#### Allow SELinux 
+##### Allow SELinux 
 
 Check if SELinux is enabled
 ```bash
@@ -493,7 +495,10 @@ telnet 10.4.64.119 514
 ```
 
 
-CLIENT setup:
+#### CLIENT setup
+
+**CLIENT setup:**
+
 (CLIENT and SERVER should be in the same subnet)
 
 Add new config `/etc/rsyslog.d/client-send.conf`: 
