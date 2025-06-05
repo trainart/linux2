@@ -419,12 +419,14 @@ It may be in different config format depending on the version of Rsyslog.
 
 Find and uncomment needed lines
 
-* `-n` option shows line number 
-* `-A` option tells `grep` to show not only matching line, but also next ones
-
 ```bash
 grep -nA 4 'Provides TCP' /etc/rsyslog.conf
 ```
+
+Explanation of `grep` options:
+* `-n` option shows line number 
+* `-A` option tells `grep` to show not only matching line, but also next ones
+
 
 Open `/etc/rsyslog.conf` in editor on needed line, like below:
 
