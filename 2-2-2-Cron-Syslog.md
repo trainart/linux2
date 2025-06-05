@@ -417,18 +417,13 @@ It may be in different config format depending on the version of Rsyslog.
 > module(load="imtcp") # needs to be done just once
 > input(type="imtcp" port="514")
 
-or
- 
-> $ModLoad imыdp
-> $ТDPServerRun 514
-
 Find and uncomment needed lines
 
 * `-n` option shows line number 
 * `-A` option tells `grep` to show not only matching line, but also next ones
 
 ```bash
-grep -nA 4 'Provides ТDP syslog reception' /etc/rsyslog.conf
+grep -nA 4 'Provides TCP' /etc/rsyslog.conf
 ```
 
 Open `/etc/rsyslog.conf` in editor on needed line, like below:
@@ -492,7 +487,7 @@ dnf -y  install telnet
 You can verify the port opening by issuing the following command from the client.
 
 ```bash
-telnet 10.4.64.111 514
+telnet 10.4.64.119 514
 ```
 
 
@@ -501,13 +496,13 @@ CLIENT setup:
 
 Add new config `/etc/rsyslog.d/client-send.conf`: 
 
-> INSTEAD OF `10.4.64.111` put IP address of Trainer
+> INSTEAD OF `10.4.64.119` put IP address of Trainer
 
 > double @@ symbol means TCP (single @ — UDP)
 
 ```bash
 cat > /etc/rsyslog.d/client-send.conf << "ENDTEXT"
-:msg, contains, "REMOTE" @@10.4.64.111:514
+:msg, contains, "REMOTE" @@10.4.64.119:514
 ENDTEXT
 
 ```
@@ -538,7 +533,7 @@ Send different messages all containing keyword "REMOTE":
 ```bash
 echo -n "Enter your name:" ;\
 read STNAME ;\
-logger -t "My Program" -p local2.info "TESTING REMOTE facility LOCAL2 from $STNAME " ;\
+logger -t "$STNAME" "REMOTE from $STNAME " ;\
 echo "Log message from $STNAME sent"
 
 ```
