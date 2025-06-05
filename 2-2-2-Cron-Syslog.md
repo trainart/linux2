@@ -557,7 +557,7 @@ Send different messages all containing keyword "REMOTE":
 ```bash
 echo -n "Enter your name:" ;\
 read STNAME ;\
-logger -t "$STNAME" "REMOTE from $STNAME " ;\
+logger -t "$STNAME" "REMOTE message from $STNAME " ;\
 echo "Log message from $STNAME sent"
 
 ```
