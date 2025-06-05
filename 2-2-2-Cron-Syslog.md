@@ -391,6 +391,21 @@ Examine that script.
 
 ![img.png](images/img.png)
 
+<pre>
++----------------+       +----------------+       +----------------+
+|  Client Server |       |  Client Server |       |  Client Server |
+|      1         |       |      2         |       |      3         |
++-------+--------+       +-------+--------+       +-------+--------+
+        |                        |                        |
+        |                        |                        |
+        |                        |                        |
+        v                        v                        v
+        +-----------+------------+------------+-----------+
+                    |    Central Log Server    |
+                    |     (Rsyslog Server)     |
+                    +--------------------------+
+</pre>
+
 > To remind: Linux labels (auth, cron, ftp, lpr, authpriv, news, mail, syslog, etc ,..) the log messages to indicate the type of software that generated the messages with severity (Alert, critical, Warning, Notice, info, etc ,..). You can find more information on Message Labels (http://en.wikipedia.org/wiki/Syslog#Facility_levels) and Severity Levels (http://en.wikipedia.org/wiki/Syslog#Severity_levels)
 
 We will now configure two sides SERVER and CLIENT.
