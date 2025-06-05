@@ -492,7 +492,7 @@ dnf -y  install telnet
 You can verify the port opening by issuing the following command from the client.
 
 ```bash
-telnet 10.4.64.111 514
+telnet 10.4.64.119 514
 ```
 
 
@@ -501,13 +501,13 @@ CLIENT setup:
 
 Add new config `/etc/rsyslog.d/client-send.conf`: 
 
-> INSTEAD OF `10.4.64.111` put IP address of Trainer
+> INSTEAD OF `10.4.64.119` put IP address of Trainer
 
 > double @@ symbol means TCP (single @ — UDP)
 
 ```bash
 cat > /etc/rsyslog.d/client-send.conf << "ENDTEXT"
-:msg, contains, "REMOTE" @@10.4.64.111:514
+:msg, contains, "REMOTE" @@10.4.64.119:514
 ENDTEXT
 
 ```
