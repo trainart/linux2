@@ -538,7 +538,7 @@ Send different messages all containing keyword "REMOTE":
 ```bash
 echo -n "Enter your name:" ;\
 read STNAME ;\
-logger -t "My Program" -p local2.info "TESTING REMOTE facility LOCAL2 from $STNAME " ;\
+logger -t $STNAME "REMOTE from $STNAME " ;\
 echo "Log message from $STNAME sent"
 
 ```
