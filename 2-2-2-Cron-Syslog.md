@@ -423,7 +423,7 @@ Find and uncomment needed lines
 * `-A` option tells `grep` to show not only matching line, but also next ones
 
 ```bash
-grep -nA 4 'Provides ТDP syslog reception' /etc/rsyslog.conf
+grep -nA 4 'Provides TCP' /etc/rsyslog.conf
 ```
 
 Open `/etc/rsyslog.conf` in editor on needed line, like below:
