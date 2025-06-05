@@ -475,7 +475,7 @@ grep ^SELINUX= /etc/selinux/config
 If enabled, use following command to allow rsyslog traffic on port 514:
 
 ```bash
-semanage -a -t syslogd_port_t -p udp 514
+semanage -a -t syslogd_port_t -p tcp 514
 ```
 
 Install `telnet` to check port
