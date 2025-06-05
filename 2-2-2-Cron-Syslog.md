@@ -417,11 +417,6 @@ It may be in different config format depending on the version of Rsyslog.
 > module(load="imtcp") # needs to be done just once
 > input(type="imtcp" port="514")
 
-or
- 
-> $ModLoad imыdp
-> $ТDPServerRun 514
-
 Find and uncomment needed lines
 
 * `-n` option shows line number 
