@@ -1,7 +1,6 @@
 # Linux Administration and Networking Basics (Level 2) Linux-ի կառավարում և ցանցային հիմունքներ (փուլ 2)
 
 
-
 ## /etc/passwd Ֆայլի Կառուցվածք (File Structure)
 
 Այս ֆայլը պարունակում է օգտագործողների գրանցման մասին տեղեկատվություն Լինուքս համակարգերում
