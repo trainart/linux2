@@ -415,7 +415,7 @@ Then vice-versa.
 
 **SERVER setup:**
 
-Create separate config to gather remote test logs.
+1. Create separate config to gather remote test logs.
 ```bash
 cat > /etc/rsyslog.d/remotelogs.conf << "ENDTEXT"
 :msg, contains, "REMOTE" /var/log/remotelogs.log
@@ -423,14 +423,10 @@ ENDTEXT
 
 ```
 
+2. Enable network port for Rsyslog to listen
 
 In `/etc/rsyslog.conf` uncomment lines after:
 `# Provides TCP syslog reception`
-
-It may be in different config format depending on the version of Rsyslog.
-
-> module(load="imtcp") # needs to be done just once
-> input(type="imtcp" port="514")
 
 Find and uncomment needed lines
 
@@ -441,6 +437,11 @@ grep -nA 4 'Provides TCP' /etc/rsyslog.conf
 Explanation of `grep` options:
 * `-n` option shows line number 
 * `-A` option tells `grep` to show not only matching line, but also next ones
+
+It may be in different config format depending on the version of Rsyslog. <br>
+But it will be something like:
+> module(load="imtcp") # needs to be done just once<br>
+> input(type="imtcp" port="514")
 
 
 Open `/etc/rsyslog.conf` in editor on needed line, like below:
@@ -453,7 +454,7 @@ Restart the rsyslog service:
 systemctl restart rsyslog
 ```
 
-Verify the syslog server listening:
+Verify the rsyslog server listening:
 ```bash
 netstat -nlpt | grep 514
 ```
@@ -461,6 +462,8 @@ or
 ```bash
 ss -nlpt | grep 514
 ```
+
+3. Check the port accessibility remotely
 
 ##### Firewall Port opening (optional):
 Mostly all the production environment are protected by hardware firewall, ask them to open the TCP & UDP 514.
@@ -507,6 +510,7 @@ You can verify the port opening by issuing the following command from the client
 telnet 10.4.64.119 514
 ```
 
+> NOTE: If you have connected to the port, to exit `telnet` session you need to type `Ctrl-]` and then `q`
 
 #### CLIENT setup
 
@@ -540,13 +544,13 @@ Now all message logs are additionally sent to the central server.
 
 Monitor the activity from the log server, open the message log.
 
-On server:
+* On server:
 ```bash
 tail -f /var/log/remotelogs.log
 
 ```
 
-On client:
+* On client:
 
 Send different messages all containing keyword "REMOTE": 
 
