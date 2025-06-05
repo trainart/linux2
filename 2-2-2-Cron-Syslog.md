@@ -389,7 +389,6 @@ Examine that script.
 
 **RSyslog** can be configured to log data from remote servers. This can help the Linux admin to have a multiple server logs into one single place. The Linux admin not required to login in to each servers for checking the logs, he can just login into the centralized server and start do the logs monitoring.
 
-![img.png](images/img.png)
 
 <pre>
 Client1       Client2   ...   ClientN
