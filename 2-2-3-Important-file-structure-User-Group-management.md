@@ -1,4 +1,4 @@
-# Linux Administration and Networking Basics (Level 2) Linux-ի կառավարում և ցանցային հիմունքներ (փուլ 2)
+# Linux Administration and Networking Basics (Level 2) <br> Լինուքսի կառավարում և ցանցային հիմունքներ (փուլ 2)
 
 
 ## /etc/passwd Ֆայլի Կառուցվածք (File Structure)
