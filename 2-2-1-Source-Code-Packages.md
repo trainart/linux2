@@ -1,8 +1,8 @@
 # Linux Administration and Networking Basics (Level 2) <br> Լինուքսի կառավարում և ցանցային հիմունքներ (փուլ 2)
 
-## Managing Software packages (Source Code)
+## Linux File Archives, Source Code Package Install <br>Արխիվացում Լինուքսում, Փաթեթների տեղադրում Source Code-ից
 
-### Linux File Archives (tar,gzip,bzip2,lzma)
+### Linux File Archives (tar,gzip,bzip2,lzma) <br> Արխիվացում Լինուքսում
 
 Ի՞նչ է Linux File Archive-ը
 
@@ -167,7 +167,7 @@ tar tf f.tar.xz
 - **NOTE! You don't need to specify `J`**
 
 
-### Source Code Packages install
+### Source Code Package Install, Փաթեթների տեղադրում Source Code-ից
 
 Source code Linux packages are basically one of the following: 
 `<file>.tgz`

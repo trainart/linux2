@@ -1,6 +1,7 @@
 # Linux Administration and Networking Basics (Level 2) <br> Լինուքսի կառավարում և ցանցային հիմունքներ (փուլ 2)
 
-## Managing Periodic processes (cron)
+
+## Periodic processes (cron), Պարբերական պրոցեսներ (cron)
 
 
 You can configure Linux to automatically run some `scheduled processes` (also named `tasks` or `cron jobs`).
@@ -97,7 +98,7 @@ There are also other similiar tools:
 
 
 <br><br>
-## Managing System Logs (rsyslog)
+## Managing Logs (rsyslog), Log-երի կառավարում (rsyslog)
 
 **Log files** contain event messages from the kernel, services, applications. 
 

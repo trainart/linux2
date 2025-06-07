@@ -1,5 +1,6 @@
 # Linux Administration and Networking Basics (Level 2) <br> Լինուքսի կառավարում և ցանցային հիմունքներ (փուլ 2)
 
+# Important file structure, User/Group/Password management<br> Կարևոր ֆայլերի կառուցվածք, Օգտագործողների/խմբերի/գաղտնաբառերի կառավարում
 
 ## /etc/passwd Ֆայլի Կառուցվածք (File Structure)
 
