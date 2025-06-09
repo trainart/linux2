@@ -108,7 +108,7 @@ root            ALL=(ALL:ALL)        ALL           # root-ը կարող է ամ�
 Այժմ ավելացրեք նոր կարգավորում, ըստ որի `devops` խմբի անդամները կարող են կատարել ամեն ինչ առանց գաղտնաբառի: 
 
 ```bash
-echo "%devops         ALL=(ALL)  NOPASSWD: ALL"     >> /etc/sudoers.d/devopsgrp
+echo "%devops         ALL=(ALL)  NOPASSWD: ALL"     >> /etc/sudoers.d/devopsgrp ; chmod 440 /etc/sudoers.d/devopsgrp
 ```
 
 Ստուգենք.
@@ -142,9 +142,9 @@ useradd user1 ; useradd user2; useradd user3
 Ավելացրեք այլ կարգավորումներ.
 
 ```bash
-echo "user1           ALL=(nobody)        NOPASSWD: /usr/bin/touch"     >> /etc/sudoers.d/user1
-echo "user2           ALL=(nobody,sshd)   NOPASSWD: /usr/bin/whoami, /usr/bin/touch"     >> /etc/sudoers.d/user2
-echo "user3           ALL=(root)          NOPASSWD: /usr/bin/id"     >> /etc/sudoers.d/user3
+echo "user1           ALL=(nobody)        NOPASSWD: /usr/bin/touch"     >> /etc/sudoers.d/user1 ; chmod 440 /etc/sudoers.d/user1
+echo "user2           ALL=(nobody,sshd)   NOPASSWD: /usr/bin/whoami, /usr/bin/touch"     >> /etc/sudoers.d/user2 ;  chmod 440 /etc/sudoers.d/user2 
+echo "user3           ALL=(root)          NOPASSWD: /usr/bin/id"     >> /etc/sudoers.d/user3 ; chmod 440 /etc/sudoers.d/user3
 ```
 
 
@@ -178,11 +178,11 @@ sudo whoami
 Այժմ ստեղծենք սխալներով ֆայլեր
 
 ```bash
-echo "ALL=ALL"     >> /etc/sudoers.d/err1
+echo "wrong syntax line"     >> /etc/sudoers.d/err1 ; chmod 440 /etc/sudoers.d/err1
 ```
 
 ```bash
-echo "ALL=ALL"     >> /etc/sudoers.d/err2
+echo "this line is another error"     >> /etc/sudoers.d/err2 ; chmod 440 /etc/sudoers.d/err2
 ```
 
 Ստուգեք
@@ -194,7 +194,7 @@ visudo -c
 > Չնայած այս դեպքում մնացած կարգավորումները պետք է աշխատեն,<br> 
 > `sudo` կարգավորումներում սխալներ ունենալը ռիսկային է,<br>
 > ուստի անհրաժեշտ է ստուգել ամեն ինչ, կամ միշտ օգտվել `visudo`-ից կարգավորումները խմբագրելու համար:<br>
-> Լրացուցրի ֆայլերը նույնպես կարելի է խմբագրել `visudo`-ով <br>
-> `visudo -f /etc/sudoers.d/err1`
-
+> Լրացուցրի ֆայլերը նույնպես կարելի է խմբագրել `visudo`-ով<br> 
+> Արդյունքում նաև ֆայլերը մի անգամից կունենան `440` թույլտվությունը, ինչը նույնպես պահանջ է: <br>
+> `visudo -f /etc/sudoers.d/err3`
 
