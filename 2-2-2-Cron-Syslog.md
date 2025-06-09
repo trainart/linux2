@@ -19,7 +19,7 @@ But `root` has more than one variant to schedule periodic job.
 
 ![img_1.png](images/crontab-etc.png)
 
-> NOTE! `username` field is specific for thei file only !
+> NOTE! `username` field is specific for this file only !
 
 
 2. fixed directories:
