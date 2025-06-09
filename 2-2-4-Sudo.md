@@ -71,6 +71,13 @@ tail -2 /etc/sudoers
 որպես նոր ֆայլ `/etc/sudoers.d` դիրեկտորիայի մեջ:
 
 
+Բոլոր կարգավորումները կարելի է ստուգել հետևյալ հրամանով
+
+```bash
+visudo -c
+```
+
+
 
 `/etc/sudoers`-ի հիմնական հատվածի կառուցվածք.
 
@@ -107,6 +114,10 @@ echo "%devops         ALL=(ALL)  NOPASSWD: ALL"     >> /etc/sudoers.d/devopsgrp
 Ստուգենք.
 
 ```bash
+visudo -c
+```
+
+```bash
 su - devopusr1
 ```
 
@@ -136,6 +147,11 @@ echo "user2           ALL=(nobody,sshd)   NOPASSWD: /usr/bin/whoami, /usr/bin/to
 echo "user3           ALL=(root)          NOPASSWD: /usr/bin/id"     >> /etc/sudoers.d/user3
 ```
 
+
+```bash
+visudo -c
+```
+
 Ստուգեք տարբեր հրամաններ `user1`-ի, `user2`-ի, `user3`-ի անունից
 
 ```bash
@@ -157,4 +173,28 @@ sudo id
 ```bash
 sudo whoami
 ```
+
+
+Այժմ ստեղծենք սխալներով ֆայլեր
+
+```bash
+echo "ALL=ALL"     >> /etc/sudoers.d/err1
+```
+
+```bash
+echo "ALL=ALL"     >> /etc/sudoers.d/err2
+```
+
+Ստուգեք
+
+```bash
+visudo -c
+```
+
+> Չնայած այս դեպքում մնացած կարգավորումները պետք է աշխատեն,<br> 
+> `sudo` կարգավորումներում սխալներ ունենալը ռիսկային է,<br>
+> ուստի անհրաժեշտ է ստուգել ամեն ինչ, կամ միշտ օգտվել `visudo`-ից կարգավորումները խմբագրելու համար:<br>
+> Լրացուցրի ֆայլերը նույնպես կարելի է խմբագրել `visudo`-ով <br>
+> `visudo -f /etc/sudoers.d/err1`
+
 
