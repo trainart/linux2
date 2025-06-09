@@ -81,6 +81,7 @@ tail -2 /etc/sudoers
 `USER/GROUP` կարող է կատարել `COMMANDS` հրամանները (`RUNAS_USER:RUNAS_GROUP`-ի անունից) `HOST` սերվերների վրա
 
 Օրինակներ.
+(Այս կարգավորումները կան `/etc/sudoers` ֆայլում)
 
 <pre>
 root            ALL=(ALL:ALL)        ALL           # root-ը կարող է ամեն ինչ
@@ -90,26 +91,52 @@ root            ALL=(ALL:ALL)        ALL           # root-ը կարող է ամ�
 %wheel          ALL=(ALL)            ALL           # wheel խմբի անդամները կարող են ամեն ինչ
 </pre>
 
-Տեղծեք `devops` խումբ և ավելացրեք `user1`-ին այդտեղ:
-
-Այժմ ավելացրեք
-
-<pre>
-%devops         ALL=(ALL)  NOPASSWD: ALL           # devops խմբի անդամները կարող են ամեն ինչ առանց գաղտնաբառի
-</pre>
 
 
+Այժմ ավելցնենո նոր կարգավորումներ:
+Նախ ստեղծեք `devopusr1` օգտագործող և `devops` խումբ: 
+Ավելացրեք `devopusr1` օգտագործողին `devops` խումբ:
 
-<pre>
-user1           ALL=(ALL)           ALL
-user2           ALL=(nobody)        NOPASSWD: /usr/bin/id
-user3           ALL=(root)          NOPASSWD: /usr/bin/whoami, /usr/bin/touch, /usr/bin/id
-user3           ALL=(nobody,sshd)   NOPASSWD: /usr/bin/whoami, /usr/bin/touch, /usr/bin/id
-</pre>
+
+Այժմ ավելացրեք նոր կարգավորում, ըստ որի `devops` խմբի անդամները կարող են կատարել ամեն ինչ առանց գաղտնաբառի: 
+
+```bash
+echo "%devops         ALL=(ALL)  NOPASSWD: ALL"     >> /etc/sudoers.d/devopsgrp
+```
+
+Ստուգենք.
+
+```bash
+su - devopusr1
+```
+
+```bash
+sudo -l
+```
+
+```bash
+sudo id
+```
+
+```bash
+sudo su -
+```
+
+Ստեղծեք այլ օգտագործողներ
 
 ```bash
 useradd user1 ; useradd user2; useradd user3
 ```
+
+Ավելացրեք այլ կարգավորումներ.
+
+```bash
+echo "user1           ALL=(nobody)        NOPASSWD: /usr/bin/id"     >> /etc/sudoers.d/users123
+echo "user3           ALL=(root)          NOPASSWD: /usr/bin/whoami, /usr/bin/touch, /usr/bin/id"     >> /etc/sudoers.d/users123
+echo "user3           ALL=(nobody,sshd)   NOPASSWD: /usr/bin/whoami, /usr/bin/touch, /usr/bin/id"     >> /etc/sudoers.d/users123
+```
+
+Ստուգեք.
 
 ```bash
 su - user1
@@ -126,13 +153,4 @@ sudo id
 ```bash
 sudo whoami
 ```
-
-
-
-
-
-
-
-
-
 
