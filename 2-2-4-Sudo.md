@@ -100,12 +100,13 @@ root            ALL=(ALL:ALL)        ALL           # root-ը կարող է ամ�
 
 
 
-Այժմ ավելցնենո նոր կարգավորումներ:
+Այժմ ավելցնենք նոր կարգավորումներ:
+
 Նախ ստեղծեք `devopusr1` օգտագործող և `devops` խումբ: 
 Ավելացրեք `devopusr1` օգտագործողին `devops` խումբ:
 
 
-Այժմ ավելացրեք նոր կարգավորում, ըստ որի `devops` խմբի անդամները կարող են կատարել ամեն ինչ առանց գաղտնաբառի: 
+Ավելացրեք նոր կարգավորում, ըստ որի `devops` խմբի անդամները կարող են կատարել ամեն ինչ առանց գաղտնաբառի: 
 
 ```bash
 echo "%devops         ALL=(ALL)  NOPASSWD: ALL"     >> /etc/sudoers.d/devopsgrp ; chmod 440 /etc/sudoers.d/devopsgrp
@@ -144,7 +145,7 @@ useradd user1 ; useradd user2; useradd user3
 ```bash
 echo "user1           ALL=(nobody)        NOPASSWD: /usr/bin/touch"     >> /etc/sudoers.d/user1 ; chmod 440 /etc/sudoers.d/user1
 echo "user2           ALL=(nobody,sshd)   NOPASSWD: /usr/bin/whoami, /usr/bin/touch"     >> /etc/sudoers.d/user2 ;  chmod 440 /etc/sudoers.d/user2 
-echo "user3           ALL=(root)          NOPASSWD: /usr/bin/id"     >> /etc/sudoers.d/user3 ; chmod 440 /etc/sudoers.d/user3
+echo "user3           ALL=(root)          NOPASSWD: /usr/bin/id, /usr/bin/mkdir, /usr/bin/touch"     >> /etc/sudoers.d/user3 ; chmod 440 /etc/sudoers.d/user3
 ```
 
 
@@ -163,8 +164,13 @@ sudo -l
 ```
 
 ```bash
-sudo touch /opt/test.txt
+sudo touch /opt/testfile1
 ```
+
+```bash
+sudo mkdir /opt/dir1
+```
+
 
 ```bash
 sudo id
@@ -197,4 +203,25 @@ visudo -c
 > Լրացուցրի ֆայլերը նույնպես կարելի է խմբագրել `visudo`-ով<br> 
 > Արդյունքում նաև ֆայլերը մի անգամից կունենան `440` թույլտվությունը, ինչը նույնպես պահանջ է: <br>
 > `visudo -f /etc/sudoers.d/err3`
+
+# PRACTICE
+
+1. Ստեղծեք `project1` խումբ և `tester1` ու `tester2` օգտագործողներ: 
+
+Ավելացրեք `tester1` ու `tester2` օգտագործողներին `project1` խումբ:
+
+Ավելացրեք նոր կարգավորում `visudo -f /etc/sudoers.d/project1`, ըստ որի `project1` խմբի անդամները կարող են 
+կատարել միայն `/usr/bin/touch` հրամանը, միայն `root`-ի անունից, բայց մուտքագրելով սեփական գաղտնաբառը:
+
+
+2. Ստեղծեք `admin1` օգտագործող: 
+
+Ավելացրեք նոր կարգավորում `visudo -f /etc/sudoers.d/admin1`, ըստ որի `admin1` օգտագործողը կարող է մուտքագրելով սեփական գաղտնաբառը 
+կատարել հետևյալ հրամանները.
+
+* /usr/bin/mkdir
+* /usr/bin/touch
+* /usr/bin/id
+* /usr/bin/whoami 
+
 
