@@ -74,7 +74,7 @@ tail -2 /etc/sudoers
 
 `/etc/sudoers`-ի հիմնական հատվածի կառուցվածք.
 
-**USER/GROUP    HOST=(RUNAS_USER:RUNAS_GROUP)   COMMANDS**
+**USER/GROUP &nbsp;&nbsp;&nbsp;&nbsp;  HOST=(RUNAS_USER:RUNAS_GROUP)&nbsp;&nbsp;&nbsp;&nbsp;   COMMANDS**
 
 Բացատրություն.
 
