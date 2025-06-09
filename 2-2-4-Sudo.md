@@ -132,7 +132,7 @@ useradd user1 ; useradd user2; useradd user3
 
 ```bash
 echo "user1           ALL=(nobody)        NOPASSWD: /usr/bin/id"     >> /etc/sudoers.d/users123
-echo "user3           ALL=(root)          NOPASSWD: /usr/bin/whoami, /usr/bin/touch, /usr/bin/id"     >> /etc/sudoers.d/users123
+echo "user2           ALL=(root)          NOPASSWD: /usr/bin/whoami, /usr/bin/touch, /usr/bin/id"     >> /etc/sudoers.d/users123
 echo "user3           ALL=(nobody,sshd)   NOPASSWD: /usr/bin/whoami, /usr/bin/touch, /usr/bin/id"     >> /etc/sudoers.d/users123
 ```
 
