@@ -131,15 +131,19 @@ useradd user1 ; useradd user2; useradd user3
 Ավելացրեք այլ կարգավորումներ.
 
 ```bash
-echo "user1           ALL=(nobody)        NOPASSWD: /usr/bin/id"     >> /etc/sudoers.d/users123
-echo "user2           ALL=(root)          NOPASSWD: /usr/bin/whoami, /usr/bin/touch, /usr/bin/id"     >> /etc/sudoers.d/users123
-echo "user3           ALL=(nobody,sshd)   NOPASSWD: /usr/bin/whoami, /usr/bin/touch, /usr/bin/id"     >> /etc/sudoers.d/users123
+echo "user1           ALL=(nobody)        NOPASSWD: /usr/bin/touch"     >> /etc/sudoers.d/user1
+echo "user2           ALL=(nobody,sshd)   NOPASSWD: /usr/bin/whoami, /usr/bin/touch"     >> /etc/sudoers.d/user2
+echo "user3           ALL=(root)          NOPASSWD: /usr/bin/id"     >> /etc/sudoers.d/user3
 ```
 
-Ստուգեք.
+Ստուգեք տարբեր հրամաններ `user1`-ի, `user2`-ի, `user3`-ի անունից
 
 ```bash
 su - user1
+```
+
+```bash
+sudo -l
 ```
 
 ```bash
