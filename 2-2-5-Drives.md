@@ -127,6 +127,12 @@ In modern Linux systems, storage devices follow a predictable naming scheme:
 
 * `/dev/mmcblkX` - For SD cards/eMMC storage (e.g., `/dev/mmcblk0`)
 
+### Create new drives in VM
+
+Before in Virtualbox VM create 3 additional devices/drives
+
+After booting, they will be assigned new device names `/dev/sdb`, `/dev/sdc`, `/dev/sdd`)
+
 
 ### Tools to detect current Drives/Partitions:
 
