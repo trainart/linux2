@@ -99,20 +99,21 @@ root            ALL=(ALL:ALL)        ALL           # root-ը կարող է ամ�
 </pre>
 
 
+### PRACTICE
 
-Այժմ ավելցնենք նոր կարգավորումներ:
+Ավելցնենք նոր կարգավորումներ:
 
-Նախ ստեղծեք `devopusr1` օգտագործող և `devops` խումբ: 
-Ավելացրեք `devopusr1` օգտագործողին `devops` խումբ:
+1. Նախ ստեղծեք `devopusr1` օգտագործող և `devops` խումբ: 
 
+2. Ավելացրեք `devopusr1` օգտագործողին `devops` խումբ:
 
-Ավելացրեք նոր կարգավորում, ըստ որի `devops` խմբի անդամները կարող են կատարել ամեն ինչ առանց գաղտնաբառի: 
+3. Ավելացրեք նոր կարգավորում, ըստ որի `devops` խմբի անդամները կարող են կատարել ամեն ինչ առանց գաղտնաբառի: 
 
 ```bash
 echo "%devops         ALL=(ALL)  NOPASSWD: ALL"     >> /etc/sudoers.d/devopsgrp ; chmod 440 /etc/sudoers.d/devopsgrp
 ```
 
-Ստուգենք.
+4. Ստուգենք.
 
 ```bash
 visudo -c
@@ -134,13 +135,13 @@ sudo id
 sudo su -
 ```
 
-Ստեղծեք այլ օգտագործողներ
+5. Ստեղծեք այլ օգտագործողներ
 
 ```bash
 useradd user1 ; useradd user2; useradd user3
 ```
 
-Ավելացրեք այլ կարգավորումներ.
+6. Ավելացրեք այլ կարգավորումներ.
 
 ```bash
 echo "user1           ALL=(nobody)        NOPASSWD: /usr/bin/touch"     >> /etc/sudoers.d/user1 ; chmod 440 /etc/sudoers.d/user1
@@ -153,7 +154,7 @@ echo "user3           ALL=(root)          NOPASSWD: /usr/bin/id, /usr/bin/mkdir,
 visudo -c
 ```
 
-Ստուգեք տարբեր հրամաններ `user1`-ի, `user2`-ի, `user3`-ի անունից
+7. Ստուգեք տարբեր հրամաններ `user1`-ի, `user2`-ի, `user3`-ի անունից
 
 ```bash
 su - user1
@@ -181,7 +182,7 @@ sudo whoami
 ```
 
 
-Այժմ ստեղծենք սխալներով ֆայլեր
+8. Այժմ ստեղծենք սխալներով ֆայլեր
 
 ```bash
 echo "wrong syntax line"     >> /etc/sudoers.d/err1 ; chmod 440 /etc/sudoers.d/err1
@@ -191,7 +192,7 @@ echo "wrong syntax line"     >> /etc/sudoers.d/err1 ; chmod 440 /etc/sudoers.d/e
 echo "this line is another error"     >> /etc/sudoers.d/err2 ; chmod 440 /etc/sudoers.d/err2
 ```
 
-Ստուգեք
+9. Ստուգեք
 
 ```bash
 visudo -c
@@ -204,9 +205,8 @@ visudo -c
 > Արդյունքում նաև ֆայլերը մի անգամից կունենան `440` թույլտվությունը, ինչը նույնպես պահանջ է: <br>
 > `visudo -f /etc/sudoers.d/err3`
 
-# PRACTICE
 
-1. Ստեղծեք `project1` խումբ և `tester1` ու `tester2` օգտագործողներ: 
+10. Ստեղծեք `project1` խումբ և `tester1` ու `tester2` օգտագործողներ: 
 
 Ավելացրեք `tester1` ու `tester2` օգտագործողներին `project1` խումբ:
 
@@ -214,7 +214,7 @@ visudo -c
 կատարել միայն `/usr/bin/touch` հրամանը, միայն `root`-ի անունից, բայց մուտքագրելով սեփական գաղտնաբառը:
 
 
-2. Ստեղծեք `admin1` օգտագործող: 
+11. Ստեղծեք `admin1` օգտագործող: 
 
 Ավելացրեք նոր կարգավորում `visudo -f /etc/sudoers.d/admin1`, ըստ որի `admin1` օգտագործողը կարող է մուտքագրելով սեփական գաղտնաբառը 
 կատարել հետևյալ հրամանները.
