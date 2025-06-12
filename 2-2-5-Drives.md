@@ -127,6 +127,8 @@ In modern Linux systems, storage devices follow a predictable naming scheme:
 
 * `/dev/mmcblkX` - For SD cards/eMMC storage (e.g., `/dev/mmcblk0`)
 
+<br><br>
+
 ### Create new drives in VM
 
 Before in Virtualbox VM create 3 additional devices/drives
@@ -134,8 +136,9 @@ Before in Virtualbox VM create 3 additional devices/drives
 After booting, they will be assigned new device names `/dev/sdb`, `/dev/sdc`, `/dev/sdd`)
 
 
-### Tools to detect current Drives/Partitions:
+<br><br>
 
+### Tools to detect current Drives/Partitions:
 
 ```bash
 lsblk
@@ -166,6 +169,7 @@ dmesg | grep "\[sd"
 ```
 
 
+<br><br>
 
 ### Partition Table MBR / GPT 
 
@@ -214,6 +218,8 @@ Check partition table type
 ```bash
 fdisk -l /dev/sda | grep Disklabel
 ```
+
+<br><br>
 
 ### Partitioning and formatting/creating filesystem
 
@@ -314,6 +320,8 @@ and replace first item in `/etc/fstab` like: `UUID=182ecbac-dd36-4113-b019-58f18
 
 The advantage of using the UUID is that it is independent from the actual device number the operating system gives your hard disk. 
 
+<br><br>
+
 ### fsck - Finding and Repairing Filesystem Corruption.
 
 `fsck` is normally run at system startup. So it gets run automatically if the system was shut down uncleanly
@@ -328,21 +336,31 @@ Use `-f` to force checking the filesystem, even if fsck thinks it is clean.
 
 **Never run `fsck` on a mounted filesystem (unmount first).**
 
+
+<br><br>
+
 #### Simulate Disk Corruption and Fix
 
-Unmount & Corrupt Journal
+Unmount & Corrupt the Disk
 
 Unmount the partition (if mounted)
+
 ```bash
 umount /dev/sdb1
 ```
 
-Simulate a crash by clearing the journal
+Run `fsck` to see it is clean yet.
+
 ```bash
-tune2fs -O ^has_journal /dev/sdX1
+fsck -y /dev/sdb1
 ```
 
-This makes ext4 think the filesystem was uncleanly unmounted.
+Intentionally simulate corruption of the disk by overwriting a specific sector with zeros.
+(This is for training only. Be careful not to do this on real devices with the data !!! )
+
+```bash
+dd if=/dev/zero of=/dev/sdb1 bs=512 count=1 seek=10
+```
 
 Now run `fsck` 
 
