@@ -354,7 +354,7 @@ Now do the same yourself
 * Create directory `/WORK2`
 * Mount there manually
 * Check
-* Configure to mount after reboot
+* Configure to mount after reboot (with `UUID`)
 
 
 
