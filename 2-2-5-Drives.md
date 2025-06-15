@@ -194,13 +194,13 @@ Example
 
 <pre>
 
-🖴 Disk: /dev/sda (500GB, MBR)
-├── /dev/sda1 (Primary) → 200GB → / (Root FS)
-├── /dev/sda2 (Primary) → 100GB → /home
-├── /dev/sda3 (Extended) → 150GB → [Container for logical partitions]
-│   ├── /dev/sda5 (Logical) → 50GB → /var
-│   └── /dev/sda6 (Logical) → 100GB → /tmp
-└── /dev/sda4 (Primary) → 50GB → [Swap]
+🖴 Disk: /dev/sda (MBR)
+├── /dev/sda1 (Primary) → / (Root Filesystem)
+├── /dev/sda2 (Primary) → /home
+├── /dev/sda3 (Extended) → [Container for logical partitions]
+│   ├── /dev/sda5 (Logical) → /var
+│   └── /dev/sda6 (Logical) → /tmp
+└── /dev/sda4 (Primary) → [Swap]
 
 </pre>
 
@@ -231,7 +231,7 @@ fdisk -l /dev/sda | grep Disklabel
 
 ### Partitioning and formatting/creating filesystem
 
-Partitioning is done with tools like `fdisk`, `cfdisk`, `parted`, `gdisk` 
+Partitioning is done with tools like `fdisk`, `cfdisk`, `parted`
 (partitions get new device names with numbers at the end: `/dev/sdb1`, `/dev/sdb2`)
 
 Turn off your VM, create new device in VirtualBox and then start VM again
@@ -241,7 +241,9 @@ You should see it via
 lsblk
 ```
 
-Now you can create a partition and then filesystem
+Now you can create a partition and then filesystem (format).
+
+#### Create a partitions
 
 ```bash
 fdisk /dev/sdb
@@ -252,15 +254,26 @@ fdisk /dev/sdb
 * Write changes with `w`
 * Exit with `q`
 
+<br><br>
 
 Other way is
 ```bash
 /sbin/cfdisk /dev/sdb
 ```
 
+Create 2 equal partitions:
+* /dev/sdb1
+* /dev/sdb2
 
-Filesystem creation (formatting) is done with `mkfs` 
-(<Tab><Tab> after `mkfs` to see installed variants.
+
+#### Create filesystem (format)
+
+
+Filesystem creation (formatting) is done with command <br>
+`mkfs` 
+
+Type `mkfs` and then `<Tab><Tab>` after it, to see installed variants.
+
 
 
 ```bash
@@ -331,6 +344,19 @@ and replace first item in `/etc/fstab` like: `UUID=182ecbac-dd36-4113-b019-58f18
 The advantage of using the UUID is that it is independent from the actual device number the operating system gives your hard disk. 
 
 <br><br>
+
+
+### PRACTICE
+
+Now do the same yourself
+
+* Format `/dev/sdb2` with `xfs` (`mkfs.xfs`)
+* Create directory `/WORK2`
+* Mount there manually
+* Check
+* Configure to mount after reboot
+
+
 
 ### fsck - Finding and Repairing Filesystem Corruption.
 
