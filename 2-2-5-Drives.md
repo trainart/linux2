@@ -131,10 +131,9 @@ In modern Linux systems, storage devices follow a predictable naming scheme:
 
 ### Create new drives in VM
 
-Before in Virtualbox VM create 3 additional devices/drives
+Before starting VM in Virtualbox, create 3 additional devices/drives. 
 
 After booting, they will be assigned new device names `/dev/sdb`, `/dev/sdc`, `/dev/sdd`)
-
 
 <br><br>
 
@@ -173,6 +172,12 @@ dmesg | grep "\[sd"
 
 ### Partition Table MBR / GPT 
 
+Any system should boot from some storage device into RAM in order to start.
+
+Booting process:
+* BIOS (Basic Input/Output System)/UEFI (Unified Extensible Firmware Interface)
+* MBR (Master Boot Record) / GPT (GUID Partition Table)
+
 A partition table is a critical data structure on a storage device (HDD, SSD, USB, etc.) 
 that defines how the disk is logically divided into multiple logical sections (**partitions**, also called **volumes**).
 
@@ -183,6 +188,9 @@ Example of MBR-based partition table.
 
 You can have maximum 4 Primary Partitions in MBR
 If you need more you should create "Extended" -> "Logical"
+
+
+Example
 
 <pre>
 
@@ -197,7 +205,7 @@ If you need more you should create "Extended" -> "Logical"
 </pre>
 
 
-GPT (GUID Partition Table), the modern alternative to MBR
+#### GPT (GUID Partition Table), the modern alternative to MBR
 
 Key Improvements in GPT over MBR:
 
@@ -206,8 +214,8 @@ Key Improvements in GPT over MBR:
   * GPT: Up to 9.4 ZB (zettabytes)
 
 * More Partitions:
-  * MBR: 4 primary (or 3 primary + 1 extended)
-  * GPT: 128 standard (but can be increased)
+  * MBR: 4 primary (or 3 primary + other extended)
+  * GPT: 128 primary/standard (but can be increased)
 
 * Data Redundancy:
   * GPT maintains backup header and partition table at disk end
@@ -299,6 +307,8 @@ mount  -a
 
 `-a` option mounts ALL from `/etc/fstab`
 
+> System may say you need to run also `systemctl daemon-reload`
+
 Check
 
 ```bash
@@ -367,8 +377,6 @@ Now run `fsck`
 ```bash
 fsck -y /dev/sdb1
 ```
-
-
 
 
 
