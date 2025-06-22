@@ -18,7 +18,9 @@ During running, shell scripts have access to special data from the environment:
 * **$*** - all arguments/positional parameters as one
 * **$#** - count/number of arguments/positional parameters
 
+
 Command substitution:
+
 * **$()** or **\`   \`**
 
 
@@ -80,39 +82,137 @@ Example:
 ![img.png](images/elephant.png)
 
 
-## Variables - Local & Global
+## Exported Variables vs All Variables
 
 <br><br>
 
 When you work in shell, there are already many defined shell variables.
 
-**Global variables** (also called **environment variables**) - available to all shells. 
-The `env` or `printenv` commands can be used to display environment variables. 
+**Exported variables** (also called **environment variables**) are available both in the current shell 
+**and child processes**
 
-**Local variables** are visible only within the block of code.  
-Using the `set` built-in command without any options will display a list of all variables 
-(including environment variables) and functions.  
+To display environment variables, we can use command:
 
-In a function, a local variable has meaning only within that function block. 
+```bash
+env
+```
+
+But **not all** variables are exported. Some variables are available only within the current shell (not exported to child processes).
+To see **ALL** variables we can use command:
+
+```bash
+set
+```
+
+To see difference, let's try examples.
 
 ```bash
 set | grep HIST
 ```
 
 ```bash
-set | grep NAME
+env | grep HIST
+```
+
+We may see some differences depending on the configuration in the Linux Distribution and version.
+
+
+```bash
+set | grep PS
 ```
 
 ```bash
-env | grep NAME
+env | grep PS
+```
+
+We see that **PS1**, **PS2**,... are **not exported** to child processes (because child shells/processes don’t need the parent’s prompt settings).
+
+
+### PS1 & PS2 
+
+1. `PS1` (Primary Prompt)
+
+    Controls your main shell prompt (what you see before typing commands).
+
+    Default setting is: `\u@\h:\w\$ ` (`username`@`host`:`current_dir`$)
+
+You can change PS1 just by defining another value for it.
+Below we define colorized prompt:
+
+```bash
+PS1="\e[32m\u@\e[34m\h:\e[33m\w\$\e[0m "  
+```
+
+You can change `PS1` again:
+
+```bash
+PS1="[Մուտքագրեք հրաման] " 
+```
+
+And you can set it back to default:
+
+```bash
+PS1="\u@\h:\w\$ "
+```
+
+
+2. `PS2` (Continuation Prompt)
+
+    Appears when a command is incomplete on first line or spans multiple lines (e.g., after \ or incomplete syntax).
+
+    Default setting is: `> `
+
+3. You can change `PS2` just by defining another value for it:
+
+```bash
+PS2="↪ "  # Custom continuation prompt
+```
+
+Now type some incomplete command like `"` and hit <Enter>
+
+
+You can change `PS2` again:
+
+```bash
+PS2="[Ավարտեք հրամանը] "  # Another custom continuation prompt
+```
+And you can set it back to default:
+
+```bash
+PS2="> "
 ```
 
 
 
 ## Functions
 
-We see that in above code we add the same part for checking 1st parameter, then 2nd.
-In case we don't want to repeat the same code twice, we can create a **function**.
+Shell/Bash **function** is a reusable block of code that performs a specific task. 
+It helps avoid code repetition. Write once, use many times.
+
+Examples
+
+```bash
+greet() { echo "Hello dear, $1 !"; }
+```
+
+> Here you may understand that INSIDE function **$1** means NOT 
+> first parameter of the script, but first parameter of that function
+
+
+Check we have that function:
+
+```bash
+set | grep -A3 greet  # -A3 option causes grep to show also next 3 lines after matching pattern
+```
+
+Now test:
+
+```bash
+greet "Art"
+```
+
+
+Let us create the Shell script with function:
 
 ```bash
 cat  > ~/f1  << "EOF1"
@@ -155,11 +255,16 @@ chmod +x ~/f1
 
 ```
 
-You can see that the above script `f1' works the same way as 'c1',
-but here we define and use function **isnumber**.
+You can see that in the above script `f1` we define and use function **isnumber**.
+
+Try it:
+
+```bash
+f1
+```
 
 
-Other example of function
+Other example of function in script
 
 ```bash
 cat > ~/f2 << "EOF1"
@@ -179,14 +284,12 @@ chmod +x ~/f2
 
 ```
 
-> Here you may understand that INSIDE function **$1** means NOT 
-> first parameter of the script, but first parameter of that function
 
 Now notice that in last 2 lines only first word is printed.
 Why?
 
 **Task: Modify the script to print complete lines.**
-**HINT: you need to use something else than '$1'** 
+**HINT: you may just add quotes, but try other solution - use something else than `$1`** 
 
 
 ## Sourcing Scripts
@@ -261,7 +364,7 @@ chmod +x ~/f11
 
 ```
 
-Note we didn't made `f11-s1` and `f11-s2` executable, because they will not be called directly.
+> NOTE: We didn't made `f11-s1` and `f11-s2` executable, because they will not be called directly.
 
 
 ## Conditionals - Case
