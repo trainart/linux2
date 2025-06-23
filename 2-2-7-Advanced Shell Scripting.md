@@ -170,14 +170,15 @@ Example:
 echo $HISTCONTROL
 ```
 
+Following will work differently depending on the above setting.
 
 ```bash
 pwd
-pwd         # Duplicate - won't be saved
- whoami  # Prefixed with space - won't be saved
+pwd         # Duplicate 
+ whoami  # Prefixed with space 
 ```
 
-Now if you go to command history with up arrow, you will see only one `pwd`
+Now check the command history with up arrow.
 
 
 * HISTFILE 
