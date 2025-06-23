@@ -174,9 +174,17 @@ Following will work differently depending on the above setting.
 
 ```bash
 pwd
+```
+
+```bash
 pwd         # Duplicate 
+```
+
+```bash
  whoami  # Prefixed with space 
 ```
+
+
 
 Now check the command history with up arrow.
 
