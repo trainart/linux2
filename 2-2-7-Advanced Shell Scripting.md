@@ -164,15 +164,45 @@ We may see some differences depending on the configuration in the Linux Distribu
       * `ignoredups`: Don’t save consecutive duplicates. 
       * `ignoreboth`: Apply both rules above.
 
+Example:
+
+```bash
+echo $HISTCONTROL
+```
+
+
+```bash
+pwd
+pwd         # Duplicate - won't be saved
+ whoami  # Prefixed with space - won't be saved
+```
+
+Now if you go to command history with up arrow, you will see only one `pwd`
+
+
 * HISTFILE 
   * Path to the file where command history is saved (default: `~/.bash_history`).
 
+```bash
+echo "Current history file: $HISTFILE"
+```
+
+
 * HISTFILESIZE 
-  * Maximum number of lines allowed in HISTFILE (truncates old entries when exceeded).
+  * Maximum number of lines allowed in `$HISTFILE` (truncates old entries when exceeded).
+
+
+```bash
+echo "Current number of lines in history file $HISTFILE is: $(wc -l < $HISTFILE), it will never exceed $HISTFILESIZE"
+```
+
 
 * HISTSIZE 
-  * Number of commands kept in memory for the current session (does not affect HISTFILE).
+  * Number of commands kept in memory for the current session (does not affect `HISTFILE`).
 
+```bash
+echo "Current history lines is: $(history | wc -l)", it will never exceed $HISTSIZE
+```
 
 
 
