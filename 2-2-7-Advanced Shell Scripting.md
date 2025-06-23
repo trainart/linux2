@@ -361,7 +361,16 @@ You can see that in the above script `f1` we define and use function **isnumber*
 Try it:
 
 ```bash
-f1
+./f1 5 6
+```
+
+
+```bash
+./f1 5 5
+```
+
+```bash
+./f1 55 6
 ```
 
 
