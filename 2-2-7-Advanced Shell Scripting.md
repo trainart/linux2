@@ -339,13 +339,17 @@ b=${2}
 isnumber $a
 isnumber $b
 
-if [ $a -lt $b ]
+if [ "$a" -lt "$b" ]
 then
-        echo "$a < $b"
+    echo "$a < $b"
+elif [ "$a" -eq "$b" ]
+then
+    echo "$a == $b"
 else
-        echo "$a > $b"
-
+    echo "$a > $b"
 fi
+
+
 
 EOF1
 chmod +x ~/f1
