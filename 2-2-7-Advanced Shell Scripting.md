@@ -15,20 +15,56 @@ During running, shell scripts have access to special data from the environment:
 * **$1** or **${1}** - The first argument/positional parameter sent to the script 
 * **$2** or **${2}** - The second argument/positional parameter sent to the script
 ...
-* **$*** - all arguments/positional parameters as one
+
+
+* **$\*** - all arguments/positional parameters as one
 * **$#** - count/number of arguments/positional parameters
 
 
-Command substitution:
+#### Command substitution
 
-* **$()** or **\`   \`**
+Command substitution lets you use a command's output as an argument for another command. 
 
+There are two syntaxes:
+
+
+1. **\` \`** - Old way 
+
+Example:
+
+```bash
+echo "I am user: `whoami`"
+```
+
+2. **$()** - Modern way
+
+Example:
+
+```bash
+echo "Today is $(date)"
+```
+
+Modern way supports nested use.
+
+```bash
+cd /usr/sbin ; echo "There are $(ls -a $(pwd) | wc -l) files in $(pwd) directory"
+```
+
+```bash
+cd /usr/bin ; echo "There are $(ls -a $(pwd) | wc -l) files in $(pwd) directory"
+```
+
+```bash
+cd  ; echo "There are $(ls -a $(pwd) | wc -l) files in $(pwd) directory"
+```
 
 
 > NOTICE: Below we use do 2 things to create some script:
 > 1. we use method called _Here document_ to create the script 
 > 2. then we make it executable with `chmod`
-> 
+
+
+
 ### Example with Variables
 
 The following script creates a variable called **NAME** and assigns the value "HELLO STUDENT".
@@ -104,6 +140,9 @@ To see **ALL** variables we can use command:
 set
 ```
 
+
+### Shell History related variables
+
 To see difference, let's try examples.
 
 ```bash
@@ -117,6 +156,29 @@ env | grep HIST
 We may see some differences depending on the configuration in the Linux Distribution and version.
 
 
+
+* HISTCONTROL 
+  * Controls how commands are saved in history. 
+    * Key settings:
+      * `ignorespace`: Skip commands starting with a space. 
+      * `ignoredups`: Don’t save consecutive duplicates. 
+      * `ignoreboth`: Apply both rules above.
+
+* HISTFILE 
+  * Path to the file where command history is saved (default: `~/.bash_history`).
+
+* HISTFILESIZE 
+  * Maximum number of lines allowed in HISTFILE (truncates old entries when exceeded).
+
+* HISTSIZE 
+  * Number of commands kept in memory for the current session (does not affect HISTFILE).
+
+
+
+
+### PS1 & PS2 
+
+
 ```bash
 set | grep PS
 ```
@@ -125,18 +187,15 @@ set | grep PS
 env | grep PS
 ```
 
+
 We see that **PS1**, **PS2**,... are **not exported** to child processes (because child shells/processes don’t need the parent’s prompt settings).
 
 
-### PS1 & PS2 
+* `PS1` (Primary Prompt)
+  * Controls your main shell prompt (what you see before typing commands). 
+  * Default setting is: `\u@\h:\w\$ ` (`username`@`host`:`current_dir`$)
 
-1. `PS1` (Primary Prompt)
-
-    Controls your main shell prompt (what you see before typing commands).
-
-    Default setting is: `\u@\h:\w\$ ` (`username`@`host`:`current_dir`$)
-
-You can change PS1 just by defining another value for it.
+You can change `PS1` just by defining another value for it.
 Below we define colorized prompt:
 
 ```bash
@@ -156,13 +215,12 @@ PS1="\u@\h:\w\$ "
 ```
 
 
-2. `PS2` (Continuation Prompt)
-
-    Appears when a command is incomplete on first line or spans multiple lines (e.g., after \ or incomplete syntax).
-
-    Default setting is: `> `
-
-3. You can change `PS2` just by defining another value for it:
+* `PS2` (Continuation Prompt)
+  * Appears when a command is incomplete on first line or spans multiple lines (e.g., after `\` or incomplete syntax). 
+  * Default setting is: `> `
+  
+  
+You can change `PS2` just by defining another value for it:
 
 ```bash
 PS2="↪ "  # Custom continuation prompt
@@ -208,7 +266,7 @@ set | grep -A3 greet  # -A3 option causes grep to show also next 3 lines after m
 Now test:
 
 ```bash
-greet "Art"
+greet "Linux Student"
 ```
 
 
