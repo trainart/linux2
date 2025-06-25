@@ -416,7 +416,7 @@ Example of sourcing can be found in `~/.bashrc`
 cat ~/.bashrc
 ```
 
-### Example 1: Variables 
+### Source Example 1: Variables 
 
 ```bash
 cat  > ~/sourced-1.sh  << "EOFs1"
@@ -466,7 +466,7 @@ Try running it
 
 You will see variable `$MY_VAR` is there (included from sourced file).
 
-### Example 2: Functions
+### Source Example 2: Functions
 
 The same can be done for Functions
 
