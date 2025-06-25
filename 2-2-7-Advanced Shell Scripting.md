@@ -528,21 +528,21 @@ cat  > ~/case1  << "END777"
 case "$1" in
 
 'start')
-echo "Starting ..."
+echo "Starting example process..."
 sleep 2
-echo "Started ..."
+echo "Started example process..."
 ;;
 
 'stop')
-echo "Stopping ..."
+echo "Stopping example process..."
 sleep 2
-echo "Stopped ..."
+echo "Stopped example process.."
 ;;
 
 'restart')
-echo "Restarting ..."
+echo "Restarting example process..."
 sleep 2
-echo "Restarted ..."
+echo "Restarted example process..."
 ;;
 
 *)
