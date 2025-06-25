@@ -404,77 +404,114 @@ Why?
 
 ## Sourcing Scripts
 
-Sourcing script means including one script into another
 
-It may be useful if you have a code block you may want to: 
-* separate or 
-* use in multiple scripts
+When you run a script (e.g., `./script.sh` or `bash script.sh`), it executes in a **subshell**. 
+Any variables or functions created in the script won't be available in your current shell session after the script finishes.
 
-Simple example of it is in `~/.bashrc`
+When you source a script (e.g., `. script.sh` or `source script.sh`), it runs in the **current shell** context. 
+Any variables or functions defined in the script will persist in your current shell session after sourcing.
+
+Example of sourcing can be found in `~/.bashrc`
 ```bash
 cat ~/.bashrc
 ```
 
-Here we see sourcing is used multiple times like:
-```bash
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
-```
-
-Let's separate two blocks in above `f1` script and source them.
+### Example 1: Variables 
 
 ```bash
-cat  > ~/f11-s1  << "EOFs1"
-if [[ $# < 2 ]]
-then
-  echo "Please provide 2 numbers as parameters"
-  echo "Usage: $0 num1, num2 ..."
-exit
-fi
-EOFs1
-
-cat  > ~/f11-s2  << "EOFs2"
-isnumber () 
-{ 
-if [ $1 -eq $1 2>/dev/null ]
-then
-echo -n
-else
-echo "$1 not number"
-exit
-fi
-}
-EOFs2
-
-
-cat  > ~/f11  << "EOF1"
+cat  > ~/sourced-1.sh  << "EOFs1"
 #!/bin/bash
-
-. ~/f11-s1
-
-. ~/f11-s2
-
-a=${1}
-b=${2}
-
-isnumber $a
-isnumber $b
-
-if [ $a -lt $b ]
-then
-        echo "$a < $b"
-else
-        echo "$a > $b"
-
-fi
-
-EOF1
-chmod +x ~/f11
-
+MY_VAR="Hello from the script"
+EOFs1
+chmod +x ~/sourced-1.sh
 ```
 
-> NOTE: We didn't made `f11-s1` and `f11-s2` executable, because they will not be called directly.
+Try running it
+
+```bash
+~/sourced-1.sh
+```
+
+Now check the variable `$MY_VAR` after that
+
+```bash
+echo $MY_VAR
+```
+
+You will see variable `$MY_VAR` is empty.
+
+Now let us do another way.
+Create another file (**NOTE: we do not need to make it executable !**)
+
+```bash
+cat  > ~/sourced-2.sh  << "EOFs2"
+MY_VAR="Hello from the script"
+EOFs2
+```
+
+And the script where it will be sourced
+
+```bash
+cat  > ~/s2.sh  << "EOF2"
+. ~/sourced-2.sh
+echo $MY_VAR
+EOF2
+```
+
+Try running it
+
+```bash
+~/s2.sh
+```
+
+You will see variable `$MY_VAR` is there (included from sourced file).
+
+### Example 2: Functions
+
+The same can be done for Functions
+
+```bash
+cat  > ~/sourced-3.sh  << "EOFs3"
+#!/bin/bash
+say_hi() {
+    echo "Hi, $1!"
+}
+EOFs3
+chmod +x ~/sourced-3.sh
+```
+
+Try running it
+
+```bash
+~/sourced-3.sh
+```
+
+Call the function `say_hi` after that. 
+You will get error.
+
+```bash
+say_hi "Linux Student"
+```
+
+But if you source it in another script
+
+```bash
+cat  > ~/s3.sh  << "EOF3"
+. ~/sourced-3.sh
+say_hi "Linux Student"
+EOF3
+chmod +x ~/s3.sh
+```
+
+It will be available there
+
+```bash
+~/s3.sh
+```
+
+#### PRACTICE
+Change the ~/s3.sh script to output first argument instead of "Linux Student"
+
 
 
 ## Conditionals - Case
