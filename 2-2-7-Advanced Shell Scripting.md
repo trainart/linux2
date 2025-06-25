@@ -556,7 +556,7 @@ chmod +x ~/case1
 ```
 
 
-Another case example 
+Another `case` example with `while` loop
 
 ```bash
 cat  > ~/case2  << "END777"
@@ -569,6 +569,7 @@ echo "(q - to finish)."
 while true
 do
 read month
+
 case $month in
 February|feb)
 echo "28/29 days in $month.";;
@@ -592,6 +593,7 @@ chmod +x ~/case2
 
 
 ## Loops
+
 Count factorial of a number (with `for` loop)
 
 ```bash
@@ -609,7 +611,6 @@ chmod +x ~/loop3
 
 ```
 
-**Task: Add here the check if positional parameter is number and exit if it is not given (you may `source` parts of previous scripts).**
 
 <br><br>
 
@@ -632,7 +633,10 @@ chmod +x ~/loop4
 
 ```
 
-**Task: Add here the check if positional parameter is number and exit if it is not given (you may `source` parts of previous scripts)**
+#### PRACTICE
+
+Add to above scripts the check if positional parameter is number and exit if it is not given 
+(HINT: you may create separet file with function `isnumber` from previous scripts and then `source` it).
 
 <br><br>
 
@@ -664,7 +668,7 @@ then echo "Usage: $0 num1, num2 ..."
 exit 
 fi 
 (( m= 0 )) 
-isnumber () 
+isnumber2 () 
 { 
 if [ $1 -eq $1 2>/dev/null ] 
 then  
@@ -679,7 +683,7 @@ fi
 (( sum=0 )) 
 for i in $* 
 do 
-if  isnumber $i 
+if  isnumber2 $i 
 then  
 ((sum+=$i)) 
 fi 
@@ -697,7 +701,14 @@ Run with non digit argument
 ```bash
 ./aver  5 8 13 77 AAA
 ```
-**Task: Modify the above script not to exit in case of non digit argument. _HINT: you need to avoid script exiting on that error. This can be done in several ways either commenting appropriate line or changing it to `return` command:_**
+
+
+#### PRACTICE
+
+Modify the above script not to exit in case of non digit argument.
+
+(HINT: you need to avoid script exiting on that error. This can be done in several ways either commenting appropriate line or changing it to `return` command:)
+
 
 <br><br>
 
@@ -724,7 +735,11 @@ chmod +x ~/sumd
 
 ```
 
-**Task: Add here the check if positional parameter is number and exit if it is not given (you may `source` parts of previous scripts).**
+#### PRACTICE 
+
+Add here the check if positional parameter is number and exit if it is not given 
+(you may `source` parts of previous scripts).
+
 
 <br><br>
 
@@ -732,7 +747,7 @@ chmod +x ~/sumd
 
 <br><br>
 
-#### Advanced Text Processing - AWK 
+### Advanced Text Processing - AWK 
 
 > **AWK**  - extract sections/fields from each line of files
 
@@ -755,12 +770,14 @@ cat /etc/passwd | grep -E ^'(b|sy)' | awk -F":" '{print "User: "$3"  "$1}'
 cat /etc/passwd | awk -F":" '/nologin$/ {print $1"-"$5}'
 ```
 
-**Task:Modify the above command, to narrow selection by only lines starting with 's'** 
+#### PRACTICE
+
+Modify the above command, to narrow selection by only lines starting with 's'
 
 
 <br><br>
 
-#### Advanced Text Processing – SED 
+### Advanced Text Processing – SED 
 
 Sed is a very useful **S**tream **ED**itor.  
 It's ideal for batch-editing files or for creating shell scripts to modify existing files in powerful ways. 
@@ -815,8 +832,12 @@ or **\\|** <br>
 to be deleted/removed from output, 
 other lines will be present in output. 
 
-**Task: Modify the above command, to remove also lines starting with '$'** 
+#### PRACTICE
 
+Modify the above command, to remove also lines starting with '$'
+
+
+<br><br>
 
 Generate a log file with 200 numbered lines.
 (here `s/^/.../` is a `sed` substitution that matches the **start of each line** (**^**) and adds text `Log line number` there)
