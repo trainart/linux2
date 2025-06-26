@@ -779,25 +779,126 @@ Modify the above command, to narrow selection by only lines starting with 's'
 
 ### Advanced Text Processing – SED 
 
-Sed is a very useful **S**tream **ED**itor.  
-It's ideal for batch-editing files or for creating shell scripts to modify existing files in powerful ways. 
-It's rather complex for quick full understanding, so below are only few use cases.
+`sed` is a very useful **S**tream **ED**itor.  
+
+It performs basic text transformations on an input stream (a file or input from a pipeline). 
+
+It works line by line and is especially useful for:
+
+* Substitute (replace) pattern  
+* Output specific lines
+* Delete specific lines
+* Inserting/appending text 
+* Multiple edits in one pass
+
+* `sed` is rather complex for quick full understanding, so below are only basic use cases.
+
+#### Substitute (replace) pattern
 
 One of sed's most useful commands is the _**substitution**_ command. 
+When you prefix `sed` patterns with `s` it substitutes pattern.
 
-Following command takes a stream from pipe and replaces first occurrence of `:` on each line to `<*>`: 
 
-```bash
-cat /etc/passwd | sed -e 's/:/<*>/'
-```
 
-To replace all occurrences we should add `g` to make replacement global: 
+Following command output will be with "Unix" replaced by "Linux" 
 
 ```bash
-cat /etc/passwd | sed -e 's/:/<*>/g' 
+echo "Welcome Unix Student ! Bye Unix Student" | sed 's/Unix/Linux/'
 ```
 
-Another useful examples with SED: 
+Note that it replaced only first occurrence
+
+To replace all occurences on each line we should add 'g' (global) at the end
+
+
+```bash
+echo "Welcome Unix Student ! Bye Unix Student" | sed 's/Unix/Linux/g'
+```
+
+<br><br>
+
+`sed` also can do **multiple** changes in a line. We can add `-e` option for each pattern.
+
+Below example will replace only first occurence of:
+
+```bash
+echo "Welcome Unix Student ! Bye bye Unix Student" | sed -e 's/Unix/Linux/' -e 's/Student/Friend/'
+```
+
+Next example replaces all patterns in line
+
+```bash
+echo "Welcome Unix Student ! Bye bye Unix Student" | sed -e 's/Unix/Linux/g' -e 's/Student/Friend/g'
+```
+
+<br><br>
+
+With `sed` we can add some text at the beginning or the end of each line.
+
+Below example will generate a simulated log file with 200 numbered lines.
+(here `s/^/.../` is a `sed` substitution that matches the **start of each line** (**^**) 
+and adds text `Log line number` there)
+
+Output will go to `archive.log`
+
+```bash
+seq 1 200 | sed 's/^/Log line number /' > archive.log
+```
+
+Check 
+
+```bash
+cat archive.log
+```
+
+
+Let us replace `number ` with `#` and write output in `archive2.log`
+```
+
+
+```bash
+sed 's/number /#/' archive.log > archive2.log
+```
+
+Check 
+
+```bash
+cat archive2.log
+```
+
+#### Delete specific lines
+
+
+Below we filter lines from `archive.log` file and output only those not containing
+`1`, `2`, `6`, `7`, `8`, `9` 
+
+
+```bash
+sed -e '/1/d' -e '/2/d' -e '/6/d' -e '/7/d' -e '/8/d' -e '/9/d' archive.log
+```
+
+
+Remove comments (lines starting with '#' - `^#`) and empty lines `^$` from output:  
+
+```bash
+sed -e '/^#/d' -e '/^$/d' /etc/rsyslog.conf
+```
+
+**d** at the end deletes from output: <br>
+**^#** - lines starting with **#** <br>
+**^$** - empty lines (**^**- line start, **$** - line end) 
+other lines will be present in output. 
+
+##### PRACTICE
+
+Modify the above command, to remove also lines starting with '$'
+
+
+<br><br>
+
+
+#### Output only specific lines
+
 
 Output lines `5-7` 
 
@@ -819,30 +920,9 @@ sed '1,20d' /etc/group
 `1-20` to be deleted/removed from output, 
 other lines will be present in output 
 
-Remove comments (lines starting with '#' - `^#`) and empty lines `^$` from output:  
-
-```bash
-sed '/^#\|^$/d' /etc/rsyslog.conf
-```
-
-**d** command causes specified lines: <br>
-**^#** - starting with **#** <br>
-or **\\|** <br>
-**^$** - empty line (**^**- line start, **$** - line end) 
-to be deleted/removed from output, 
-other lines will be present in output. 
-
-#### PRACTICE
-
-Modify the above command, to remove also lines starting with '$'
 
 
-<br><br>
 
-Generate a log file with 200 numbered lines.
-(here `s/^/.../` is a `sed` substitution that matches the **start of each line** (**^**) and adds text `Log line number` there)
 
-```bash
-seq 1 200 | sed 's/^/Log line number /' > archive.log
-```
+
 
