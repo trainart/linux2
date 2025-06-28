@@ -301,43 +301,6 @@ systemctl cat sshd
 systemctl cat crond
 ```
 
-#### Enable additional terminal configuration
-
-After Linux system boots by default it enables about 6 terminal sessions on F1-F6 keys.
-
-But we can add new terminal sessions.
-
-For example, to immediately start new terminal on F12 run
-
-```bash
-systemctl start getty@tty12.service
-```
-
-Now try to login from `F12` terminal and after login type `w` or `tty`, to see your terminal name.
-
-
-But the above will not remain after reboot.
-
-We can enable that service
-
-```bash
-systemctl enable getty@tty12.service
-```
-
-Or we can do both at the same time.
-Below will enable and immediately start new terminal on F10 run
-
-```bash
-systemctl enable --now getty@tty10.service
-```
-
-
-> Other way is to configure `systemd-logind` process, that manages user logins. 
-> If we want more virtual terminals we can edit `/etc/systemd/logind.conf` and add or modify line:
-> `NAutoVTs=12`, which will enable terminal to all F1-F12 keys.
-
-
-
 ### PRACTICE
 
 Create you own startup test service, that will run for `multi-user.target`.
@@ -413,7 +376,6 @@ You should see **one more line** from last startup.
 ```bash
 cat /var/log/startuptest.log
 ```
-
 
 &nbsp;
 &nbsp;
@@ -531,4 +493,43 @@ Important Notes:
 * Test changes before rebooting (use grep as shown above).
 
 * For kernel arguments, modify `GRUB_CMDLINE_LINUX` in `/etc/default/grub`.
+
+
+
+
+#### BONUS - Enable additional terminal configuration
+
+After Linux system boots by default it enables about 6 terminal sessions on F1-F6 keys.
+
+But we can add new terminal sessions.
+
+For example, to immediately start new terminal on F12 run
+
+```bash
+systemctl start getty@tty12.service
+```
+
+Now try to login from `F12` terminal and after login type `w` or `tty`, to see your terminal name.
+
+
+But the above will not remain after reboot.
+
+We can enable that service
+
+```bash
+systemctl enable getty@tty12.service
+```
+
+Or we can do both at the same time.
+Below will enable and immediately start new terminal on F10 run
+
+```bash
+systemctl enable --now getty@tty10.service
+```
+
+
+> Other way is to configure `systemd-logind` process, that manages user logins. 
+> If we want more virtual terminals we can edit `/etc/systemd/logind.conf` and add or modify line:
+> `NAutoVTs=12`, which will enable terminal to all F1-F12 keys.
+
 
