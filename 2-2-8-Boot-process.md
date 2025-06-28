@@ -15,31 +15,39 @@ Detailed Boot Process:
 <pre>
 ┌─────────────────────────────────────────────────────┐
 │ 1. Power ON / Firmware → Checks, Load Bootloader    │
-└─────────────────────────────────────────────────────┘
+├─────────────────────────────────────────────────────┘
 │
 ├─ 1.1 Hardware checks → POST (Power-On Self-Test)
-├─ 1.2 Load Bootloader (GRUB) → MBR(BIOS)/GPT(UEFI)
+├─ 1.2 Locate Boot Device, Load Bootloader (GRUB) → MBR(BIOS)/GPT(UEFI)
 │
 ▼
 ┌─────────────────────────────────────────────────────┐
 │ 2. Bootloader (GRUB) → Load Operating System (Kernel) │
-└─────────────────────────────────────────────────────┘
+├─────────────────────────────────────────────────────┘
 │
 ├─ 2.1 Provide boot menu
-├─ 2.2 Load Linux Kernel (PID 0)
+├─ 2.2 Load Linux Kernel (PID 0) and pass control to it
+├─ 2.3 Load Initramfs (Initial RAM File System) image into memory
 │
 ▼
 ┌─────────────────────────────────────────────────────┐
 │ 3. Linux Kernel (PID 0) → System Initialization     │
-└─────────────────────────────────────────────────────┘
+├─────────────────────────────────────────────────────┘
 │
-├─ 3.1 Hardware checks (kernel level)
-├─ 3.2 Start Main Process (SystemD/INIT - PID 1)
-│
+└─ 3.1 Mount Initramfs as temporary root filesystem (in RAM)
+    │
+    ├─ 3.1.1 Start temporary INIT process from Initramfs (PID 1)
+    ├─ 3.1.2 Hardware checks (kernel level), Load drivers (storage, filesystem , etc.)
+    ├─ 3.1.3 Detect root device
+    ├─ 3.1.4 Pre-mount operations (decryption, LVM activation, RAID assembly)
+    ├─ 3.1.5 Mount the real root filesystem
+    ├─ 3.1.6 Switch (pivot) from initramfs (in RAM) to the real root filesystem.
+┌───┘
+├─ 3.2 Start INIT Process from the real root filesystem (SystemD/INIT - PID 1)
 ▼
 ┌─────────────────────────────────────────────────────┐
-│ 4. Init Process (SystemD/INIT - PID 1)              │
-└─────────────────────────────────────────────────────┘
+│ 4. INIT Process (SystemD/INIT - PID 1)              │
+├─────────────────────────────────────────────────────┘
 │
 └─ 4.1 Achieve default.target/runlevel:
     │
