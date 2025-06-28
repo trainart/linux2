@@ -58,6 +58,8 @@ Detailed Boot Process:
     ▼
 ┌─────────────────────────────────────────────────────┐
 │                System Up and Running                │
+│        (User login prompt appears on console)       │
+│ (Enabled network services listen appropriate ports) │
 └─────────────────────────────────────────────────────┘
 </pre>
 
