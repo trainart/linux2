@@ -5,10 +5,12 @@
 
 ### Linux Boot Process
 
-Boot sequence in short:
+Boot Process briefly:
 
-**Power ON**→**Firmware**→**Bootloader**→**Kernel**→**INIT**→**System UP**
+**Power ON** → **Firmware** → **Bootloader** → **Kernel** → **INIT** → **System UP**
 
+
+Detailed Boot Process:
 
 <pre>
 ┌─────────────────────────────────────────────────────┐
