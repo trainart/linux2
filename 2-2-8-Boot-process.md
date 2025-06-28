@@ -63,39 +63,13 @@ Detailed Boot Process:
 └─────────────────────────────────────────────────────┘
 </pre>
 
-Linux Boot Process generally include following steps:
 
-1. After "Power ON", the hardware runs the firmware - <br>**BIOS** (Basic Input/Output System) <br>or<br> **UEFI** (Unified Extensible Firmware Interface). 
-<br><br> **BIOS** / **UEFI** does the following: 
-   1. Performs hardware checks - **POST** (Power-On Self-Test)
-   2. Loads bootloader - **GRUB** (GNU GRand Unified Bootloader)
-      1. **BIOS** → **MBR**
-      2. **UEFI** → **GPT** 
-2. Bootloader **GRUB** does the following:
-   1. Provides menu to select boot system
-   2. Loads the system - Linux kernel (PID 0).
-3. Linux kernel (PID 0) does the System Initialization, which includes:
-   1. Hardware checks on kernel level
-   2. Starts the main Initialization Process - **SystemD** / **INIT** (PID 1) 
-4. The main Initialization Process - **SystemD** / **INIT** (PID 1) does the following:
-   1. Bring system to `default.target` / `default runlevel` , which includes:
-      1. Mounting the filesystems
-      2. Start different services
-      3. Initialize user sessions
-
-
-
-Linux system initialization for a long time was handled by the _Unix-inspired SystemV_ **init** 
+Linux system initialization for a long time was handled by the _Unix-inspired SystemV_ **INIT** 
 process, which ran scripts to start services in a defined and configurable order to reach a 
 series of states, called **runlevels**. 
 
 Current most popular initialization system for Linux is **SystemD**. 
 It is more flexible and modular. 
-
-First initialization process (PID 1) (**SystemD** / **INIT**) manages: 
-* startup process
-* services running (enable/disable, start/stop)
-* shutdown process
 
 **SystemD** uses **targets** instead of **runlevels** to define the state of the system. 
 
@@ -218,7 +192,10 @@ is the same as:
 ### PRACTICE
 
 #### Find out which initialization process (with PID **1**) is running in your Linux.
-_HINT:_ You need to run command that shows all processes in **tree-like** manner and see the name of top process.
+_HINT:_ 
+* You can find an option of `ps` (with `ps --help list` or `man ps`) to show only process with PID 1.
+* Or you can run command that shows all processes in **tree-like** manner and see the name of top process.
+
 
 &nbsp;
 &nbsp;
