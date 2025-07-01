@@ -853,8 +853,6 @@ cat archive.log
 
 
 Let us replace `number ` with `#` and write output in `archive2.log`
-```
-
 
 ```bash
 sed 's/number /#/' archive.log > archive2.log
