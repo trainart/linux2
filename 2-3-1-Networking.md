@@ -270,3 +270,6 @@ Options:
 * **-c N**  _set the number of pings sent to determine both the machines on 
 the network and the reliability of those machines. Each cycle lasts one second_
 * **-u**	_Use UDP datagrams instead of ICMP ECHO (useful if “ICMP limiting” is found somewhere)_
+
+
+##
