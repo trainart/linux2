@@ -185,8 +185,6 @@ ls -l /etc/NetworkManager/system-connections/
 ```
 
 
-
-
 ### Routing. Routing tables.
 
 Linux **routing table** is obtained by one of the following commands:
@@ -196,22 +194,6 @@ Linux **routing table** is obtained by one of the following commands:
 
 Last two commands are old, deprecated should be avoided to use.
 
-#### PRACTICE
-1. Create second network interface on two VMs in VirtualBox. 
-Assign each one to `VirtualBox Host-Only Ethernet Adapter`<br>
-After starting VMs use `nmtui` to manually assign IP addresses 
-to second interface on each VM:
-* **10.10.10.10/24** - on VM1
-* **10.10.10.11/24** - on VM2<br><br>
-After that you should be able to `ping` from one VM to another by these IPs
-and even connect another VMs port.
-
-2. Manually assign another IP addresses to the same interfaces:
-
-* `ip a a 172.16.11.5/24 dev enp0s8` - on VM1
-* `ip a a 172.16.11.6/24 dev enp0s8` - on VM2<br><br>
-After that you should be able to `ping` from one VM to another by these IPs 
-and even connect another VMs port.
 
 
 ### Network Port Management
@@ -251,25 +233,252 @@ Many ‘well known’ ports published for client-server applications can be foun
 * `netstat -anu`  - Active UDP connections
 * `ss -nlpt` - Alternative command to `netstat`
 
+
+#### lsof - list open files (ports)
+
+Install `lsof`
+
+```bash
+yum -y install lsof
+```
+
+List all TCP ports open
+
+```bash
+lsof -i TCP
+```
+
+List all UDP ports open
+
+```bash
+lsof -i UDP
+```
+
+List only connections with some IP
+
+```bash
+lsof -i @[IP]
+```
+
+Check who listens port 22
+
+```bash
+lsof -i  :22
+```
+
+
 ### Network Tools
 
 * `ping`
 * `traceroute`
 * `mtr`
 
+Install `traceroute` and `mtr` if absent.
+
+```bash
+yum -y install traceroute mtr
+```
+
 Examples:
-* `ping -nc3 ya.ru`
-* `traceroute -n goo.gl`
-* `mtr yahoo.com`
-* `mtr -nrc 1 fb.com`
-
-Options:
-* **-n**	_No DNS (Do not try to resolve the host names)_
-* **-r** 	_put mtr into “wide report mode” (report after the number of cycles specified by the 
--c option (default 10) wide allows not to cut hostnames in the report)_
-* **-c N**  _set the number of pings sent to determine both the machines on 
-the network and the reliability of those machines. Each cycle lasts one second_
-* **-u**	_Use UDP datagrams instead of ICMP ECHO (useful if “ICMP limiting” is found somewhere)_
+* `ping -n -c3 8.8.8.8`
+* `traceroute -n 9.9.9.9`
+* `mtr 8.8.4.4`
 
 
-##
+#### Manual Network Config 
+
+* Create additional network interface in VM
+
+* Teacher will assign a number to each student - use your number below instead of `x`
+
+* Configure static `10.10.x.1/24` network on it 
+  * Use `nmtui` to create `enp0s8` interface
+  * Assign static IP address `10.10.x.1/24`
+    * `10.10.x.111/24` address will be teacher's IP in each student's subnet
+    
+
+This example is based on the environment like follows.
+```bash
+--------+---------------------+----------------------+------------
+        | [enp0s8]            | [enp0s8]             | [enp0s8]
+        | 10.10.0.1           | 10.10.1.1            | 10.10.2.1
+        | 10.10.1.111         |                      |
+        | 10.10.2.111         |                      |
+        | 10.10.x.111         |                      |
++-------+--------+   +--------+---------+   +--------+---------+
+|     lt00.am    |   |      lt01.am     |   |     lt02.am      |
+|     Teacher    |   |    Student 1     |   |    Student 2     |
++----------------+   +------------------+   +------------------+
+
+```
+
+#### Disable ICMP Redirects
+
+In TCP/IP (inside Linux Kernel) ICMP redirects are used to inform hosts of a "better" next-hop route.
+Below we configure Linux not to accept it to have clear model of our routing.
+(This is required only for our training, not for production, because here we put many subnets in same network).
+
+```bash
+echo "net.ipv4.conf.all.accept_redirects=0" >> /etc/sysctl.conf
+echo "net.ipv4.conf.default.accept_redirects=0" >> /etc/sysctl.conf
+sysctl -p  # Apply now + persist
+```
+
+Check if it works
+
+* Teacher
+  * `ping 10.10.0.1`
+  * `mtr 10.10.0.1`
+  
+* Another student
+  * `ping 10.10.x.1`
+  * `mtr 10.10.x.1`
+
+
+#### PACKET FORWARDING
+It is important to understand that apart from routing itself 
+PACKET FORWARDING is controlled by additional kernel setting `/proc/sys/net/ipv4/ip_forward`
+
+* **1** means enabled 
+* **0** means disabled
+
+(NOTE! Default setting differs depending on Linux distribution version)
+
+Check current setting: 
+
+```bash
+cat /proc/sys/net/ipv4/ip_forward
+```
+
+If we want to make this setting **permanent**, so they persist after reboot
+we need to do:
+
+```bash
+echo  'net.ipv4.ip_forward = 1'  >>  >> /etc/sysctl.conf
+sysctl -p # Apply now + persist
+```
+
+### Network Traffic Analysis and Monitoring Tools
+
+#### tcpdump
+
+**tcpdump** - basic tool to troubleshoot network.<br>
+
+Install `tcpdump`
+
+```bash
+yum -y install tcpdump
+```
+
+Run several `ping` commands in background and check
+
+```bash
+ping 127.1.2.3 >/dev/null & 
+ping 127.4.5.6 > /dev/null &  
+ping 127.7.8.9 > /dev/null &
+```
+
+```bash
+tcpdump -i lo host 127.1.2.3
+```
+
+```bash
+tcpdump -i lo src 127.4.5.6
+```
+
+```bash
+tcpdump -i lo dst 127.7.8.9
+```
+
+You should see difference:
+**host** filter captures both (destination) & (source) traffic.
+**src** / **dst** - only packets going one way. 
+<br>
+<br><br>
+You can also capture whole subnet traffic:
+* `tcpdump -i lo net 127.0.0.0/8`
+
+Or only traffic to/from specific port.<br>
+* `tcpdump -i lo dst port 22`
+
+now on another terminal run:
+* `ssh student@127.1.2.3`
+<br>
+<br>
+
+We can show IP/Port in numbers.
+
+On VM1 run:
+* `tcpdump -i lo -nn -v dst port 22`
+
+Options:<br>
+**-nn** : 
+_A single (n) will not resolve hostnames. A double (nn) will not resolve hostnames or ports. This is handy for not only viewing the IP / port numbers but also when capturing a large amount of data, as the name resolution will slow down the capture._<br>
+**-v** : 
+_Verbose, using (-v) or (-vv) increases the amount of detail shown in the output, often showing more protocol specific information._
+
+Or see ICMP traffic only.<br>
+
+On VM1 run:
+* `tcpdump -i lo icmp`
+
+
+#### iftop
+
+**iftop** - interactive interface monitor tool.
+
+Install `iftop`
+
+```bash
+yum -y install iftop
+```
+
+Keywords:
+* **n** – toggles DNS hostnames resolution 
+* **N** – toggles port names resolution
+* **p** – toggles port numbers display
+* **P** – pauses the screen
+* **t** – toggles display modes
+* **h** – toggles the help screen (more options here)
+
+Simply run:
+
+```bash
+iftop
+```
+
+Show traffic for particular interface:
+(you can specify interface with `-i`, but if not specified it tries to find the one that looks like an external interface)
+
+```bash
+iftop -i lo
+```
+
+```bash
+ping 127.1.2.3 >/dev/null & 
+ping 127.4.5.6 > /dev/null &  
+ping 127.7.8.9 > /dev/null &
+iftop -i lo
+```
+
+You can only filter some traffic
+
+```bash
+iftop -i lo -f 'dst host 127.7.8.9'
+```
+
+You can also disable resolving hostnames (-n), port numbers (-N) and show bandwidth bytes/sec instead of bits/sec:
+
+```bash
+iftop -i lo -n -N -B 
+```
+
+Show traffic for specific subnet
+
+`iftop -i lo -F 127.1.2.0/24`
+
+More info about `iftop` can be found in `man iftop`
+
+### PRACTICE
+
+You can try the same above examples with `enp0s8` interface IPs
