@@ -295,22 +295,23 @@ Examples:
   * Use `nmtui` to create `enp0s8` interface
   * Assign static IP address `10.10.x.1/24`
     * `10.10.x.111/24` address will be teacher's IP in each student's subnet
-    
+  * Add routes to another subnets via teacher's host `10.0.0.0/8` via 10.10.x.111
+  
+We should have the environment like follows:
 
-This example is based on the environment like follows.
-```bash
---------+---------------------+----------------------+------------
-        | [enp0s8]            | [enp0s8]             | [enp0s8]
-        | 10.10.0.1           | 10.10.1.1            | 10.10.2.1
-        | 10.10.1.111         |                      |
-        | 10.10.2.111         |                      |
-        | 10.10.x.111         |                      |
-+-------+--------+   +--------+---------+   +--------+---------+
-|     lt00.am    |   |      lt01.am     |   |     lt02.am      |
-|     Teacher    |   |    Student 1     |   |    Student 2     |
-+----------------+   +------------------+   +------------------+
+<pre>
+--------+---------------------+------------------+------------
+        | [enp0s8]            | [enp0s8]         | [enp0s8]
+        | 10.10.0.1           | 10.10.1.1        | 10.10.2.1
+        | 10.10.1.111         |                  |
+        | 10.10.2.111         |                  |
+        | 10.10.x.111         |                  |
++-------+--------+      +-----+-----+      +-----+-----+
+|     Teacher    |      | Student 1 |      | Student 2 |
++----------------+      +-----------+      +-----------+
+</pre>
 
-```
+
 
 #### Disable ICMP Redirects
 
