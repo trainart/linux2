@@ -362,9 +362,7 @@ sysctl -p # Apply now + persist
 
 ### Network Traffic Analysis and Monitoring Tools
 
-#### tcpdump
-
-**tcpdump** - basic tool to troubleshoot network.<br>
+#### tcpdump - basic tool to troubleshoot network
 
 Install `tcpdump`
 
@@ -425,9 +423,7 @@ On VM1 run:
 * `tcpdump -i lo icmp`
 
 
-#### iftop
-
-**iftop** - interactive interface monitor tool.
+#### iftop - interactive interface monitor tool
 
 Install `iftop`
 
