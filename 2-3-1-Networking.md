@@ -291,11 +291,12 @@ Examples:
 
 * Teacher will assign a number to each student - use your number below instead of `x`
 
-* Configure static `10.10.x.1/24` network on it 
-  * Use `nmtui` to create `enp0s8` interface
-  * Assign static IP address `10.10.x.1/24`
-    * `10.10.x.111/24` address will be teacher's IP in each student's subnet
-  * Add routes to another subnets via teacher's host `10.0.0.0/8` via 10.10.x.111
+1. Configure static `10.10.x.1/24` network on it 
+   * Use `nmtui` to assign static IP address `10.10.x.1/24` to second `enp0s8` interface
+   
+2. Add route to another subnets via teacher's host `10.0.0.0/8` via `10.10.x.111` 
+   * Use `nmtui` to add static route to `enp0s8` interface ( `10.10.x.111/24` address is teacher's IP in each student's subnet)
+  
   
 We should have the environment like follows:
 
