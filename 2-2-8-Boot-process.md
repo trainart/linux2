@@ -48,12 +48,14 @@ Detailed Boot Process:
 ┌─────────────────────────────────────────────────────┐
 │ 4. INIT Process (SystemD/INIT - PID 1)              │
 ├─────────────────────────────────────────────────────┘
+├─ 4.1 Load configuration and determine the boot goal 
+│      (default.target/runlevel)
 │
-└─ 4.1 Achieve default.target/runlevel:
+└─ 4.2 Achieve default.target/runlevel, by detecting dependencies and activating them
     │
-    ├─ 4.1.1 Mount filesystems
-    ├─ 4.1.2 Start services
-    ├─ 4.1.3 Initialize user sessions
+    ├─ 4.2.1 Mount filesystems
+    ├─ 4.2.2 Start services
+    ├─ 4.2.3 Initialize user sessions
     │
     ▼
 ┌─────────────────────────────────────────────────────┐
@@ -70,11 +72,27 @@ series of states, called **runlevels**.
 
 Current most popular initialization system for Linux is **SystemD**. 
 It is more flexible and modular. 
+And it does not follow a strict sequence to get processes started.
+
+The main **object** that **SystemD** works with are known as **units**. 
+Systemd doesn't just stop and start services.
+It can mount filesystems, monitor your network sockets, etc. 
+It has different types of **units** it operates. 
+
+The most common units are:
+
+* **Mount units** - these mount filesystems, these unit files end in `.mount`
+
+* **Service units** - these are the services we've been starting and stopping, these unit files end in `.service`
+
+* **Target units** - these **group together other units**, the files end in `.target`
+
 
 **SystemD** uses **targets** instead of **runlevels** to define the state of the system. 
 
 Goal of **runlevels**/**targets** is to process system initialization 
 and bring the Linux system to specific state.
+
 
 By default, there are two main targets:
 
