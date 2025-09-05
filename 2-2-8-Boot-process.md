@@ -559,6 +559,7 @@ icon animation during the kernel initialization instead of showing boot-time mes
 document the progress of the startup and any errors that occur. 
    
 Without that options we will see all boot messages on the console screen.  
+(In some Linux versions we may not find that options. It's OK).
 
 4. Save `/etc/default/grub` and exit
 
