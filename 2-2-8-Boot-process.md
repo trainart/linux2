@@ -553,9 +553,9 @@ nano /etc/default/grub`
 2. Change `GRUB_TIMEOUT=5` to `GRUB_TIMEOUT=10` and save the file.
 
 3. Change `GRUB_CMDLINE_LINUX` line and remove words **rhgb** and **quiet**
-   1. rhgb - rhgb stands for Red Hat Graphical Boot, and it displays the little Fedora 
+   1. **rhgb** - stands for _Red Hat Graphical Boot_, and it displays the little Fedora 
 icon animation during the kernel initialization instead of showing boot-time messages. 
-   2. quiet - quiet parameter, prevents displaying the startup messages that 
+   2. **quiet** - prevents displaying the startup messages that 
 document the progress of the startup and any errors that occur. 
    
 Without that options we will see all boot messages on the console screen.  
