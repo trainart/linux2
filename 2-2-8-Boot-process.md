@@ -70,9 +70,27 @@ Linux system initialization for a long time was handled by the _Unix-inspired Sy
 process, which ran scripts to start services in a defined and configurable order to reach a 
 series of states, called **runlevels**. 
 
+Modern Linux versions have special manual for it.
+
+That manual also contains pretty **structural overview chart**
+
+```bash
+man bootup
+```
+
 Current most popular initialization system for Linux is **SystemD**. 
 It is more flexible and modular. 
 And it does not follow a strict sequence to get processes started.
+
+>
+> Recommended reading: 
+> 1. "A pragmatic guide to systemd for Linux sysadmins"
+> https://opensource.com/downloads/pragmatic-guide-systemd-linux
+> 
+> 2. "Rethinking PID 1"
+> https://0pointer.de/blog/projects/systemd.html
+>
+> 
 
 The main **object** that **SystemD** works with are known as **units**. 
 Systemd doesn't just stop and start services.
@@ -94,18 +112,23 @@ Goal of **runlevels**/**targets** is to process system initialization
 and bring the Linux system to specific state.
 
 
-By default, there are two main targets:
+By default, there are two main final targets (including many other intermediate targets, used as checkpoints):
 
 **multi-user.target** <-> **runlevel 3**
 
 **graphical.target** <-> **runlevel 5**
 
 
+**systemd** almost always starts the **default.target**. 
+The **default.target** file is a symbolic link to the true target file.
+
 To check the default target, which determines what services are started during boot, we can run:
 
 ```bash
 systemctl get-default
 ```
+
+For a Linux server, the default is more likely to be the **multi-user.target**
 
 To change to text mode we can run (same as `init 3`):
 
@@ -120,7 +143,9 @@ To change to graphical mode we can run (same as `init 5`):
 systemctl isolate graphical.target
 ```
 
-If we want to permanently set default to text mode (to work after reboot) we can run:
+> Term "isolate" is strange, but never mind, just remember that's it
+
+nently set default to text mode (to work after reboot) we can run:
 
 ```bash
 systemctl set-default multi-user.target 
@@ -171,6 +196,15 @@ runlevel
 ```
 
 It shows current and previous runlevel.
+
+
+To see systemd configuration run:
+
+```bash
+ls -l /etc/systemd/system
+```
+
+You can see that `default.target` entry is a symbolic link.
 
 
 **Note:** Previous Linux versions, which were distributed with **SystemV init** ,
@@ -509,13 +543,24 @@ Goal: Change the boot menu timeout from `5s` to `10s`.
 
 Step 1: Edit /etc/default/grub
 
-Open `/etc/default/grub`
+
+1. Open `/etc/default/grub`
+
 ```bash
-nano /etc/default/grub
+nano /etc/default/grub`
 ```
 
-Change `GRUB_TIMEOUT=5` to `GRUB_TIMEOUT=10` and save the file.
+2. Change `GRUB_TIMEOUT=5` to `GRUB_TIMEOUT=10` and save the file.
 
+3. Change `GRUB_CMDLINE_LINUX` line and remove words **rhgb** and **quiet**
+   1. rhgb - rhgb stands for Red Hat Graphical Boot, and it displays the little Fedora 
+icon animation during the kernel initialization instead of showing boot-time messages. 
+   2. quiet - quiet parameter, prevents displaying the startup messages that 
+document the progress of the startup and any errors that occur. 
+   
+Without that options we will see all boot messages on the console screen.  
+
+4. Save `/etc/default/grub` and exit
 
 Step 2: Regenerate grub.cfg
 
@@ -583,5 +628,6 @@ systemctl enable --now getty@tty10.service
 > Other way is to configure `systemd-logind` process, that manages user logins. 
 > If we want more virtual terminals we can edit `/etc/systemd/logind.conf` and add or modify line:
 > `NAutoVTs=12`, which will enable terminal to all F1-F12 keys.
+
 
 
