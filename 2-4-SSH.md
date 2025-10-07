@@ -50,16 +50,17 @@ Some free SSH/SFTP/SCP clients for Windows are:
 > Remember again that asymmetric keys are **not used for traffic encryption/decryption**. 
 > Key-based access is used to generate symmetric one-time key used for current session
 
+#### Generate SSH Public/Private keypair
 
 Use `ssh-keygen` on your local system to generate public and private keys 
 in SSH config directory: `~/.ssh`
 
-```bash
-ssh-keygen
-```
+Fully non-interactive way to create SSH Public/Private keypair:
+(if you run just `ssh-keygen` you will need to interactively answer some questions)
 
-Generally you can go forward with _Enter_'s. You may add security by specifying the passphrase, 
-but it has to be entered every time the key is used for authentication.
+```bash
+ssh-keygen -t rsa -f ~/.ssh/id_rsa -N "" -C "student@$(hostname)"
+```
 
 > _As a result we will get two new keys:_ 
 > * `~/.ssh/id_rsa`
@@ -69,9 +70,32 @@ but it has to be entered every time the key is used for authentication.
 >_`~/.ssh/id_rsa.pub` is your **public key**_ <br>
 >_It could be copied to the location you want access without password._
 
+```bash
+ll ~/.ssh/id_rsa*
+```
 
-Now securely copy your public key the `~/.ssh/id_rsa.pub` file to the
-`~/.ssh` directory on the remote system. 
+
+##### Alternative algorithm `ed25519` 
+
+On modern systems (OpenSSH 6.5+) we can use better `ed25519` algorithm.
+(`ed25519` is modern alternative algorithm that's more secure and performant than older algorithms)
+
+```bash
+ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N "" -C "student@$(hostname)"
+```
+
+Check
+```bash
+ll ~/.ssh/id_ed25519*
+```
+
+> NOTE! If you generate 2 keypair by default `id_rsa` will be used
+
+
+#### Copy Public key to the remote system.
+
+Now securely copy your public key the `~/.ssh/id_rsa.pub` file to the `~/.ssh` directory on the remote system.
+(in case of `ed25519` you should copy `~/.ssh/id_ed25519.pub`)
 
 You can copy it in various ways like:
 
